@@ -54,7 +54,8 @@ install:
 
 script:
   - mkdir build
-  - cmake -Bbuild -DBUILD_TESTS=ON ..
+  - cd build
+  - cmake -DBUILD_TESTS=ON ..
   - make
   - sudo make install
   - ctest --verbose
