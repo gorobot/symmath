@@ -50,13 +50,13 @@ before_install:
 install:
   - git clone https://github.com/catchorg/Catch2 /tmp/catch2
   - (cd /tmp/catch2 && cmake -Bbuild -H. -DBUILD_TESTING=OFF)
-  - (cd /tmp/catch2 && cmake --build build/ --target install)
+  - (cd /tmp/catch2 && sudo cmake --build build/ --target install)
 
 script:
   - mkdir build
   - cmake -Bbuild -DBUILD_TESTS=ON ..
   - make
-  - make install
+  - sudo make install
   - ctest --verbose
 
   # (cd build && cmake -DBUILD_TESTS=ON .. && make install && ctest --verbose)
