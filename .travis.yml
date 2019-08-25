@@ -50,10 +50,10 @@ before_install:
 
 install:
   - |
-    if [ $TRAVIS_OS_NAME = linux ]; then
-      git clone https://github.com/catchorg/Catch2 /tmp/catch2
-      (cd /tmp/catch2 && cmake -Bbuild -H. -DBUILD_TESTING=OFF)
-      (cd /tmp/catch2 && cmake --build build/ --target install)
+    if [ $TRAVIS_OS_NAME = linux ]; then \
+      git clone https://github.com/catchorg/Catch2 /tmp/catch2 \
+      (cd /tmp/catch2 && cmake -Bbuild -H. -DBUILD_TESTING=OFF) \
+      (cd /tmp/catch2 && cmake --build build/ --target install) \
     fi
 
 script:
