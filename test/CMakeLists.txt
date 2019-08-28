@@ -11,3 +11,6 @@ macro(ADD_TEST_FILE TEST_NAME)
 endmacro()
 
 ADD_TEST_FILE(test_main)
+ADD_TEST_FILE(test_number)
+ADD_TEST_FILE(test_variable)
+ADD_TEST_FILE(test_operation)

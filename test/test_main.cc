@@ -4,5 +4,5 @@
 #include "../symmath/symmath.hpp"
 
 TEST_CASE("SymMath", "[symmath]") {
-  REQUIRE(SymMath::test() == 1);
+  REQUIRE(sym::test() == 1);
 }
