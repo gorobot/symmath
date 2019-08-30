@@ -1,81 +1,21 @@
-#ifndef SYMMATH_NUMBER_HPP
-#define SYMMATH_NUMBER_HPP
+#ifndef SYMMATH_NUMBER_NUMBER_HPP
+#define SYMMATH_NUMBER_NUMBER_HPP
 
 #include <type_traits>
 
 #include "../symbolic.hpp"
-#include "../expression/apply.hpp"
-#include "../expression/assignable.hpp"
-#include "../operation/arithmetic.hpp"
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_integral
-  : std::false_type {};
-
-template<>
-struct is_integral<short>
-  : std::true_type {};
-
-template<>
-struct is_integral<unsigned short>
-  : std::true_type {};
-
-template<>
-struct is_integral<int>
-  : std::true_type {};
-
-template<>
-struct is_integral<unsigned int>
-  : std::true_type {};
-
-template<>
-struct is_integral<long>
-  : std::true_type {};
-
-template<>
-struct is_integral<unsigned long>
-  : std::true_type {};
-
-template<>
-struct is_integral<long long>
-  : std::true_type {};
-
-template<>
-struct is_integral<unsigned long long>
-  : std::true_type {};
-
-template< typename T >
-struct is_floating_point
-  : std::false_type {};
-
-template<>
-struct is_floating_point<float>
-  : std::true_type {};
-
-template<>
-struct is_floating_point<double>
-  : std::true_type {};
-
-template<>
-struct is_floating_point<long double>
-  : std::true_type {};
-
-template< typename T >
-struct is_numeric
-  : std::integral_constant<bool,
-      is_integral<T>{} ||
-      is_floating_point<T>{}> {};
-
-// -----------------------------------------------------------------------------
-
-template< typename T >
 class Number
-  : public Symbolic<Number<T>>,
-    public Assignable<Number<T>, Number> {
+  : public Symbolic<Number<T>> {
+public:
+
+  using ResultType = T;
+
 private:
 
   T v_;
@@ -100,33 +40,6 @@ public:
   inline void apply_sub(const Number<U> &rhs);
 
 };
-
-// -----------------------------------------------------------------------------
-
-template< typename T >
-struct is_number_helper {
-private:
-
-  template< typename ...U >
-  static std::true_type test(Number<U...> &);
-
-  template< typename ...U >
-  static std::true_type test(const Number<U...> &);
-
-  static std::false_type test(...);
-
-public:
-
-  using type = decltype(test(std::declval<T&>()));
-
-};
-
-template< typename T >
-struct is_number
-  : is_number_helper<T>::type {};
-
-template< typename T >
-using is_number_t = typename is_number_helper<T>::type;
 
 // -----------------------------------------------------------------------------
 template< typename T >
@@ -178,4 +91,4 @@ Number<T>::apply_sub(const Number<U> &rhs) {
 
 } // sym
 
-#endif // SYMMATH_NUMBER_HPP
+#endif // SYMMATH_NUMBER_NUMBER_HPP

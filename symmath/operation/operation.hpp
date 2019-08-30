@@ -3,8 +3,6 @@
 
 #include <type_traits>
 
-#include "../symbolic.hpp"
-
 namespace sym {
 
 // -----------------------------------------------------------------------------
@@ -16,28 +14,20 @@ class Operation
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_operation_helper {
-private:
-
-  template< typename ...U >
-  static std::true_type test(Operation<U...> &);
-
-  template< typename ...U >
-  static std::true_type test(const Operation<U...> &);
-
-  static std::false_type test(...);
-
-public:
-
-  using type = decltype(test(std::declval<T&>()));
-
+struct ResultType {
+  using type = typename T::ResultType;
 };
 
 template< typename T >
-struct is_operation : is_operation_helper<T>::type {};
+using ResultType_t = typename ResultType<T>::type;
 
-template< typename T >
-using is_operation_t = typename is_operation_helper<T>::type;
+template< typename ...T >
+struct CommonType {
+  using type = typename std::common_type<T...>::type;
+};
+
+template< typename ...T >
+using CommonType_t = typename CommonType<T...>::type;
 
 } // sym
 

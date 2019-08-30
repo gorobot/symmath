@@ -1,6 +1,7 @@
 #ifndef SYMMATH_SYMMATH_HPP
 #define SYMMATH_SYMMATH_HPP
 
+#include "expression/apply.hpp"
 #include "operation/arithmetic.hpp"
 #include "number/number.hpp"
 #include "variable/variable.hpp"

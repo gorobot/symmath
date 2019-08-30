@@ -7,19 +7,6 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-// template< typename... >
-// struct conjunction
-//   : std::true_type {};
-//
-// template< typename T >
-// struct conjunction<T>
-//   : T {};
-//
-// template< typename T,
-//           typename ...U >
-// struct conjunction<T, U...>
-//   : std::conditional_t<bool(T::value), conjunction<U...>, T> {};
-
 template< bool... >
 struct bool_pack {};
 

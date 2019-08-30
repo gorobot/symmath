@@ -4,14 +4,12 @@
 #include <type_traits>
 
 #include "../symmath/operation/add.hpp"
-#include "../symmath/number/number.hpp"
 
 using sym::Symbolic;
 using sym::Operation;
 using sym::Add;
-using sym::Number;
 
-TEST_CASE("Operation: Add", "[operation]") {
+TEST_CASE("Operation: Type Traits", "[operation]") {
 
   REQUIRE(sym::is_symbolic<Add<double, int>>::value);
   REQUIRE(sym::is_symbolic<Symbolic<Add<double, int>>>::value);

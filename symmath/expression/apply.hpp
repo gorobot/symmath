@@ -1,7 +1,10 @@
 #ifndef SYMMATH_EXPRESSION_APPLY_HPP
 #define SYMMATH_EXPRESSION_APPLY_HPP
 
+#include <type_traits>
+
 #include "../symbolic.hpp"
+#include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
 
@@ -46,6 +49,39 @@ apply_sub_(T1 &lhs, const T2 &rhs)
 -> std::enable_if_t<is_symbolic<T1>{} && is_symbolic<T2>{}> {
   lhs.derived().apply_sub(rhs.derived());
 }
+
+// -----------------------------------------------------------------------------
+
+class BaseVisitor {
+public:
+  // virtual ~BaseVisitor() = default;
+
+  template< typename T >
+  void apply(T &lhs) {
+    // ApplyVisitor v{lhs};
+    // apply_impl(v);
+  }
+
+private:
+
+  virtual void apply_impl(BaseVisitor &v) = 0;
+
+};
+
+template< typename T >
+class ApplyVisitor
+  : public BaseVisitor {
+private:
+
+  T data_;
+
+public:
+
+  void apply_impl(BaseVisitor &v) override {
+
+  }
+
+};
 
 } // sym
 

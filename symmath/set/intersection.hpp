@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATION_DIV_HPP
-#define SYMMATH_OPERATION_DIV_HPP
+#ifndef SYMMATH_SET_INTERSECTION_HPP
+#define SYMMATH_SET_INTERSECTION_HPP
 
 #include <type_traits>
 
@@ -14,14 +14,9 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class Div
-  : public Operation<Symbolic<Div<T1, T2>>> {
+class Intersection
+  : public Operation<Symbolic<Intersection<T1, T2>>> {
 public:
-
-  // using LhsType = typename T1::Type;
-  // using RhsType = typename T2::Type;
-  //
-  // using Type = std::common_type_t<LhsType, RhsType>;
 
   using Lhs = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
   using Rhs = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
@@ -33,16 +28,16 @@ private:
 
 public:
 
-  explicit inline Div(const T1 &lhs, const T2 &rhs);
+  explicit inline Intersection(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const Div<T1, T2> &rhs)
-  -> std::enable_if_t<is_symbolic<U>{}> {
+  apply_(U &lhs, const Intersection<T1, T2> &rhs)
+  -> std::enable_if_t<is_set<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
-    apply_div_(lhs.derived(), rhs.rhs_);
+    apply_(lhs.derived(), rhs.rhs_);
   }
 
 };
@@ -51,7 +46,7 @@ private:
 
 template< typename T1,
           typename T2 >
-inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
+inline Intersection<T1, T2>::Intersection(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
@@ -60,11 +55,11 @@ inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
 template< typename T1,
           typename T2 >
 inline auto
-operator/(T1 &lhs, T2 &rhs)
--> std::enable_if_t<is_symbolic<T1>{} && is_symbolic<T2>{}, const Div<T1, T2>> {
-  return Div<T1, T2>(lhs.derived(), rhs.derived());
+union(T1 &lhs, T2 &rhs)
+-> std::enable_if_t<is_set<T1>{} && is_set<T2>{}, const Intersection<T1, T2>> {
+  return Intersection<T1, T2>(lhs.derived(), rhs.derived());
 }
 
 } // sym
 
-#endif // SYMMATH_OPERATION_DIV_HPP
+#endif // SYMMATH_SET_INTERSECTION_HPP

@@ -3,7 +3,10 @@
 
 #include <type_traits>
 
+#include "../symbolic.hpp"
 #include "operation.hpp"
+#include "../type_traits/is_operation.hpp"
+#include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
 
@@ -15,13 +18,18 @@ class Mul
   : public Operation<Symbolic<Mul<T1, T2>>> {
 public:
 
-  using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
-  using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
+  // using LhsType = typename T1::Type;
+  // using RhsType = typename T2::Type;
+  //
+  // using Type = std::common_type_t<LhsType, RhsType>;
+
+  using Lhs = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
+  using Rhs = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
 
 private:
 
-  LhsType lhs_;
-  RhsType rhs_;
+  Lhs lhs_;
+  Rhs rhs_;
 
 public:
 
