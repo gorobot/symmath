@@ -1,14 +1,12 @@
 #ifndef SYMMATH_SYMMATH_HPP
 #define SYMMATH_SYMMATH_HPP
 
-#include "expression/apply.hpp"
-#include "operation/arithmetic.hpp"
-#include "number/number.hpp"
+#include "numerics.hpp"
 #include "variable/variable.hpp"
 
 namespace sym {
 
-  int test() {
+  inline int test() {
     return 1;
   }
 

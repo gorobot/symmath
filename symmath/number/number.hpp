@@ -11,19 +11,12 @@ namespace sym {
 
 template< typename T >
 class Number
-  : public Symbolic<Number<T>> {
+  : public Symbolic<T> {
 public:
 
-  using ResultType = T;
-
-private:
-
-  T v_;
+protected:
 
 public:
-
-  explicit inline Number();
-  inline Number(const T v);
 
   template< typename U >
   inline Number<T> &operator=(const Symbolic<U> &rhs);
@@ -33,23 +26,12 @@ public:
   template< typename U >
   inline void apply_add(const Number<U> &rhs);
   template< typename U >
-  inline void apply_div(const Number<U> &rhs);
-  template< typename U >
   inline void apply_mul(const Number<U> &rhs);
-  template< typename U >
-  inline void apply_sub(const Number<U> &rhs);
 
 };
 
 // -----------------------------------------------------------------------------
-template< typename T >
-Number<T>::Number()
-  : v_(0) {}
-
-template< typename T >
-Number<T>::Number(const T v)
-  : v_(v) {}
-
+// Member Function Definitions
 template< typename T >
 template< typename U >
 inline Number<T> &
@@ -62,31 +44,22 @@ template< typename T >
 template< typename U >
 inline void
 Number<T>::apply(const Number<U> &rhs) {
-  v_ = rhs.v_;
+  // (*this).derived().value_ = rhs.derived().value_;
+  (*this).derived().apply(rhs);
 }
 template< typename T >
 template< typename U >
 inline void
 Number<T>::apply_add(const Number<U> &rhs) {
-  v_ += rhs.v_;
-}
-template< typename T >
-template< typename U >
-inline void
-Number<T>::apply_div(const Number<U> &rhs) {
-  v_ /= rhs.v_;
+  // (*this).derived().value_ += rhs.derived().value_;
+  (*this).derived().apply_add(rhs);
 }
 template< typename T >
 template< typename U >
 inline void
 Number<T>::apply_mul(const Number<U> &rhs) {
-  v_ *= rhs.v_;
-}
-template< typename T >
-template< typename U >
-inline void
-Number<T>::apply_sub(const Number<U> &rhs) {
-  v_ -= rhs.v_;
+  // (*this).derived().value_ *= rhs.derived().value_;
+  (*this).derived().apply_mul(rhs);
 }
 
 } // sym
