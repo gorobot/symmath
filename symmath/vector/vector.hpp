@@ -1,6 +1,7 @@
 #ifndef SYMMATH_VECTOR_VECTOR_HPP
 #define SYMMATH_VECTOR_VECTOR_HPP
 
+#include <type_traits>
 #include <vector>
 
 #include "../symbolic.hpp"
@@ -29,13 +30,15 @@ private:
 public:
 
   explicit inline Vector();
-  explicit inline Vector(const size_t count);
+  explicit inline Vector(const size_t length);
   explicit inline Vector(const std::vector<T> v);
 
   inline Vector(const Vector<T> &m);
 
-  template<typename DT>
-  inline Vector(const Matrix<DT> &m);
+  // template<typename DT>
+  // inline Vector(const Matrix<DT> &m);
+  template< typename U >
+  inline Vector<T> &operator=(const Symbolic<U> &rhs);
 
   inline Vector<T> &operator=(const T &rhs);
   inline Vector<T> &operator=(std::initializer_list<T> rhs);
@@ -77,10 +80,10 @@ inline Vector<T>::Vector() :
 }
 
 template<typename T>
-inline Vector<T>::Vector(const size_t count) :
-                         r_(count),
+inline Vector<T>::Vector(const size_t length) :
+                         r_(length),
                          c_(1) {
-  v_ = std::vector<T>(count, declval<T>());
+  v_ = std::vector<T>(length, std::declval<T>());
 }
 
 template<typename T>
@@ -97,6 +100,14 @@ inline Vector<T>::Vector(const Vector<T> &m) :
                          c_(m.c_),
                          v_(m.v_) {
   //
+}
+
+template< typename T>
+template< typename U >
+inline Vector<T> &
+Vector<T>::operator=(const Symbolic<U> &rhs) {
+  apply_(*this, rhs.derived());
+  return *this;
 }
 
 template<typename T>
@@ -155,38 +166,44 @@ inline bool Vector<T>::empty() const {
 }
 
 template<typename T>
-inline Vector<T>::IteratorType
-Vector<T>::begin() {
+inline auto
+Vector<T>::begin()
+-> typename Vector<T>::IteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Vector<T>::IteratorType
-Vector<T>::end() {
+inline auto
+Vector<T>::end()
+-> typename Vector<T>::IteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Vector<T>::ConstIteratorType
-Vector<T>::begin() const {
+inline auto
+Vector<T>::begin() const
+-> typename Vector<T>::ConstIteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Vector<T>::ConstIteratorType
-Vector<T>::end() const {
+inline auto
+Vector<T>::end() const
+-> typename Vector<T>::ConstIteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Vector<T>::ConstIteratorType
-Vector<T>::cbegin() const {
+inline auto
+Vector<T>::cbegin() const
+-> typename Vector<T>::ConstIteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Vector<T>::ConstIteratorType
-Vector<T>::cend() const {
+inline auto
+Vector<T>::cend() const
+-> typename Vector<T>::ConstIteratorType {
   return v_.begin();
 }
 

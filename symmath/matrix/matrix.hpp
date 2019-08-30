@@ -81,7 +81,7 @@ template<typename T>
 inline Matrix<T>::Matrix(const size_t count) :
                          r_(count),
                          c_(1) {
-  v_ = std::vector<T>(count, declval<T>());
+  v_ = std::vector<T>(count, std::declval<T>());
 }
 
 template<typename T>
@@ -156,38 +156,44 @@ inline bool Matrix<T>::empty() const {
 }
 
 template<typename T>
-inline Matrix<T>::IteratorType
-Matrix<T>::begin() {
+inline auto
+Matrix<T>::begin()
+-> typename Matrix<T>::IteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Matrix<T>::IteratorType
-Matrix<T>::end() {
+inline auto
+Matrix<T>::end()
+-> typename Matrix<T>::IteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Matrix<T>::ConstIteratorType
-Matrix<T>::begin() const {
+inline auto
+Matrix<T>::begin() const
+-> typename Matrix<T>::ConstIteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Matrix<T>::ConstIteratorType
-Matrix<T>::end() const {
+inline auto
+Matrix<T>::end() const
+-> typename Matrix<T>::ConstIteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Matrix<T>::ConstIteratorType
-Matrix<T>::cbegin() const {
+inline auto
+Matrix<T>::cbegin() const
+-> typename Matrix<T>::ConstIteratorType {
   return v_.begin();
 }
 
 template<typename T>
-inline Matrix<T>::ConstIteratorType
-Matrix<T>::cend() const {
+inline auto
+Matrix<T>::cend() const
+-> typename Matrix<T>::ConstIteratorType {
   return v_.begin();
 }
 

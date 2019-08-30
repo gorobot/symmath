@@ -13,6 +13,8 @@ public:
 
   using ValueType = unsigned;
 
+  using ResultType = Natural;
+
 private:
 
   ValueType value_;
@@ -22,11 +24,22 @@ public:
   explicit inline Natural();
   inline Natural(const ValueType value);
 
-  using Number<Natural>::operator=;
+  template< typename U >
+  inline Natural &operator=(const Symbolic<U> &rhs);
 
-  inline void apply(const Natural &rhs);
-  inline void apply_add(const Natural &rhs);
-  inline void apply_mul(const Natural &rhs);
+  inline operator ValueType() const;
+
+  inline auto eval() const -> const ResultType;
+
+  template< typename U >
+  inline auto apply(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Natural>{}>;
+  template< typename U >
+  inline auto apply_add(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Natural>{}>;
+  template< typename U >
+  inline auto apply_mul(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Natural>{}>;
 
 };
 
@@ -38,19 +51,42 @@ inline Natural::Natural()
 inline Natural::Natural(const ValueType value)
   : value_(value) {}
 
+template< typename U >
+inline Natural &
+Natural::operator=(const Symbolic<U> &rhs) {
+  apply_(*this, rhs.derived());
+  return *this;
+}
+
+inline Natural::operator Natural::ValueType() const {
+  return value_;
+}
+
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-inline void
-Natural::apply(const Natural &rhs) {
-  value_ = rhs.value_;
+inline auto
+Natural::eval() const
+-> const ResultType {
+  return *this;
 }
-inline void
-Natural::apply_add(const Natural &rhs) {
-  value_ += rhs.value_;
+
+template< typename U >
+inline auto
+Natural::apply(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Natural>{}> {
+  value_ = rhs.derived().eval();
 }
-inline void
-Natural::apply_mul(const Natural &rhs) {
-  value_ *= rhs.value_;
+template< typename U >
+inline auto
+Natural::apply_add(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Natural>{}> {
+  value_ += rhs.derived().eval();
+}
+template< typename U >
+inline auto
+Natural::apply_mul(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Natural>{}> {
+  value_ *= rhs.derived().eval();
 }
 
 } // sym

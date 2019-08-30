@@ -1,6 +1,8 @@
 #ifndef SYMMATH_NUMBER_REAL_HPP
 #define SYMMATH_NUMBER_REAL_HPP
 
+#include <type_traits>
+
 #include "number.hpp"
 
 namespace sym {
@@ -13,6 +15,8 @@ public:
 
   using ValueType = double;
 
+  using ResultType = Real;
+
 protected:
 
   ValueType value_;
@@ -22,13 +26,28 @@ public:
   explicit inline Real();
   inline Real(const ValueType value);
 
-  using Number<Real>::operator=;
+  template< typename U >
+  inline Real &operator=(const Symbolic<U> &rhs);
 
-  inline void apply(const Real &rhs);
-  inline void apply_add(const Real &rhs);
-  inline void apply_div(const Real &rhs);
-  inline void apply_mul(const Real &rhs);
-  inline void apply_sub(const Real &rhs);
+  inline operator ValueType() const;
+
+  inline auto eval() const -> const ResultType;
+
+  template< typename U >
+  inline auto apply(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}>;
+  template< typename U >
+  inline auto apply_add(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}>;
+  template< typename U >
+  inline auto apply_div(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}>;
+  template< typename U >
+  inline auto apply_mul(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}>;
+  template< typename U >
+  inline auto apply_sub(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}>;
 
 };
 
@@ -40,27 +59,54 @@ inline Real::Real()
 inline Real::Real(const ValueType value)
   : value_(value) {}
 
+template< typename U >
+inline Real &
+Real::operator=(const Symbolic<U> &rhs) {
+  apply_(*this, rhs.derived());
+  return *this;
+}
+
+inline Real::operator Real::ValueType() const {
+  return value_;
+}
+
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-inline void
-Real::apply(const Real &rhs) {
-  value_ = rhs.value_;
+inline auto
+Real::eval() const
+-> const ResultType {
+  return *this;
 }
-inline void
-Real::apply_add(const Real &rhs) {
-  value_ += rhs.value_;
+
+template< typename U >
+inline auto
+Real::apply(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}> {
+  value_ = rhs.derived().eval();
 }
-inline void
-Real::apply_div(const Real &rhs) {
-  value_ /= rhs.value_;
+template< typename U >
+inline auto
+Real::apply_add(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}> {
+  value_ += rhs.derived().eval();
 }
-inline void
-Real::apply_mul(const Real &rhs) {
-  value_ *= rhs.value_;
+template< typename U >
+inline auto
+Real::apply_div(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}> {
+  value_ /= rhs.derived().eval();
 }
-inline void
-Real::apply_sub(const Real &rhs) {
-  value_ -= rhs.value_;
+template< typename U >
+inline auto
+Real::apply_mul(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}> {
+  value_ *= rhs.derived().eval();
+}
+template< typename U >
+inline auto
+Real::apply_sub(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Real>{}> {
+  value_ -= rhs.derived().eval();
 }
 
 } // sym

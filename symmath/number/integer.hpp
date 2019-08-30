@@ -1,7 +1,10 @@
 #ifndef SYMMATH_NUMBER_INTEGER_HPP
 #define SYMMATH_NUMBER_INTEGER_HPP
 
+#include <type_traits>
+
 #include "number.hpp"
+#include "../type_traits/is_integral.hpp"
 
 namespace sym {
 
@@ -13,6 +16,8 @@ public:
 
   using ValueType = int;
 
+  using ResultType = Integer;
+
 private:
 
   ValueType value_;
@@ -22,12 +27,25 @@ public:
   explicit inline Integer();
   inline Integer(const ValueType value);
 
-  using Number<Integer>::operator=;
+  template< typename U >
+  inline Integer &operator=(const Symbolic<U> &rhs);
 
-  inline void apply(const Integer &rhs);
-  inline void apply_add(const Integer &rhs);
-  inline void apply_mul(const Integer &rhs);
-  inline void apply_sub(const Integer &rhs);
+  inline operator ValueType() const;
+
+  inline auto eval() const -> const ResultType;
+
+  template< typename U >
+  inline auto apply(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}>;
+  template< typename U >
+  inline auto apply_add(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}>;
+  template< typename U >
+  inline auto apply_mul(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}>;
+  template< typename U >
+  inline auto apply_sub(const Symbolic<U> &rhs)
+  -> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}>;
 
 };
 
@@ -39,23 +57,48 @@ inline Integer::Integer()
 inline Integer::Integer(const ValueType value)
   : value_(value) {}
 
+template< typename U >
+inline Integer &
+Integer::operator=(const Symbolic<U> &rhs) {
+  apply_(*this, rhs.derived());
+  return *this;
+}
+
+inline Integer::operator Integer::ValueType() const {
+  return value_;
+}
+
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-inline void
-Integer::apply(const Integer &rhs) {
-  value_ = rhs.value_;
+inline auto
+Integer::eval() const
+-> const ResultType {
+  return *this;
 }
-inline void
-Integer::apply_add(const Integer &rhs) {
-  value_ += rhs.value_;
+
+template< typename U >
+inline auto
+Integer::apply(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}> {
+  value_ = rhs.derived().eval();
 }
-inline void
-Integer::apply_mul(const Integer &rhs) {
-  value_ *= rhs.value_;
+template< typename U >
+inline auto
+Integer::apply_add(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}> {
+  value_ += rhs.derived().eval();
 }
-inline void
-Integer::apply_sub(const Integer &rhs) {
-  value_ -= rhs.value_;
+template< typename U >
+inline auto
+Integer::apply_mul(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}> {
+  value_ *= rhs.derived().eval();
+}
+template< typename U >
+inline auto
+Integer::apply_sub(const Symbolic<U> &rhs)
+-> std::enable_if_t<std::is_same<typename U::ResultType, Integer>{}> {
+  value_ -= rhs.derived().eval();
 }
 
 } // sym

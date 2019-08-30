@@ -1,31 +1,65 @@
-// #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
-#include <complex>
-
-#include "../symmath/symmath.hpp"
+#include "../symmath/numerics.hpp"
 
 TEST_CASE("Real: operations", "[numerics]") {
   sym::Real a(2.0);
   sym::Real b(1.0);
+  sym::Real c(5.0);
 
   SECTION("should be able to add") {
     sym::Real result;
     result = a + b;
+    REQUIRE(result == 3.0);
+    result = a + 1.0;
+    REQUIRE(result == 3.0);
+    result = 2.0 + b;
+    REQUIRE(result == 3.0);
+    result = a + b + c;
+    REQUIRE(result == 8.0);
+    result = 2.0 + b + c;
+    REQUIRE(result == 8.0);
   }
 
   SECTION("should be able to divide") {
     sym::Real result;
     result = a / b;
+    REQUIRE(result == 2.0);
+    result = a / 1.0;
+    REQUIRE(result == 2.0);
+    result = 2.0 / b;
+    REQUIRE(result == 2.0);
+    result = a / b / c;
+    REQUIRE(result == 0.4);
+    result = 2.0 / b / c;
+    REQUIRE(result == 0.4);
   }
 
   SECTION("should be able to multiply") {
     sym::Real result;
     result = a * b;
+    REQUIRE(result == 2.0);
+    result = a * 1.0;
+    REQUIRE(result == 2.0);
+    result = 2.0 * b;
+    REQUIRE(result == 2.0);
+    result = a * b * c;
+    REQUIRE(result == 10.0);
+    result = 2.0 * b * c;
+    REQUIRE(result == 10.0);
   }
 
   SECTION("should be able to subtract") {
     sym::Real result;
     result = a - b;
+    REQUIRE(result == 1.0);
+    result = a - 1.0;
+    REQUIRE(result == 1.0);
+    result = 2.0 - b;
+    REQUIRE(result == 1.0);
+    result = a - b - c;
+    REQUIRE(result == -4.0);
+    result = 2.0 - b - c;
+    REQUIRE(result == -4.0);
   }
 }

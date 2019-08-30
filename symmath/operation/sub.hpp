@@ -18,10 +18,10 @@ class Sub
   : public Operation<Symbolic<Sub<T1, T2>>> {
 public:
 
-  // using LhsType = typename T1::Type;
-  // using RhsType = typename T2::Type;
-  //
-  // using Type = std::common_type_t<LhsType, RhsType>;
+  using LhsType = typename T1::ResultType;
+  using RhsType = typename T2::ResultType;
+
+  using ResultType = CommonType_t<LhsType, RhsType>;
 
   using Lhs = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
   using Rhs = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
@@ -34,6 +34,8 @@ private:
 public:
 
   explicit inline Sub(const T1 &lhs, const T2 &rhs);
+
+  inline auto eval() const -> const ResultType;
 
 private:
 
@@ -48,7 +50,7 @@ private:
 };
 
 // -----------------------------------------------------------------------------
-
+// Constructor
 template< typename T1,
           typename T2 >
 inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
@@ -56,12 +58,23 @@ inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
     rhs_(rhs) {}
 
 // -----------------------------------------------------------------------------
+// Member Function Definitions
+template< typename T1,
+          typename T2 >
+inline auto Sub<T1, T2>::eval() const
+-> const ResultType {
+  ResultType tmp;
+  apply_(tmp, *this);
+  return tmp;
+}
+
+// -----------------------------------------------------------------------------
 
 template< typename T1,
           typename T2 >
 inline auto
-operator-(T1 &lhs, T2 &rhs)
--> std::enable_if_t<is_symbolic<T1>{} && is_symbolic<T2>{}, const Sub<T1, T2>> {
+operator-(const Symbolic<T1> &lhs, const Symbolic<T2> &rhs)
+-> const Sub<T1, T2> {
   return Sub<T1, T2>(lhs.derived(), rhs.derived());
 }
 

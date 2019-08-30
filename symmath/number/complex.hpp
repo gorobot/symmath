@@ -16,6 +16,8 @@ public:
   using SubType = double;
   using ValueType = std::complex<SubType>;
 
+  using ResultType = Complex;
+
 protected:
 
   ValueType value_;
@@ -26,7 +28,12 @@ public:
   inline Complex(const ValueType value);
   inline Complex(const SubType re, const SubType im = 0.0);
 
-  using Number<Complex>::operator=;
+  template< typename U >
+  inline Complex &operator=(const Symbolic<U> &rhs);
+
+  inline operator ValueType() const;
+
+  inline auto eval() -> const ResultType;
 
   inline void apply(const Complex &rhs);
   inline void apply_add(const Complex &rhs);
@@ -47,8 +54,25 @@ inline Complex::Complex(const ValueType value)
 inline Complex::Complex(const SubType re, const SubType im)
   : value_(re, im) {}
 
+template< typename U >
+inline Complex &
+Complex::operator=(const Symbolic<U> &rhs) {
+  apply_(*this, rhs.derived());
+  return *this;
+}
+
+inline Complex::operator Complex::ValueType() const {
+  return value_;
+}
+
 // -----------------------------------------------------------------------------
 // Member Function Definitions
+inline auto
+Complex::eval()
+-> const ResultType {
+  return *this;
+}
+
 inline void
 Complex::apply(const Complex &rhs) {
   value_ = rhs.value_;
