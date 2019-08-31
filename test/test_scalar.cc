@@ -10,26 +10,30 @@ TEMPLATE_TEST_CASE(
   sym::Integer,
   sym::Real) {
 
-  // sym::Scalar<TestType> a({1, 2, 3});
-  // sym::Scalar<TestType> b({0, 1, 2});
+  // sym::Scalar<TestType> a(2);
+  // sym::Scalar<TestType> b(1);
 
   SECTION("should be able to add") {
     sym::Scalar<TestType> result;
     // result = a + b;
+    // REQUIRE(result == 3);
   }
 
   SECTION("should be able to divide") {
     sym::Scalar<TestType> result;
     // result = a / b;
+    // REQUIRE(result == 2);
   }
 
   SECTION("should be able to multiply") {
     sym::Scalar<TestType> result;
     // result = a * b;
+    // REQUIRE(result == 2);
   }
 
   SECTION("should be able to subtract") {
     sym::Scalar<TestType> result;
     // result = a - b;
+    // REQUIRE(result == 1);
   }
 }

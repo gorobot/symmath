@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATION_SUB_HPP
-#define SYMMATH_OPERATION_SUB_HPP
+#ifndef SYMMATH_OPERATION_INNER_PRODUCT_HPP
+#define SYMMATH_OPERATION_INNER_PRODUCT_HPP
 
 #include <type_traits>
 
@@ -14,8 +14,8 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class Sub
-  : public Operation<Symbolic<Sub<T1, T2>>> {
+class InnerProduct
+  : public Operation<Symbolic<InnerProduct<T1, T2>>> {
 public:
 
   using LhsResultType = typename T1::ResultType;
@@ -33,7 +33,7 @@ private:
 
 public:
 
-  explicit inline Sub(const T1 &lhs, const T2 &rhs);
+  explicit inline InnerProduct(const T1 &lhs, const T2 &rhs);
 
   inline auto eval() const -> const ResultType;
 
@@ -41,10 +41,10 @@ private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const Sub<T1, T2> &rhs)
+  apply_(U &lhs, const InnerProduct<T1, T2> &rhs)
   -> std::enable_if_t<is_symbolic<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
-    apply_sub_(lhs.derived(), rhs.rhs_);
+    apply_mul_(lhs.derived(), rhs.rhs_);
   }
 
 };
@@ -53,7 +53,7 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
+inline InnerProduct<T1, T2>::InnerProduct(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
@@ -61,7 +61,7 @@ inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
 // Member Function Definitions
 template< typename T1,
           typename T2 >
-inline auto Sub<T1, T2>::eval() const
+inline auto InnerProduct<T1, T2>::eval() const
 -> const ResultType {
   ResultType tmp;
   apply_(tmp, *this);
@@ -73,19 +73,19 @@ inline auto Sub<T1, T2>::eval() const
 template< typename T1,
           typename T2 >
 inline auto
-operator-(const Symbolic<T1> &lhs, const Symbolic<T2> &rhs)
--> const Sub<T1, T2> {
-  return Sub<T1, T2>(lhs.derived(), rhs.derived());
+operator*(const Symbolic<T1> &lhs, const Symbolic<T2> &rhs)
+-> const InnerProduct<T1, T2> {
+  return InnerProduct<T1, T2>(lhs.derived(), rhs.derived());
 }
 
 // template< typename T1,
 //           typename T2 >
 // inline Symbolic<T1> &
-// operator-=(Symbolic<T1> &lhs, const Symbolic<T2> &rhs) {
-//   apply_sub_(lhs.derived(), rhs.derived());
+// operator*=(Symbolic<T1> &lhs, const Symbolic<T2> &rhs) {
+//   apply_mul_(lhs.derived(), rhs.derived());
 //   return lhs;
 // }
 
 } // sym
 
-#endif // SYMMATH_OPERATION_SUB_HPP
+#endif // SYMMATH_OPERATION_INNER_PRODUCT_HPP

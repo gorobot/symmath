@@ -19,6 +19,10 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == 8.0);
     result = 2.0 + b + c;
     REQUIRE(result == 8.0);
+    result += b;
+    REQUIRE(result == 9.0);
+    result += 1;
+    REQUIRE(result == 10.0);
   }
 
   SECTION("should be able to divide") {
@@ -32,6 +36,10 @@ TEST_CASE("Real: operations", "[numerics]") {
     result = a / b / c;
     REQUIRE(result == 0.4);
     result = 2.0 / b / c;
+    REQUIRE(result == 0.4);
+    result /= b;
+    REQUIRE(result == 0.4);
+    result /= 1;
     REQUIRE(result == 0.4);
   }
 
@@ -47,6 +55,10 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == 10.0);
     result = 2.0 * b * c;
     REQUIRE(result == 10.0);
+    result *= b;
+    REQUIRE(result == 10.0);
+    result *= 1;
+    REQUIRE(result == 10.0);
   }
 
   SECTION("should be able to subtract") {
@@ -61,5 +73,9 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == -4.0);
     result = 2.0 - b - c;
     REQUIRE(result == -4.0);
+    result -= b;
+    REQUIRE(result == -5.0);
+    result -= 1;
+    REQUIRE(result == -6.0);
   }
 }

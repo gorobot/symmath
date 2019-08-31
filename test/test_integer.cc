@@ -19,6 +19,10 @@ TEST_CASE("Integer: operations", "[numerics]") {
     REQUIRE(result == 8);
     result = 2 + b + c;
     REQUIRE(result == 8);
+    result += b;
+    REQUIRE(result == 9);
+    result += 1;
+    REQUIRE(result == 10);
   }
 
   SECTION("should be able to multiply") {
@@ -32,6 +36,10 @@ TEST_CASE("Integer: operations", "[numerics]") {
     result = a * b * c;
     REQUIRE(result == 10);
     result = 2 * b * c;
+    REQUIRE(result == 10);
+    result *= b;
+    REQUIRE(result == 10);
+    result *= 1;
     REQUIRE(result == 10);
   }
 
@@ -47,5 +55,9 @@ TEST_CASE("Integer: operations", "[numerics]") {
     REQUIRE(result == -4);
     result = 2 - b - c;
     REQUIRE(result == -4);
+    result -= b;
+    REQUIRE(result == -5);
+    result -= 1;
+    REQUIRE(result == -6);
   }
 }

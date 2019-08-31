@@ -18,18 +18,18 @@ class Mul
   : public Operation<Symbolic<Mul<T1, T2>>> {
 public:
 
-  using LhsType = typename T1::ResultType;
-  using RhsType = typename T2::ResultType;
+  using LhsResultType = typename T1::ResultType;
+  using RhsResultType = typename T2::ResultType;
 
-  using ResultType = CommonType_t<LhsType, RhsType>;
+  using ResultType = std::common_type_t<LhsResultType, RhsResultType>;
 
-  using Lhs = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
-  using Rhs = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
+  using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
+  using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
 
 private:
 
-  Lhs lhs_;
-  Rhs rhs_;
+  LhsType lhs_;
+  RhsType rhs_;
 
 public:
 
@@ -77,6 +77,14 @@ operator*(const Symbolic<T1> &lhs, const Symbolic<T2> &rhs)
 -> const Mul<T1, T2> {
   return Mul<T1, T2>(lhs.derived(), rhs.derived());
 }
+
+// template< typename T1,
+//           typename T2 >
+// inline Symbolic<T1> &
+// operator*=(Symbolic<T1> &lhs, const Symbolic<T2> &rhs) {
+//   apply_mul_(lhs.derived(), rhs.derived());
+//   return lhs;
+// }
 
 } // sym
 

@@ -1,5 +1,7 @@
 #include <catch2/catch.hpp>
 
+#include <iostream>
+
 #include "../symmath/numerics.hpp"
 
 TEST_CASE("Naturals: operations", "[numerics]") {
@@ -19,6 +21,10 @@ TEST_CASE("Naturals: operations", "[numerics]") {
     REQUIRE(result == 8);
     result = 2 + b + c;
     REQUIRE(result == 8);
+    result += b;
+    REQUIRE(result == 9);
+    result += 1;
+    REQUIRE(result == 10);
   }
 
   SECTION("should be able to multiply") {
@@ -32,6 +38,10 @@ TEST_CASE("Naturals: operations", "[numerics]") {
     result = a * b * c;
     REQUIRE(result == 10);
     result = 2 * b * c;
+    REQUIRE(result == 10);
+    result *= b;
+    REQUIRE(result == 10);
+    result *= 1;
     REQUIRE(result == 10);
   }
 }
