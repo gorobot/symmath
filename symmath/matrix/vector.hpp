@@ -6,45 +6,48 @@
 #include "../symbolic.hpp"
 #include "storage.hpp"
 #include "../type_traits/is_applicable.hpp"
+#include "../type_traits/is_scalar.hpp"
 #include "../type_traits/is_storage_object.hpp"
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T >
+template< typename T,
+          size_t L >
 class Vector
-  : public Symbolic<Vector<T>>,
-    public Storage<T> {
+  : public Symbolic<Vector<T, L>>,
+    public Storage<T, L> {
 public:
 
-  // using ValueType = typename T::ValueType;
-  using VectorType = typename Storage<T>::VectorType;
+  using ValueType = typename Storage<T, L>::ValueType;
 
-  using ResultType = Vector<T>;
+  using ArrayType = typename Storage<T, L>::ArrayType;
+  using VectorType = typename Storage<T, L>::VectorType;
+
+  using ResultType = Vector<T, L>;
 
 private:
 
-  size_t r_;
-  size_t c_;
-
 public:
 
-  explicit inline Vector();
-  explicit inline Vector(const size_t count);
-  inline Vector(const std::vector<T> &v);
-  inline Vector(std::initializer_list<T> init);
+  using Storage<T, L>::Storage;
+  using Storage<T, L>::operator=;
 
-  template< typename U >
-  inline Vector(const Vector<U> &m);
-
-  // template<typename DT>
-  // inline Vector(const Vector<DT> &m);
-
-  inline Vector<T> &operator=(const T &rhs);
-  inline Vector<T> &operator=(std::initializer_list<T> init);
-  inline Vector<T> &operator=(const std::vector<T> rhs);
-  inline Vector<T> &operator=(const Vector<T> &rhs);
+  // explicit inline Vector();
+  // inline Vector(const ArrayType &other);
+  // inline Vector(const VectorType &other);
+  // inline Vector(std::initializer_list<T> init);
+  //
+  // template< typename U >
+  // inline Vector(const Vector<U, L> &other);
+  //
+  // inline Vector<T, L> &operator=(const ArrayType &other);
+  // inline Vector<T, L> &operator=(const VectorType &other);
+  // inline Vector<T, L> &operator=(std::initializer_list<T> init);
+  //
+  // template< typename U >
+  // inline Vector<T, L> &operator=(const Vector<U, L> &other);
 
   inline auto eval() const -> const ResultType;
 
@@ -55,195 +58,173 @@ public:
   inline const T &operator()(const size_t row, const size_t col) const;
 
   template< typename U >
-  inline Vector<T> &operator=(const Symbolic<U> &rhs);
+  inline Vector<T, L> &operator=(const Symbolic<U> &rhs);
 
   template< typename U >
   inline auto apply(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_storage_object<U>{}>;
+  -> std::enable_if_t<is_applicable<Vector<T, L>, U>{}>;
 
   template< typename U >
   inline auto apply_add(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Vector<T>, U>{}>;
+  -> std::enable_if_t<is_applicable<Vector<T, L>, U>{}>;
   template< typename U >
   inline auto apply_mul(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Vector<T>, U>{}>;
+  -> std::enable_if_t<is_scalar_t<U>{}>;
   template< typename U >
   inline auto apply_sub(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Vector<T>, U>{}>;
-
-  template< typename U >
-  inline bool operator==(const Symbolic<U> &rhs) const;
+  -> std::enable_if_t<is_applicable<Vector<T, L>, U>{}>;
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T >
-inline Vector<T>::Vector()
-  : Storage<T>(),
-    r_(0),
-    c_(0) {}
-
-template< typename T >
-inline Vector<T>::Vector(const size_t count)
-  : Storage<T>(count),
-    r_(count),
-    c_(1) {}
-
-template< typename T >
-inline Vector<T>::Vector(const std::vector<T> &other)
-  : Storage<T>(other),
-    r_(other.size()),
-    c_(1) {}
-
-template< typename T >
-inline Vector<T>::Vector(std::initializer_list<T> init)
-  : Storage<T>(init),
-    r_(init.size()),
-    c_(1) {}
-
-template< typename T >
-template< typename U >
-inline Vector<T>::Vector(const Vector<U> &m)
-  : Storage<T>(m.value_),
-    r_(m.r_),
-    c_(m.c_) {}
-
-template< typename T >
-inline Vector<T> &Vector<T>::operator=(const T &rhs) {
-  for(size_t i = 0; i < this->value_.size(); i++) {
-    this->value_[i] = rhs;
-  }
-
-  return *this;
-}
-
-template< typename T >
-inline Vector<T> &Vector<T>::operator=(std::initializer_list<T> rhs) {
-  r_ = rhs.size();
-  c_ = 1;
-  this->value_.resize(r_*c_);
-  std::copy(rhs.begin(), rhs.end(), this->value_.begin());
-
-  return *this;
-}
-
-template< typename T >
-inline Vector<T> &Vector<T>::operator=(const std::vector<T> rhs) {
-  r_ = rhs.size();
-  c_ = 1;
-  this->value_.resize(r_*c_);
-  this->value_ = rhs;
-
-  return *this;
-}
-
-template< typename T >
-inline Vector<T> &Vector<T>::operator=(const Vector<T> &rhs) {
-  r_ = rhs.r_;
-  c_ = rhs.c_;
-  this->value_ = rhs.value_;
-
-  return *this;
-}
+// template< typename T,
+//           size_t L >
+// inline
+// Vector<T, L>::Vector()
+//   : Storage<T, L>() {}
+//
+// template< typename T,
+//           size_t L >
+// inline
+// Vector<T, L>::Vector(const ArrayType &other)
+//   : Storage<T, L>(other) {}
+//
+// template< typename T,
+//           size_t L >
+// inline
+// Vector<T, L>::Vector(const VectorType &other)
+//   : Storage<T, L>(other) {}
+//
+// template< typename T,
+//           size_t L >
+// inline
+// Vector<T, L>::Vector(std::initializer_list<T> init)
+//   : Storage<T, L>(init) {}
+//
+// template< typename T,
+//           size_t L >
+// template< typename U >
+// inline
+// Vector<T, L>::Vector(const Vector<U, L> &other)
+//   : Storage<T, L>(other) {}
+//
+// template< typename T,
+//           size_t L >
+// inline Vector<T, L> &
+// Vector<T, L>::operator=(const ArrayType &other) {
+//   std::copy(other.begin(), other.end(), this->begin());
+//   return *this;
+// }
+//
+// template< typename T,
+//           size_t L >
+// inline Vector<T, L> &
+// Vector<T, L>::operator=(const VectorType &other) {
+//   static_assert(other.size() == L, "Bad dimensions.");
+//   std::copy(other.begin(), other.end(), this->begin());
+//   return *this;
+// }
+//
+// template< typename T,
+//           size_t L >
+// inline Vector<T, L> &
+// Vector<T, L>::operator=(std::initializer_list<T> init) {
+//   static_assert(init.size() == L, "Bad dimensions.");
+//   std::copy(init.begin(), init.end(), this->begin());
+//   return *this;
+// }
+//
+// template< typename T,
+//           size_t L >
+// template< typename U >
+// inline Vector<T, L> &
+// Vector<T, L>::operator=(const Vector<U, L> &other) {
+//   std::copy(other.begin(), other.end(), this->begin());
+//   return *this;
+// }
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-template< typename T >
+template< typename T,
+          size_t L >
 inline auto
-Vector<T>::eval() const
+Vector<T, L>::eval() const
 -> const ResultType {
   return *this;
 }
 
-template< typename T >
-inline size_t Vector<T>::rows() const {
-  return r_;
+template< typename T,
+          size_t L >
+inline size_t Vector<T, L>::rows() const {
+  return L;
 }
 
-template< typename T >
-inline size_t Vector<T>::cols() const {
-  return c_;
+template< typename T,
+          size_t L >
+inline size_t Vector<T, L>::cols() const {
+  return 1;
 }
 
-template< typename T >
+template< typename T,
+          size_t L >
 inline T &
-Vector<T>::operator()(const size_t R, const size_t C) {
-  return this->value_[R*c_ + C];
+Vector<T, L>::operator()(const size_t row, const size_t col) {
+  return (*this)[row*1 + col];
 }
 
-template< typename T >
+template< typename T,
+          size_t L >
 inline const T &
-Vector<T>::operator()(const size_t R, const size_t C) const {
-  return this->value_[R*c_ + C];
+Vector<T, L>::operator()(const size_t row, const size_t col) const {
+  return (*this)[row*1 + col];
 }
 
-template< typename T>
+template< typename T,
+          size_t L >
 template< typename U >
-inline Vector<T> &
-Vector<T>::operator=(const Symbolic<U> &rhs) {
+inline Vector<T, L> &
+Vector<T, L>::operator=(const Symbolic<U> &rhs) {
   apply_(*this, rhs.derived());
   return *this;
 }
 
-template< typename T >
+template< typename T,
+          size_t L >
 template< typename U >
-inline auto Vector<T>::apply(const Symbolic<U> &rhs)
--> std::enable_if_t<is_storage_object<U>{}> {
-  this->r_ = rhs.derived().r_;
-  this->c_ = rhs.derived().c_;
-  this->value_ = rhs.derived().value_;
+inline auto Vector<T, L>::apply(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_applicable<Vector<T, L>, U>{}> {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] = rhs.derived()[i];
+  }
 }
 
-template< typename T >
+template< typename T,
+          size_t L >
 template< typename U >
-inline auto Vector<T>::apply_add(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Vector<T>, U>{}> {
-  // static_assert(r_ == rhs.derived().r_, "Inconsistent dimensions.");
-  // static_assert(c_ == rhs.derived().c_, "Inconsistent dimensions.");
+inline auto Vector<T, L>::apply_add(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_applicable<Vector<T, L>, U>{}> {
   for(size_t i = 0; i < this->size(); i++) {
     (*this)[i] += rhs.derived()[i];
   }
-  // this->value_[0] += rhs.derived().eval();
 }
-template< typename T >
+template< typename T,
+          size_t L >
 template< typename U >
-inline auto Vector<T>::apply_mul(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Vector<T>, U>{}> {
-  // static_assert(r_ == rhs.derived().r_, "Inconsistent dimensions.");
-  // static_assert(c_ == rhs.derived().c_, "Inconsistent dimensions.");
+inline auto Vector<T, L>::apply_mul(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_scalar_t<U>{}> {
   for(size_t i = 0; i < this->size(); i++) {
-    // (*this)[i] *= rhs.derived()[i];
+    (*this)[i] *= rhs.derived()[0];
   }
-  // this->value_[0] *= rhs.derived().eval();
 }
-template< typename T >
+template< typename T,
+          size_t L >
 template< typename U >
-inline auto Vector<T>::apply_sub(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Vector<T>, U>{}> {
-  // static_assert(r_ == rhs.derived().r_, "Inconsistent dimensions.");
-  // static_assert(c_ == rhs.derived().c_, "Inconsistent dimensions.");
+inline auto Vector<T, L>::apply_sub(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_applicable<Vector<T, L>, U>{}> {
   for(size_t i = 0; i < this->size(); i++) {
-    // (*this)[i] -= rhs.derived()[i];
+    (*this)[i] -= rhs.derived()[i];
   }
-  // this->value_[0] -= rhs.derived().eval();
-}
-
-template< typename T >
-template< typename U >
-inline bool Vector<T>::operator==(const Symbolic<U> &rhs) const {
-  if(this->r_ != rhs.derived().r_) {
-    return false;
-  }
-  if(this->c_ != rhs.derived().c_) {
-    return false;
-  }
-  for(size_t i = 0; i < this->size(); i++) {
-    if((*this)[i] != rhs.derived()[i]) {
-      return false;
-    }
-  }
-  return true;
 }
 
 } // sym

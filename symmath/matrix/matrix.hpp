@@ -1,148 +1,160 @@
 #ifndef SYMMATH_MATRIX_MATRIX_HPP
 #define SYMMATH_MATRIX_MATRIX_HPP
 
-#include <vector>
+#include <type_traits>
 
 #include "../symbolic.hpp"
 #include "storage.hpp"
 #include "../type_traits/is_applicable.hpp"
+#include "../type_traits/is_scalar.hpp"
 #include "../type_traits/is_storage_object.hpp"
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T >
+template< typename T,
+          size_t R,
+          size_t C >
 class Matrix
-  : public Symbolic<Matrix<T>>,
-    public Storage<T> {
+  : public Symbolic<Matrix<T, R, C>>,
+    public Storage<T, R, C> {
 public:
 
-  // using ValueType = typename T::ValueType;
-  using VectorType = typename Storage<T>::VectorType;
+  using ValueType = typename Storage<T, R, C>::ValueType;
 
-  using ResultType = Matrix<T>;
+  using ArrayType = typename Storage<T, R, C>::ArrayType;
+  using VectorType = typename Storage<T, R, C>::VectorType;
+
+  using ResultType = Matrix<T, R, C>;
 
 private:
 
-  size_t r_;
-  size_t c_;
-
 public:
 
-  explicit inline Matrix();
-  explicit inline Matrix(const size_t R, const size_t C);
-  explicit inline Matrix(const size_t R, const size_t C, const VectorType &v);
-
-  template<typename U>
-  inline Matrix(const Matrix<U> &m);
-
-  inline Matrix<T> &operator=(const T &rhs);
-  inline Matrix<T> &operator=(std::initializer_list<std::initializer_list<T>> rhs);
-
-  template< typename U >
-  inline Matrix<T> &operator=(const Matrix<U> &rhs);
+  using Storage<T, R, C>::Storage;
+  using Storage<T, R, C>::operator=;
 
   inline auto eval() const -> const ResultType;
 
   inline size_t rows() const;
   inline size_t cols() const;
 
-  inline T &operator()(const size_t R, const size_t C);
-  inline const T &operator()(const size_t R, const size_t C) const;
+  inline T &operator()(const size_t row, const size_t col);
+  inline const T &operator()(const size_t row, const size_t col) const;
+
+  template< typename U >
+  inline Matrix<T, R, C> &operator=(const Symbolic<U> &rhs);
 
   template< typename U >
   inline auto apply(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Matrix<T>, U>{}>;
+  -> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}>;
   template< typename U >
   inline auto apply_add(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Matrix<T>, U>{}>;
+  -> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}>;
   template< typename U >
   inline auto apply_mul(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Matrix<T>, U>{}>;
+  -> std::enable_if_t<is_scalar_t<U>{}>;
   template< typename U >
   inline auto apply_sub(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Matrix<T>, U>{}>;
+  -> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}>;
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T >
-inline Matrix<T>::Matrix()
-  : Storage<T>(),
-    r_(0),
-    c_(0) {}
-
-template< typename T >
-inline Matrix<T>::Matrix(const size_t R, const size_t C)
-  : Storage<T>(R*C),
-    r_(R),
-    c_(C) {}
-
-template< typename T >
-inline Matrix<T>::Matrix(const size_t R, const size_t C, const VectorType &v)
-  : Storage<T>(v),
-    r_(R),
-    c_(C) {
-  // static_assert(R*C == v.size(), "Vector is of incorrect size.");
-}
-
-template< typename T >
-template< typename U >
-inline Matrix<T>::Matrix(const Matrix<U> &m)
-  : Storage<T>(m.value_),
-    r_(m.r_),
-    c_(m.c_) {}
-
-template< typename T >
-inline Matrix<T> &Matrix<T>::operator=(const T &rhs) {
-  for(size_t i = 0; i < this->value_.size(); i++) {
-    this->value_[i] = rhs;
-  }
-
-  return *this;
-}
-
-template< typename T >
-template< typename U >
-inline Matrix<T> &Matrix<T>::operator=(const Matrix<U> &rhs) {
-  r_ = rhs.r_;
-  c_ = rhs.c_;
-  this->value_ = rhs.value_;
-
-  return *this;
-}
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-template< typename T >
+template< typename T,
+          size_t R,
+          size_t C >
 inline auto
-Matrix<T>::eval() const
+Matrix<T, R, C>::eval() const
 -> const ResultType {
   return *this;
 }
 
-template< typename T >
-inline size_t Matrix<T>::rows() const {
-  return r_;
+template< typename T,
+          size_t R,
+          size_t C >
+inline size_t Matrix<T, R, C>::rows() const {
+  return R;
 }
 
-template< typename T >
-inline size_t Matrix<T>::cols() const {
-  return c_;
+template< typename T,
+          size_t R,
+          size_t C >
+inline size_t Matrix<T, R, C>::cols() const {
+  return C;
 }
 
-template< typename T >
+template< typename T,
+          size_t R,
+          size_t C >
 inline T &
-Matrix<T>::operator()(const size_t R, const size_t C) {
-  return this->value_[R*c_ + C];
+Matrix<T, R, C>::operator()(const size_t row, const size_t col) {
+  return (*this)[row*C + col];
 }
 
-template< typename T >
+template< typename T,
+          size_t R,
+          size_t C >
 inline const T &
-Matrix<T>::operator()(const size_t R, const size_t C) const {
-  return this->value_[R*c_ + C];
+Matrix<T, R, C>::operator()(const size_t row, const size_t col) const {
+  return (*this)[row*C + col];
+}
+
+template< typename T,
+          size_t R,
+          size_t C >
+template< typename U >
+inline Matrix<T, R, C> &
+Matrix<T, R, C>::operator=(const Symbolic<U> &rhs) {
+  apply_(*this, rhs.derived());
+  return *this;
+}
+
+template< typename T,
+          size_t R,
+          size_t C >
+template< typename U >
+inline auto Matrix<T, R, C>::apply(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}> {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] = rhs.derived()[i];
+  }
+}
+
+template< typename T,
+          size_t R,
+          size_t C >
+template< typename U >
+inline auto Matrix<T, R, C>::apply_add(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}> {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] += rhs.derived()[i];
+  }
+}
+template< typename T,
+          size_t R,
+          size_t C >
+template< typename U >
+inline auto Matrix<T, R, C>::apply_mul(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_scalar_t<U>{}> {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] *= rhs.derived()[0];
+  }
+}
+template< typename T,
+          size_t R,
+          size_t C >
+template< typename U >
+inline auto Matrix<T, R, C>::apply_sub(const Symbolic<U> &rhs)
+-> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}> {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] -= rhs.derived()[i];
+  }
 }
 
 } // sym
