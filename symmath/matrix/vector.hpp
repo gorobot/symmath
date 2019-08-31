@@ -6,8 +6,7 @@
 #include "../symbolic.hpp"
 #include "storage.hpp"
 #include "../type_traits/is_applicable.hpp"
-#include "../type_traits/is_scalar.hpp"
-#include "../type_traits/is_storage_object.hpp"
+// #include "../type_traits/is_scalar.hpp"
 
 namespace sym {
 
@@ -44,6 +43,10 @@ public:
 
   template< typename U >
   inline Vector<T, L> &operator=(const Symbolic<U> &rhs);
+
+  inline Vector<T, L> &operator+=(const ValueType &rhs);
+  inline Vector<T, L> &operator*=(const ValueType &rhs);
+  inline Vector<T, L> &operator-=(const ValueType &rhs);
 
   template< typename U >
   inline auto apply(const Symbolic<U> &rhs)
@@ -111,6 +114,34 @@ Vector<T, L>::operator=(const Symbolic<U> &rhs) {
 
 template< typename T,
           size_t L >
+inline Vector<T, L> &
+Vector<T, L>::operator+=(const ValueType &rhs) {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] += rhs;
+  }
+  return *this;
+}
+template< typename T,
+          size_t L >
+inline Vector<T, L> &
+Vector<T, L>::operator*=(const ValueType &rhs) {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] *= rhs;
+  }
+  return *this;
+}
+template< typename T,
+          size_t L >
+inline Vector<T, L> &
+Vector<T, L>::operator-=(const ValueType &rhs) {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] -= rhs;
+  }
+  return *this;
+}
+
+template< typename T,
+          size_t L >
 template< typename U >
 inline auto Vector<T, L>::apply(const Symbolic<U> &rhs)
 -> std::enable_if_t<is_applicable<Vector<T, L>, U>{}> {
@@ -134,7 +165,6 @@ template< typename U >
 inline auto Vector<T, L>::apply_mul(const Symbolic<U> &rhs)
 -> std::enable_if_t<is_scalar<U>{}> {
   for(size_t i = 0; i < this->size(); i++) {
-    // (*this)[i] *= rhs.derived()[0];
     (*this)[i] *= rhs.derived()[0];
   }
 }

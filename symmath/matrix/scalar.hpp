@@ -6,7 +6,6 @@
 #include "../symbolic.hpp"
 #include "storage.hpp"
 #include "../type_traits/is_applicable.hpp"
-#include "../type_traits/is_storage_object.hpp"
 
 namespace sym {
 
@@ -45,6 +44,11 @@ public:
   template< typename U >
   inline Scalar<T> &operator=(const Symbolic<U> &rhs);
 
+  inline Scalar<T> &operator+=(const ValueType &rhs);
+  inline Scalar<T> &operator/=(const ValueType &rhs);
+  inline Scalar<T> &operator*=(const ValueType &rhs);
+  inline Scalar<T> &operator-=(const ValueType &rhs);
+
   template< typename U >
   inline auto apply(const Symbolic<U> &rhs)
   -> std::enable_if_t<is_applicable<Scalar<T>, U>{}>;
@@ -77,7 +81,7 @@ template< typename T >
 inline auto
 Scalar<T>::eval() const
 -> const ResultType {
-  return (*this)[0];
+  return *this;
 }
 
 template< typename T >
@@ -107,6 +111,31 @@ template< typename U >
 inline Scalar<T> &
 Scalar<T>::operator=(const Symbolic<U> &rhs) {
   apply_(*this, rhs.derived());
+  return *this;
+}
+
+template< typename T >
+inline Scalar<T> &
+Scalar<T>::operator+=(const ValueType &rhs) {
+  (*this)[0] += rhs;
+  return *this;
+}
+template< typename T >
+inline Scalar<T> &
+Scalar<T>::operator/=(const ValueType &rhs) {
+  (*this)[0] /= rhs;
+  return *this;
+}
+template< typename T >
+inline Scalar<T> &
+Scalar<T>::operator*=(const ValueType &rhs) {
+  (*this)[0] *= rhs;
+  return *this;
+}
+template< typename T >
+inline Scalar<T> &
+Scalar<T>::operator-=(const ValueType &rhs) {
+  (*this)[0] -= rhs;
   return *this;
 }
 

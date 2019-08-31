@@ -6,6 +6,7 @@
 #include "../symbolic.hpp"
 #include "operation.hpp"
 #include "../type_traits/is_operation.hpp"
+#include "../type_traits/is_scalar.hpp"
 #include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
@@ -76,15 +77,15 @@ template< typename T1,
           typename T2 >
 inline auto ScalarMul<T1, T2>::operator[](const size_t pos)
 -> ResultType {
-  // return lhs_[pos] * rhs_[pos];
-  return lhs_[pos];
+  return lhs_[pos].derived() * rhs_[pos];
+  // return lhs_[pos];
 }
 template< typename T1,
           typename T2 >
 inline auto ScalarMul<T1, T2>::operator[](const size_t pos) const
 -> const ResultType {
-  // return lhs_[pos] * rhs_[pos];
-  return lhs_[pos];
+  return lhs_[pos].derived() * rhs_[pos];
+  // return lhs_[pos];
 }
 
 // -----------------------------------------------------------------------------
@@ -92,9 +93,16 @@ inline auto ScalarMul<T1, T2>::operator[](const size_t pos) const
 template< typename T1,
           typename T2 >
 inline auto
+operator*(const Scalar<T1> &lhs, const Scalar<T2> &rhs)
+-> const ScalarMul<Scalar<T1>, Scalar<T2>> {
+  return ScalarMul<Scalar<T1>, Scalar<T2>>(lhs, rhs.derived());
+}
+template< typename T1,
+          typename T2 >
+inline auto
 operator*(const Scalar<T1> &lhs, const Symbolic<T2> &rhs)
--> const ScalarMul<Scalar<T1>, T2> {
-  return ScalarMul<Scalar<T1>, T2>(lhs, rhs.derived());
+-> const ScalarMul<T2, Scalar<T1>> {
+  return ScalarMul<T2, Scalar<T1>>(lhs, rhs.derived());
 }
 template< typename T1,
           typename T2 >

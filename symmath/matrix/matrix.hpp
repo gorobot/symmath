@@ -7,7 +7,6 @@
 #include "storage.hpp"
 #include "../type_traits/is_applicable.hpp"
 #include "../type_traits/is_scalar.hpp"
-#include "../type_traits/is_storage_object.hpp"
 
 namespace sym {
 
@@ -45,6 +44,10 @@ public:
 
   template< typename U >
   inline Matrix<T, R, C> &operator=(const Symbolic<U> &rhs);
+
+  inline Matrix<T, R, C> &operator+=(const ValueType &rhs);
+  inline Matrix<T, R, C> &operator*=(const ValueType &rhs);
+  inline Matrix<T, R, C> &operator-=(const ValueType &rhs);
 
   template< typename U >
   inline auto apply(const Symbolic<U> &rhs)
@@ -113,6 +116,37 @@ template< typename U >
 inline Matrix<T, R, C> &
 Matrix<T, R, C>::operator=(const Symbolic<U> &rhs) {
   apply_(*this, rhs.derived());
+  return *this;
+}
+
+template< typename T,
+          size_t R,
+          size_t C >
+inline Matrix<T, R, C> &
+Matrix<T, R, C>::operator+=(const ValueType &rhs) {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] += rhs;
+  }
+  return *this;
+}
+template< typename T,
+          size_t R,
+          size_t C >
+inline Matrix<T, R, C> &
+Matrix<T, R, C>::operator*=(const ValueType &rhs) {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] *= rhs;
+  }
+  return *this;
+}
+template< typename T,
+          size_t R,
+          size_t C >
+inline Matrix<T, R, C> &
+Matrix<T, R, C>::operator-=(const ValueType &rhs) {
+  for(size_t i = 0; i < this->size(); i++) {
+    (*this)[i] -= rhs;
+  }
   return *this;
 }
 
