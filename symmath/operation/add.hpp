@@ -37,9 +37,6 @@ public:
 
   inline auto eval() const -> const ResultType;
 
-  inline auto operator[](const size_t pos) -> ResultType;
-  inline auto operator[](const size_t pos) const -> const ResultType;
-
 private:
 
   template< typename U >
@@ -69,19 +66,6 @@ inline auto Add<T1, T2>::eval() const
   ResultType tmp;
   apply_(tmp, *this);
   return tmp;
-}
-
-template< typename T1,
-          typename T2 >
-inline auto Add<T1, T2>::operator[](const size_t pos)
--> ResultType {
-  return lhs_[pos] + rhs_[pos];
-}
-template< typename T1,
-          typename T2 >
-inline auto Add<T1, T2>::operator[](const size_t pos) const
--> const ResultType {
-  return lhs_[pos] + rhs_[pos];
 }
 
 // -----------------------------------------------------------------------------

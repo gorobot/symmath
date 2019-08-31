@@ -49,12 +49,13 @@ public:
   template< typename U >
   inline auto apply(const Symbolic<U> &rhs)
   -> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}>;
+
   template< typename U >
   inline auto apply_add(const Symbolic<U> &rhs)
   -> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}>;
   template< typename U >
   inline auto apply_mul(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_scalar_t<U>{}>;
+  -> std::enable_if_t<is_scalar<U>{}>;
   template< typename U >
   inline auto apply_sub(const Symbolic<U> &rhs)
   -> std::enable_if_t<is_applicable<Matrix<T, R, C>, U>{}>;
@@ -141,7 +142,7 @@ template< typename T,
           size_t C >
 template< typename U >
 inline auto Matrix<T, R, C>::apply_mul(const Symbolic<U> &rhs)
--> std::enable_if_t<is_scalar_t<U>{}> {
+-> std::enable_if_t<is_scalar<U>{}> {
   for(size_t i = 0; i < this->size(); i++) {
     (*this)[i] *= rhs.derived()[0];
   }

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <ostream>
 #include <vector>
 
 #include "../type_traits/product.hpp"
@@ -66,7 +67,16 @@ public:
   inline T &operator[](const size_t pos);
   inline const T &operator[](const size_t pos) const;
 
+  inline bool operator==(const ArrayType &other);
+  inline bool operator==(const VectorType &other);
+  inline bool operator==(std::initializer_list<T> init);
   inline bool operator==(const Storage<T, D...> &rhs) const;
+
+private:
+
+  template< typename U,
+            size_t ...DD >
+  friend std::ostream& operator<<(std::ostream& os, const Storage<U, DD...>& m);
 
 };
 
@@ -188,13 +198,6 @@ Storage<T, D...>::size() const {
 
 template< typename T,
           size_t ...D >
-inline size_t
-Storage<T, D...>::capacity() const {
-  return value_.capacity();
-}
-
-template< typename T,
-          size_t ...D >
 inline bool
 Storage<T, D...>::empty() const {
   return value_.empty();
@@ -253,7 +256,7 @@ template< typename T,
 inline auto
 Storage<T, D...>::as_vec() const
 -> VectorType {
-  return value_;
+  return std::vector<T>(value_);
 }
 
 template< typename T,
@@ -273,13 +276,64 @@ Storage<T, D...>::operator[](const size_t pos) const {
 template< typename T,
           size_t ...D >
 inline bool
-Storage<T, D...>::operator==(const Storage<T, D...> &rhs) const {
+Storage<T, D...>::operator==(const ArrayType &other) {
   for(size_t i = 0; i < this->size(); i++) {
-    if((*this)[i] != rhs[i]) {
+    if(value_[i] != other[i]) {
       return false;
     }
   }
   return true;
+}
+
+template< typename T,
+          size_t ...D >
+inline bool
+Storage<T, D...>::operator==(const VectorType &other) {
+  for(size_t i = 0; i < this->size(); i++) {
+    if(value_[i] != other[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+template< typename T,
+          size_t ...D >
+inline bool
+Storage<T, D...>::operator==(std::initializer_list<T> init) {
+  for(size_t i = 0; i < this->size(); i++) {
+    if(value_[i] != init[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+template< typename T,
+          size_t ...D >
+inline bool
+Storage<T, D...>::operator==(const Storage<T, D...> &rhs) const {
+  for(size_t i = 0; i < this->size(); i++) {
+    if(value_[i] != rhs[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+template< typename T,
+          size_t ...D >
+std::ostream& operator<<(std::ostream& os, const Storage<T, D...>& m) {
+  os << "{";
+  for(size_t i = 0; i < m.value_.size(); i++) {
+    os << m.value_[i];
+    if(i < m.value_.size() - 1) {
+      os << ", ";
+    }
+  }
+  os << "}";
+  // os << m.as_vec();
+  return os;
 }
 
 } // sym

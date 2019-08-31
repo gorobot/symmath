@@ -8,5 +8,6 @@
 #include "expression/apply.hpp"
 
 #include "operation/arithmetic.hpp"
+#include "operation/linear.hpp"
 
 #endif // SYMMATH_MATRIX_HPP

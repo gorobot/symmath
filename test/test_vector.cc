@@ -21,14 +21,13 @@ TEMPLATE_TEST_CASE(
     sym::Vector<TestType, 3> result;
     result = a + b;
     REQUIRE(result == sym::Vector<TestType, 3>({1, 3, 5}));
-    REQUIRE(result[0] == 1);
   }
 
   SECTION("should be able to multiply") {
     sym::Scalar<TestType> s(2);
     sym::Vector<TestType, 3> result;
-    // result = a * s;
-    // REQUIRE(result == sym::Vector<TestType, 3>({2, 4, 6}));
+    result = a * s;
+    REQUIRE(result == sym::Vector<TestType, 3>({2, 4, 6}));
   }
 
   SECTION("should be able to subtract") {

@@ -34,21 +34,6 @@ public:
   using Storage<T, L>::Storage;
   using Storage<T, L>::operator=;
 
-  // explicit inline Vector();
-  // inline Vector(const ArrayType &other);
-  // inline Vector(const VectorType &other);
-  // inline Vector(std::initializer_list<T> init);
-  //
-  // template< typename U >
-  // inline Vector(const Vector<U, L> &other);
-  //
-  // inline Vector<T, L> &operator=(const ArrayType &other);
-  // inline Vector<T, L> &operator=(const VectorType &other);
-  // inline Vector<T, L> &operator=(std::initializer_list<T> init);
-  //
-  // template< typename U >
-  // inline Vector<T, L> &operator=(const Vector<U, L> &other);
-
   inline auto eval() const -> const ResultType;
 
   inline size_t rows() const;
@@ -69,7 +54,7 @@ public:
   -> std::enable_if_t<is_applicable<Vector<T, L>, U>{}>;
   template< typename U >
   inline auto apply_mul(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_scalar_t<U>{}>;
+  -> std::enable_if_t<is_scalar<U>{}>;
   template< typename U >
   inline auto apply_sub(const Symbolic<U> &rhs)
   -> std::enable_if_t<is_applicable<Vector<T, L>, U>{}>;
@@ -78,71 +63,6 @@ public:
 
 // -----------------------------------------------------------------------------
 // Constructor
-// template< typename T,
-//           size_t L >
-// inline
-// Vector<T, L>::Vector()
-//   : Storage<T, L>() {}
-//
-// template< typename T,
-//           size_t L >
-// inline
-// Vector<T, L>::Vector(const ArrayType &other)
-//   : Storage<T, L>(other) {}
-//
-// template< typename T,
-//           size_t L >
-// inline
-// Vector<T, L>::Vector(const VectorType &other)
-//   : Storage<T, L>(other) {}
-//
-// template< typename T,
-//           size_t L >
-// inline
-// Vector<T, L>::Vector(std::initializer_list<T> init)
-//   : Storage<T, L>(init) {}
-//
-// template< typename T,
-//           size_t L >
-// template< typename U >
-// inline
-// Vector<T, L>::Vector(const Vector<U, L> &other)
-//   : Storage<T, L>(other) {}
-//
-// template< typename T,
-//           size_t L >
-// inline Vector<T, L> &
-// Vector<T, L>::operator=(const ArrayType &other) {
-//   std::copy(other.begin(), other.end(), this->begin());
-//   return *this;
-// }
-//
-// template< typename T,
-//           size_t L >
-// inline Vector<T, L> &
-// Vector<T, L>::operator=(const VectorType &other) {
-//   static_assert(other.size() == L, "Bad dimensions.");
-//   std::copy(other.begin(), other.end(), this->begin());
-//   return *this;
-// }
-//
-// template< typename T,
-//           size_t L >
-// inline Vector<T, L> &
-// Vector<T, L>::operator=(std::initializer_list<T> init) {
-//   static_assert(init.size() == L, "Bad dimensions.");
-//   std::copy(init.begin(), init.end(), this->begin());
-//   return *this;
-// }
-//
-// template< typename T,
-//           size_t L >
-// template< typename U >
-// inline Vector<T, L> &
-// Vector<T, L>::operator=(const Vector<U, L> &other) {
-//   std::copy(other.begin(), other.end(), this->begin());
-//   return *this;
-// }
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
@@ -212,8 +132,9 @@ template< typename T,
           size_t L >
 template< typename U >
 inline auto Vector<T, L>::apply_mul(const Symbolic<U> &rhs)
--> std::enable_if_t<is_scalar_t<U>{}> {
+-> std::enable_if_t<is_scalar<U>{}> {
   for(size_t i = 0; i < this->size(); i++) {
+    // (*this)[i] *= rhs.derived()[0];
     (*this)[i] *= rhs.derived()[0];
   }
 }
