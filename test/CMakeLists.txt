@@ -34,22 +34,16 @@ endmacro()
 create_test(
   NAME Numerics
   FILES
-  test_complex
-  test_integer
-  test_natural
-  test_real
+  numerics/test_complex
+  numerics/test_integer
+  numerics/test_natural
+  numerics/test_real
 )
 
-create_test(
-  NAME Matrix
-  FILES
-  test_matrix
-  test_scalar
-  test_vector
-)
-
-create_test(
-  NAME Sandbox
-  FILES
-  test_dummy
-)
+# create_test(
+#   NAME Matrix
+#   FILES
+#   test_matrix
+#   test_scalar
+#   test_vector
+# )

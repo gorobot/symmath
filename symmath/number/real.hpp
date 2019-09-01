@@ -1,152 +1,158 @@
 #ifndef SYMMATH_NUMBER_REAL_HPP
 #define SYMMATH_NUMBER_REAL_HPP
 
+#ifndef SYMMATH_REAL_UNDERLYING_TYPE
+#define SYMMATH_REAL_UNDERLYING_TYPE double
+#endif
+
 #include <type_traits>
 
-#include "../symbolic.hpp"
 #include "number.hpp"
 
-#include "../type_traits/is_applicable.hpp"
+#include "../properties/has_value.hpp"
+#include "../properties/has_assign.hpp"
+#include "../properties/has_addition.hpp"
+#include "../properties/has_division.hpp"
+#include "../properties/has_multiplication.hpp"
+#include "../properties/has_subtraction.hpp"
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class Real
-  : public Symbolic<Real>,
-    private Number {
+  : private Number,
+    public has_value<SYMMATH_REAL_UNDERLYING_TYPE>,
+    public has_assign<Real>,
+    public has_addition<Real>,
+    public has_division<Real>,
+    public has_multiplication<Real>,
+    public has_subtraction<Real> {
 public:
 
-  using ValueType = double;
-
+  using ValueType = SYMMATH_REAL_UNDERLYING_TYPE;
   using ResultType = Real;
 
-protected:
-
-  ValueType value_;
-
-public:
-
-  explicit inline Real();
-  inline Real(const ValueType &value);
-  inline Real(ValueType &&value);
+  FORWARD_CONSTRUCTOR(has_value, SYMMATH_REAL_UNDERLYING_TYPE);
+  FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_REAL_UNDERLYING_TYPE);
+  FORWARD_ASSIGNMENT_OPERATOR(has_assign, Real);
 
   template< typename U >
-  inline Real(const Symbolic<U> &rhs);
-
-  inline operator ValueType() const;
-
-  inline auto eval() const -> const ResultType;
-
+  inline void assign(const U &rhs);
   template< typename U >
-  inline Real &operator=(const Symbolic<U> &rhs);
-
-  inline Real &operator+=(const ValueType &rhs);
-  inline Real &operator/=(const ValueType &rhs);
-  inline Real &operator*=(const ValueType &rhs);
-  inline Real &operator-=(const ValueType &rhs);
-
+  inline void assign_add(const U &rhs);
   template< typename U >
-  inline auto apply(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Real, U>{}>;
-
+  inline void assign_div(const U &rhs);
   template< typename U >
-  inline auto apply_add(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Real, U>{}>;
+  inline void assign_mul(const U &rhs);
   template< typename U >
-  inline auto apply_div(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Real, U>{}>;
-  template< typename U >
-  inline auto apply_mul(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Real, U>{}>;
-  template< typename U >
-  inline auto apply_sub(const Symbolic<U> &rhs)
-  -> std::enable_if_t<is_applicable<Real, U>{}>;
+  inline void assign_sub(const U &rhs);
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-inline Real::Real()
-  : value_(0.0) {}
-
-inline Real::Real(const ValueType &value)
-  : value_(value) {}
-
-inline Real::Real(ValueType &&value)
-  : value_(std::move(value)) {}
-
-template< typename U >
-inline Real::Real(const Symbolic<U> &rhs) {
-  apply_(*this, rhs.derived());
-}
-
-inline Real::operator Real::ValueType() const {
-  return value_;
-}
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-inline auto
-Real::eval() const
--> const ResultType {
-  return *this;
+template< typename U >
+inline void
+Real::assign(const U &rhs) {
+  typename U::ResultType tmp;
+  assign_(tmp, rhs);
+  this->value_ = tmp.value_;
+}
+
+template<>
+inline void
+Real::assign<Real>(const Real &rhs) {
+  this->value_ = rhs.value_;
+}
+
+template<>
+inline void
+Real::assign<typename Real::ValueType>(const ValueType &rhs) {
+  this->value_ = rhs;
 }
 
 template< typename U >
-inline Real &
-Real::operator=(const Symbolic<U> &rhs) {
-  apply_(*this, rhs.derived());
-  return *this;
+inline void
+Real::assign_add(const U &rhs) {
+  typename U::ResultType tmp;
+  assign_(tmp, rhs);
+  this->value_ += tmp.value_;
 }
 
-inline Real &Real::operator+=(const ValueType &rhs) {
-  value_ += rhs;
-  return *this;
+template<>
+inline void
+Real::assign_add<Real>(const Real &rhs) {
+  this->value_ += rhs.value_;
 }
-inline Real &Real::operator/=(const ValueType &rhs) {
-  value_ /= rhs;
-  return *this;
-}
-inline Real &Real::operator*=(const ValueType &rhs) {
-  value_ *= rhs;
-  return *this;
-}
-inline Real &Real::operator-=(const ValueType &rhs) {
-  value_ -= rhs;
-  return *this;
+
+template<>
+inline void
+Real::assign_add<typename Real::ValueType>(const ValueType &rhs) {
+  this->value_ += rhs;
 }
 
 template< typename U >
-inline auto
-Real::apply(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Real, U>{}> {
-  value_ = rhs.derived().eval();
+inline void
+Real::assign_div(const U &rhs) {
+  typename U::ResultType tmp;
+  assign_(tmp, rhs);
+  this->value_ /= tmp.value_;
+}
+
+template<>
+inline void
+Real::assign_div<Real>(const Real &rhs) {
+  this->value_ /= rhs.value_;
+}
+
+template<>
+inline void
+Real::assign_div<typename Real::ValueType>(const ValueType &rhs) {
+  this->value_ /= rhs;
 }
 
 template< typename U >
-inline auto
-Real::apply_add(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Real, U>{}> {
-  value_ += rhs.derived().eval();
+inline void
+Real::assign_mul(const U &rhs) {
+  typename U::ResultType tmp;
+  assign_(tmp, rhs);
+  this->value_ *= tmp.value_;
 }
-template< typename U >
-inline auto
-Real::apply_div(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Real, U>{}> {
-  value_ /= rhs.derived().eval();
+
+template<>
+inline void
+Real::assign_mul<Real>(const Real &rhs) {
+  this->value_ *= rhs.value_;
 }
-template< typename U >
-inline auto
-Real::apply_mul(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Real, U>{}> {
-  value_ *= rhs.derived().eval();
+
+template<>
+inline void
+Real::assign_mul<typename Real::ValueType>(const ValueType &rhs) {
+  this->value_ *= rhs;
 }
+
 template< typename U >
-inline auto
-Real::apply_sub(const Symbolic<U> &rhs)
--> std::enable_if_t<is_applicable<Real, U>{}> {
-  value_ -= rhs.derived().eval();
+inline void
+Real::assign_sub(const U &rhs) {
+  typename U::ResultType tmp;
+  assign_(tmp, rhs);
+  this->value_ -= tmp.value_;
+}
+
+template<>
+inline void
+Real::assign_sub<Real>(const Real &rhs) {
+  this->value_ -= rhs.value_;
+}
+
+template<>
+inline void
+Real::assign_sub<typename Real::ValueType>(const ValueType &rhs) {
+  this->value_ -= rhs;
 }
 
 } // sym

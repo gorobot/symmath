@@ -3,10 +3,9 @@
 
 #include <type_traits>
 
-#include "../symbolic.hpp"
-#include "operation.hpp"
+#include "binary_operation.hpp"
 #include "../type_traits/is_operation.hpp"
-#include "../type_traits/is_symbolic.hpp"
+#include "../type_traits/result_type.hpp"
 
 namespace sym {
 
@@ -15,14 +14,13 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class Mul
-  : public Symbolic<Mul<T1, T2>>,
-    private Operation {
+  : private BinaryOperation {
 public:
 
-  using LhsResultType = typename T1::ResultType;
-  using RhsResultType = typename T2::ResultType;
+  using R1 = result_type_t<T1>;
+  using R2 = result_type_t<T2>;
 
-  using ResultType = std::common_type_t<LhsResultType, RhsResultType>;
+  using ResultType = std::common_type_t<R1, R2>;
 
   using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
   using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
@@ -41,11 +39,10 @@ public:
 private:
 
   template< typename U >
-  friend inline auto
-  apply_(U &lhs, const Mul<T1, T2> &rhs)
-  -> std::enable_if_t<is_symbolic<U>{}> {
-    apply_(lhs.derived(), rhs.lhs_);
-    apply_mul_(lhs.derived(), rhs.rhs_);
+  friend inline void
+  assign_(U &lhs, const Mul<T1, T2> &rhs) {
+    assign_(lhs, rhs.lhs_);
+    assign_mul_(lhs, rhs.rhs_);
   }
 
 };
@@ -65,27 +62,9 @@ template< typename T1,
 inline auto Mul<T1, T2>::eval() const
 -> const ResultType {
   ResultType tmp;
-  apply_(tmp, *this);
+  assign_(tmp, *this);
   return tmp;
 }
-
-// -----------------------------------------------------------------------------
-
-template< typename T1,
-          typename T2 >
-inline auto
-operator*(const Symbolic<T1> &lhs, const Symbolic<T2> &rhs)
--> const Mul<T1, T2> {
-  return Mul<T1, T2>(lhs.derived(), rhs.derived());
-}
-
-// template< typename T1,
-//           typename T2 >
-// inline Symbolic<T1> &
-// operator*=(Symbolic<T1> &lhs, const Symbolic<T2> &rhs) {
-//   apply_mul_(lhs.derived(), rhs.derived());
-//   return lhs;
-// }
 
 } // sym
 

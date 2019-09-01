@@ -1,5 +1,5 @@
-#ifndef SYMMATH_PROPERTIES_VALUE_TYPE_HPP
-#define SYMMATH_PROPERTIES_VALUE_TYPE_HPP
+#ifndef SYMMATH_PROPERTIES_HAS_VALUE_HPP
+#define SYMMATH_PROPERTIES_HAS_VALUE_HPP
 
 #include <ostream>
 #include <type_traits>
@@ -31,8 +31,6 @@ public:
 
   inline has_value<ValueType> &operator=(const ValueType &value);
   inline has_value<ValueType> &operator=(ValueType &&value);
-
-  // inline operator ValueType() const;
 
 private:
 
@@ -71,23 +69,17 @@ has_value<T>::has_value(T &&value)
 
 template< typename T >
 inline has_value<T> &
-has_value<T>::operator=(const T &value) {
+has_value<T>::operator=(const ValueType &value) {
   value_ = value;
   return *this;
 }
 
 template< typename T >
 inline has_value<T> &
-has_value<T>::operator=(T &&value) {
+has_value<T>::operator=(ValueType &&value) {
   value_ = std::move(value);
   return *this;
 }
-
-// template< typename T >
-// inline
-// has_value<T>::operator has_value<T>::ValueType() const {
-//   return value_;
-// }
 
 // -----------------------------------------------------------------------------
 
@@ -115,4 +107,4 @@ operator==(const T1 &lhs, const has_value<T2> &rhs) {
 
 } // sym
 
-#endif // SYMMATH_PROPERTIES_VALUE_TYPE_HPP
+#endif // SYMMATH_PROPERTIES_HAS_VALUE_HPP
