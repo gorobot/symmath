@@ -15,7 +15,8 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class Add
-  : public Operation<Symbolic<Add<T1, T2>>> {
+  : public Symbolic<Add<T1, T2>>,
+    private Operation {
 public:
 
   using LhsResultType = typename T1::ResultType;

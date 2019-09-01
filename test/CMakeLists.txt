@@ -47,3 +47,9 @@ create_test(
   test_scalar
   test_vector
 )
+
+create_test(
+  NAME Sandbox
+  FILES
+  test_dummy
+)

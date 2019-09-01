@@ -15,7 +15,8 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class Mul
-  : public Operation<Symbolic<Mul<T1, T2>>> {
+  : public Symbolic<Mul<T1, T2>>,
+    private Operation {
 public:
 
   using LhsResultType = typename T1::ResultType;

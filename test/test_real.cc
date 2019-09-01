@@ -78,4 +78,10 @@ TEST_CASE("Real: operations", "[numerics]") {
     result -= 1.0;
     REQUIRE(result == -6.0);
   }
+
+  SECTION("should be able to perform mixed operations") {
+    sym::Real result;
+    result = a + (b / (a * b)) - a;
+    REQUIRE(result == 0.5);
+  }
 }

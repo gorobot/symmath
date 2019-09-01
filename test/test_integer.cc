@@ -60,4 +60,10 @@ TEST_CASE("Integer: operations", "[numerics]") {
     result -= 1;
     REQUIRE(result == -6);
   }
+
+  SECTION("should be able to perform mixed operations") {
+    sym::Integer result;
+    result = a + (b * a) - b;
+    REQUIRE(result == 3);
+  }
 }

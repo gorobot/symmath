@@ -3,6 +3,7 @@
 
 #include <complex>
 
+#include "../symbolic.hpp"
 #include "number.hpp"
 
 namespace sym {
@@ -10,7 +11,8 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Complex
-  : public Number<Complex> {
+  : public Symbolic<Complex>,
+    private Number {
 public:
 
   using SubType = double;

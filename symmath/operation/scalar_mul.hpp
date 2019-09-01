@@ -16,7 +16,8 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class ScalarMul
-  : public Operation<Symbolic<ScalarMul<T1, T2>>> {
+  : public Symbolic<ScalarMul<T1, T2>>,
+    private Operation {
 public:
 
   using LhsResultType = typename T1::ResultType;

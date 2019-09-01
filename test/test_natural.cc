@@ -42,4 +42,10 @@ TEST_CASE("Naturals: operations", "[numerics]") {
     result *= 1;
     REQUIRE(result == 10);
   }
+
+  SECTION("should be able to perform mixed operations") {
+    sym::Natural result;
+    result = a + (b * a);
+    REQUIRE(result == 4);
+  }
 }

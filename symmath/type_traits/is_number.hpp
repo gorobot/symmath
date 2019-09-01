@@ -10,29 +10,11 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_number_helper {
-private:
-
-  template< typename U >
-  static std::true_type test(Number<U> &);
-
-  template< typename U >
-  static std::true_type test(const Number<U> &);
-
-  static std::false_type test(...);
-
-public:
-
-  using type = decltype(test(std::declval<T&>()));
-
-};
-
-template< typename T >
 struct is_number
-  : is_number_helper<T>::type {};
+  : std::is_base_of<Number, T> {};
 
 template< typename T >
-using is_number_t = typename is_number_helper<T>::type;
+using is_number_t = typename is_number<T>::type;
 
 } // sym
 

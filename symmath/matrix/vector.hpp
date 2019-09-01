@@ -6,7 +6,7 @@
 #include "../symbolic.hpp"
 #include "storage.hpp"
 #include "../type_traits/is_applicable.hpp"
-// #include "../type_traits/is_scalar.hpp"
+#include "../type_traits/is_scalar.hpp"
 
 namespace sym {
 

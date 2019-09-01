@@ -3,6 +3,7 @@
 
 #include <type_traits>
 
+#include "../symbolic.hpp"
 #include "number.hpp"
 
 #include "../type_traits/is_applicable.hpp"
@@ -12,7 +13,8 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Natural
-  : public Number<Natural> {
+  : public Symbolic<Natural>,
+    private Number {
 public:
 
   using ValueType = unsigned;
