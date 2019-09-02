@@ -10,7 +10,7 @@
 #include "number.hpp"
 
 #include "../properties/has_value.hpp"
-#include "../properties/has_assign.hpp"
+#include "../properties/has_assignment.hpp"
 #include "../properties/has_addition.hpp"
 #include "../properties/has_multiplication.hpp"
 
@@ -21,7 +21,7 @@ namespace sym {
 class Natural
   : private Number,
     public has_value<SYMMATH_NATURAL_UNDERLYING_TYPE>,
-    public has_assign<Natural>,
+    public has_assignment<Natural>,
     public has_addition<Natural>,
     public has_multiplication<Natural> {
 public:
@@ -31,7 +31,7 @@ public:
 
   FORWARD_CONSTRUCTOR(has_value, SYMMATH_NATURAL_UNDERLYING_TYPE);
   FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_NATURAL_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_assign, Natural);
+  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Natural);
 
   template< typename U >
   inline void assign(const U &rhs);

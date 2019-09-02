@@ -10,7 +10,7 @@
 #include "number.hpp"
 
 #include "../properties/has_value.hpp"
-#include "../properties/has_assign.hpp"
+#include "../properties/has_assignment.hpp"
 #include "../properties/has_addition.hpp"
 #include "../properties/has_multiplication.hpp"
 #include "../properties/has_subtraction.hpp"
@@ -22,7 +22,7 @@ namespace sym {
 class Integer
   : private Number,
     public has_value<SYMMATH_INTEGER_UNDERLYING_TYPE>,
-    public has_assign<Integer>,
+    public has_assignment<Integer>,
     public has_addition<Integer>,
     public has_multiplication<Integer>,
     public has_subtraction<Integer> {
@@ -33,7 +33,7 @@ public:
 
   FORWARD_CONSTRUCTOR(has_value, SYMMATH_INTEGER_UNDERLYING_TYPE);
   FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_INTEGER_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_assign, Integer);
+  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Integer);
 
   template< typename U >
   inline void assign(const U &rhs);

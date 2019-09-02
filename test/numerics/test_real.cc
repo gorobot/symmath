@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 
-#include "../../symmath/numerics.hpp"
+#include "../../symmath/numerics/real.hpp"
 
 TEST_CASE("Real: operations", "[numerics]") {
   sym::Real a(2.0);
@@ -59,6 +59,13 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == 10.0);
     result *= 1.0;
     REQUIRE(result == 10.0);
+
+    result = a^b;
+    REQUIRE(result == 2.0);
+    result = a^2;
+    REQUIRE(result == 4.0);
+    result ^= 2;
+    REQUIRE(result == 16.0);
   }
 
   SECTION("should be able to subtract") {

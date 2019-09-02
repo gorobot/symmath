@@ -38,9 +38,16 @@ has_negation<T>::assign_neg(const U &operand) {
 
 template< typename T1 >
 inline auto
-operator-(const has_negation<T1> &lhs)
+operator-(const has_negation<T1> &operand)
 -> const Neg<T1> {
-  return Neg<T1>(static_cast<const T1&>(lhs));
+  return Neg<T1>(static_cast<const T1&>(operand));
+}
+
+template< typename T1 >
+inline auto
+neg(const has_negation<T1> &operand)
+-> const Neg<T1> {
+  return Neg<T1>(static_cast<const T1&>(operand));
 }
 
 } // sym

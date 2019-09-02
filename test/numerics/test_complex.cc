@@ -2,7 +2,7 @@
 
 #include <complex>
 
-#include "../../symmath/numerics.hpp"
+#include "../../symmath/numerics/complex.hpp"
 
 using namespace std::complex_literals;
 

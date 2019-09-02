@@ -24,15 +24,8 @@ struct has_division
 template< typename T1,
           typename T2 >
 inline void
-assign_div_(has_division<T1> &lhs, const T2 &rhs) {
+assign_div_(T1 &lhs, const T2 &rhs) {
   lhs.assign_div(rhs);
-}
-
-template< typename T1,
-          typename T2 >
-inline void
-assign_div_(has_division<T1> &lhs, const has_division<T2> &rhs) {
-  lhs.assign_div(static_cast<const T2&>(rhs));
 }
 
 template< typename T >
@@ -64,6 +57,30 @@ template< typename T1,
           typename T2 >
 inline auto
 operator/(const T1 &lhs, const has_division<T2> &rhs)
+-> std::enable_if_t<!std::is_same<T1, T2>{}, const Div<T1, T2>> {
+  return Div<T1, T2>(lhs, static_cast<const T2&>(rhs));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+div(const has_division<T1> &lhs, const has_division<T2> &rhs)
+-> const Div<T1, T2> {
+  return Div<T1, T2>(static_cast<const T1&>(lhs), static_cast<const T2&>(rhs));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+div(const has_division<T1> &lhs, const T2 &rhs)
+-> std::enable_if_t<!std::is_same<T1, T2>{}, const Div<T1, T2>> {
+  return Div<T1, T2>(static_cast<const T1&>(lhs), rhs);
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+div(const T1 &lhs, const has_division<T2> &rhs)
 -> std::enable_if_t<!std::is_same<T1, T2>{}, const Div<T1, T2>> {
   return Div<T1, T2>(lhs, static_cast<const T2&>(rhs));
 }

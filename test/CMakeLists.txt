@@ -43,7 +43,7 @@ create_test(
 # create_test(
 #   NAME Matrix
 #   FILES
-#   test_matrix
-#   test_scalar
-#   test_vector
+#   matrix/test_matrix
+#   matrix/test_scalar
+#   matrix/test_vector
 # )

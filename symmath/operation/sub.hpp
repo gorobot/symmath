@@ -44,6 +44,20 @@ private:
     assign_sub_(lhs, rhs.rhs_);
   }
 
+  template< typename U >
+  friend inline void
+  assign_add_(U &lhs, const Sub<T1, T2> &rhs) {
+    assign_add_(lhs, rhs.lhs_);
+    assign_sub_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_sub_(U &lhs, const Sub<T1, T2> &rhs) {
+    assign_sub_(lhs, rhs.lhs_);
+    assign_add_(lhs, rhs.rhs_);
+  }
+
 };
 
 // -----------------------------------------------------------------------------

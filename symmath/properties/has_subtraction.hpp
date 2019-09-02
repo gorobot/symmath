@@ -24,15 +24,8 @@ struct has_subtraction
 template< typename T1,
           typename T2 >
 inline void
-assign_sub_(has_subtraction<T1> &lhs, const T2 &rhs) {
+assign_sub_(T1 &lhs, const T2 &rhs) {
   lhs.assign_sub(rhs);
-}
-
-template< typename T1,
-          typename T2 >
-inline void
-assign_sub_(has_subtraction<T1> &lhs, const has_subtraction<T2> &rhs) {
-  lhs.assign_sub(static_cast<const T2&>(rhs));
 }
 
 template< typename T >
@@ -64,6 +57,30 @@ template< typename T1,
           typename T2 >
 inline auto
 operator-(const T1 &lhs, const has_subtraction<T2> &rhs)
+-> std::enable_if_t<!std::is_same<T1, T2>{}, const Sub<T1, T2>> {
+  return Sub<T1, T2>(lhs, static_cast<const T2&>(rhs));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+sub(const has_subtraction<T1> &lhs, const has_subtraction<T2> &rhs)
+-> const Sub<T1, T2> {
+  return Sub<T1, T2>(static_cast<const T1&>(lhs), static_cast<const T2&>(rhs));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+sub(const has_subtraction<T1> &lhs, const T2 &rhs)
+-> std::enable_if_t<!std::is_same<T1, T2>{}, const Sub<T1, T2>> {
+  return Sub<T1, T2>(static_cast<const T1&>(lhs), rhs);
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+sub(const T1 &lhs, const has_subtraction<T2> &rhs)
 -> std::enable_if_t<!std::is_same<T1, T2>{}, const Sub<T1, T2>> {
   return Sub<T1, T2>(lhs, static_cast<const T2&>(rhs));
 }

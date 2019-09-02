@@ -1,16 +1,17 @@
-#ifndef SYMMATH_NUMBER_REAL_HPP
-#define SYMMATH_NUMBER_REAL_HPP
+#ifndef SYMMATH_NUMBER_COMPLEX_HPP
+#define SYMMATH_NUMBER_COMPLEX_HPP
 
-#ifndef SYMMATH_REAL_UNDERLYING_TYPE
-#define SYMMATH_REAL_UNDERLYING_TYPE double
+#ifndef SYMMATH_COMPLEX_UNDERLYING_TYPE
+#define SYMMATH_COMPLEX_UNDERLYING_TYPE std::complex<double>
 #endif
 
+#include <complex>
 #include <type_traits>
 
 #include "number.hpp"
 
 #include "../properties/has_value.hpp"
-#include "../properties/has_assign.hpp"
+#include "../properties/has_assignment.hpp"
 #include "../properties/has_addition.hpp"
 #include "../properties/has_division.hpp"
 #include "../properties/has_multiplication.hpp"
@@ -20,22 +21,22 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-class Real
+class Complex
   : private Number,
-    public has_value<SYMMATH_REAL_UNDERLYING_TYPE>,
-    public has_assign<Real>,
-    public has_addition<Real>,
-    public has_division<Real>,
-    public has_multiplication<Real>,
-    public has_subtraction<Real> {
+    public has_value<SYMMATH_COMPLEX_UNDERLYING_TYPE>,
+    public has_assignment<Complex>,
+    public has_addition<Complex>,
+    public has_division<Complex>,
+    public has_multiplication<Complex>,
+    public has_subtraction<Complex> {
 public:
 
-  using ValueType = SYMMATH_REAL_UNDERLYING_TYPE;
-  using ResultType = Real;
+  using ValueType = SYMMATH_COMPLEX_UNDERLYING_TYPE;
+  using ResultType = Complex;
 
-  FORWARD_CONSTRUCTOR(has_value, SYMMATH_REAL_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_REAL_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_assign, Real);
+  FORWARD_CONSTRUCTOR(has_value, SYMMATH_COMPLEX_UNDERLYING_TYPE);
+  FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_COMPLEX_UNDERLYING_TYPE);
+  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Complex);
 
   template< typename U >
   inline void assign(const U &rhs);
@@ -57,7 +58,7 @@ public:
 // Member Function Definitions
 template< typename U >
 inline void
-Real::assign(const U &rhs) {
+Complex::assign(const U &rhs) {
   typename U::ResultType tmp;
   assign_(tmp, rhs);
   this->value_ = tmp.value_;
@@ -65,19 +66,19 @@ Real::assign(const U &rhs) {
 
 template<>
 inline void
-Real::assign<Real>(const Real &rhs) {
+Complex::assign<Complex>(const Complex &rhs) {
   this->value_ = rhs.value_;
 }
 
 template<>
 inline void
-Real::assign<typename Real::ValueType>(const ValueType &rhs) {
+Complex::assign<typename Complex::ValueType>(const ValueType &rhs) {
   this->value_ = rhs;
 }
 
 template< typename U >
 inline void
-Real::assign_add(const U &rhs) {
+Complex::assign_add(const U &rhs) {
   typename U::ResultType tmp;
   assign_(tmp, rhs);
   this->value_ += tmp.value_;
@@ -85,19 +86,19 @@ Real::assign_add(const U &rhs) {
 
 template<>
 inline void
-Real::assign_add<Real>(const Real &rhs) {
+Complex::assign_add<Complex>(const Complex &rhs) {
   this->value_ += rhs.value_;
 }
 
 template<>
 inline void
-Real::assign_add<typename Real::ValueType>(const ValueType &rhs) {
+Complex::assign_add<typename Complex::ValueType>(const ValueType &rhs) {
   this->value_ += rhs;
 }
 
 template< typename U >
 inline void
-Real::assign_div(const U &rhs) {
+Complex::assign_div(const U &rhs) {
   typename U::ResultType tmp;
   assign_(tmp, rhs);
   this->value_ /= tmp.value_;
@@ -105,19 +106,19 @@ Real::assign_div(const U &rhs) {
 
 template<>
 inline void
-Real::assign_div<Real>(const Real &rhs) {
+Complex::assign_div<Complex>(const Complex &rhs) {
   this->value_ /= rhs.value_;
 }
 
 template<>
 inline void
-Real::assign_div<typename Real::ValueType>(const ValueType &rhs) {
+Complex::assign_div<typename Complex::ValueType>(const ValueType &rhs) {
   this->value_ /= rhs;
 }
 
 template< typename U >
 inline void
-Real::assign_mul(const U &rhs) {
+Complex::assign_mul(const U &rhs) {
   typename U::ResultType tmp;
   assign_(tmp, rhs);
   this->value_ *= tmp.value_;
@@ -125,19 +126,19 @@ Real::assign_mul(const U &rhs) {
 
 template<>
 inline void
-Real::assign_mul<Real>(const Real &rhs) {
+Complex::assign_mul<Complex>(const Complex &rhs) {
   this->value_ *= rhs.value_;
 }
 
 template<>
 inline void
-Real::assign_mul<typename Real::ValueType>(const ValueType &rhs) {
+Complex::assign_mul<typename Complex::ValueType>(const ValueType &rhs) {
   this->value_ *= rhs;
 }
 
 template< typename U >
 inline void
-Real::assign_sub(const U &rhs) {
+Complex::assign_sub(const U &rhs) {
   typename U::ResultType tmp;
   assign_(tmp, rhs);
   this->value_ -= tmp.value_;
@@ -145,16 +146,16 @@ Real::assign_sub(const U &rhs) {
 
 template<>
 inline void
-Real::assign_sub<Real>(const Real &rhs) {
+Complex::assign_sub<Complex>(const Complex &rhs) {
   this->value_ -= rhs.value_;
 }
 
 template<>
 inline void
-Real::assign_sub<typename Real::ValueType>(const ValueType &rhs) {
+Complex::assign_sub<typename Complex::ValueType>(const ValueType &rhs) {
   this->value_ -= rhs;
 }
 
 } // sym
 
-#endif // SYMMATH_NUMBER_REAL_HPP
+#endif // SYMMATH_NUMBER_COMPLEX_HPP

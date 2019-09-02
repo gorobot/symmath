@@ -28,13 +28,6 @@ assign_mul_(T1 &lhs, const T2 &rhs) {
   lhs.assign_mul(rhs);
 }
 
-// template< typename T1,
-//           typename T2 >
-// inline void
-// assign_mul_(has_multiplication<T1> &lhs, const has_multiplication<T2> &rhs) {
-//   lhs.assign_mul(static_cast<const T2&>(rhs));
-// }
-
 template< typename T >
 template< typename U >
 inline void
@@ -64,6 +57,30 @@ template< typename T1,
           typename T2 >
 inline auto
 operator*(const T1 &lhs, const has_multiplication<T2> &rhs)
+-> std::enable_if_t<!std::is_same<T1, T2>{}, const Mul<T1, T2>> {
+  return Mul<T1, T2>(lhs, static_cast<const T2&>(rhs));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+mul(const has_multiplication<T1> &lhs, const has_multiplication<T2> &rhs)
+-> const Mul<T1, T2> {
+  return Mul<T1, T2>(static_cast<const T1&>(lhs), static_cast<const T2&>(rhs));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+mul(const has_multiplication<T1> &lhs, const T2 &rhs)
+-> std::enable_if_t<!std::is_same<T1, T2>{}, const Mul<T1, T2>> {
+  return Mul<T1, T2>(static_cast<const T1&>(lhs), rhs);
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+mul(const T1 &lhs, const has_multiplication<T2> &rhs)
 -> std::enable_if_t<!std::is_same<T1, T2>{}, const Mul<T1, T2>> {
   return Mul<T1, T2>(lhs, static_cast<const T2&>(rhs));
 }

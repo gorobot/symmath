@@ -105,6 +105,20 @@ operator==(const T1 &lhs, const has_value<T2> &rhs) {
   return (lhs == rhs.value_);
 }
 
+template< typename T1,
+          typename T2 >
+inline bool
+operator!=(const has_value<T1> &lhs, const T2 &rhs) {
+  return !(lhs.value_ == rhs);
+}
+
+template< typename T1,
+          typename T2 >
+inline bool
+operator!=(const T1 &lhs, const has_value<T2> &rhs) {
+  return !(lhs == rhs.value_);
+}
+
 } // sym
 
 #endif // SYMMATH_PROPERTIES_HAS_VALUE_HPP

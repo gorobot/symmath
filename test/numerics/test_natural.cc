@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 
-#include "../../symmath/numerics.hpp"
+#include "../../symmath/numerics/natural.hpp"
 
 TEST_CASE("Naturals: operations", "[numerics]") {
   sym::Natural a(2);
