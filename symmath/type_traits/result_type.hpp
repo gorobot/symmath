@@ -10,13 +10,8 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-// template< typename T, typename = void_t >
-// using result_type_t = T;
-//
-// template< typename T, typename = void_t<typename T::ResultType> >
-// using result_type_t = typename T::ResultType;
-
-template< typename T, typename = void_t<> >
+template< typename T, 
+          typename = void_t<> >
 struct result_type {
   using type = T;
 };

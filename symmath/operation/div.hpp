@@ -33,7 +33,7 @@ public:
 
   explicit inline Div(const T1 &lhs, const T2 &rhs);
 
-  inline auto eval() const -> const ResultType &;
+  inline auto eval() const -> const ResultType;
 
 private:
 
@@ -59,7 +59,7 @@ inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
 template< typename T1,
           typename T2 >
 inline auto Div<T1, T2>::eval() const
--> const ResultType & {
+-> const ResultType {
   ResultType tmp;
   assign_(tmp, *this);
   return tmp;

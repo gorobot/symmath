@@ -33,7 +33,7 @@ public:
 
   explicit inline Sub(const T1 &lhs, const T2 &rhs);
 
-  inline auto eval() const -> const ResultType &;
+  inline auto eval() const -> const ResultType;
 
 private:
 
@@ -73,7 +73,7 @@ inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
 template< typename T1,
           typename T2 >
 inline auto Sub<T1, T2>::eval() const
--> const ResultType & {
+-> const ResultType {
   ResultType tmp;
   assign_(tmp, *this);
   return tmp;

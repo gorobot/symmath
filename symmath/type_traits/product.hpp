@@ -10,7 +10,8 @@ struct product {
   static constexpr size_t value = 1;
 };
 
-template< size_t V, size_t ...T >
+template< size_t V,
+          size_t ...T >
 struct product<V, T...> {
   static constexpr size_t value = V * product<T...>::value;
 };

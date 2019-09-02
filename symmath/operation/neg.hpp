@@ -29,6 +29,8 @@ public:
 
   explicit inline Neg(const T1 &operand);
 
+  inline auto eval() const -> const ResultType;
+
 private:
 
   template< typename U >
@@ -59,6 +61,13 @@ inline Neg<T1>::Neg(const T1 &operand)
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
+template< typename T1 >
+inline auto Neg<T1>::eval() const
+-> const ResultType {
+  ResultType tmp;
+  assign_(tmp, *this);
+  return tmp;
+}
 
 } // sym
 

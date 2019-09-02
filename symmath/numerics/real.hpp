@@ -5,12 +5,14 @@
 #define SYMMATH_REAL_UNDERLYING_TYPE double
 #endif
 
+#include <iostream>
 #include <type_traits>
 
 #include "number.hpp"
 
 #include "../properties/has_value.hpp"
 #include "../properties/has_algebraic_operations.hpp"
+#include "../type_traits/result_of.hpp"
 
 namespace sym {
 
@@ -53,119 +55,37 @@ public:
 template< typename U >
 inline void
 Real::assign(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ = tmp.value_;
-}
-
-template<>
-inline void
-Real::assign<Real>(const Real &rhs) {
-  this->value_ = rhs.value_;
-}
-
-template<>
-inline void
-Real::assign<typename Real::ValueType>(const ValueType &rhs) {
-  this->value_ = rhs;
+  this->value_ = result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Real::assign_add(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ += tmp.value_;
-}
-
-template<>
-inline void
-Real::assign_add<Real>(const Real &rhs) {
-  this->value_ += rhs.value_;
-}
-
-template<>
-inline void
-Real::assign_add<typename Real::ValueType>(const ValueType &rhs) {
-  this->value_ += rhs;
+  this->value_ += result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Real::assign_div(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ /= tmp.value_;
-}
-
-template<>
-inline void
-Real::assign_div<Real>(const Real &rhs) {
-  this->value_ /= rhs.value_;
-}
-
-template<>
-inline void
-Real::assign_div<typename Real::ValueType>(const ValueType &rhs) {
-  this->value_ /= rhs;
+  this->value_ /= result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Real::assign_mul(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ *= tmp.value_;
-}
-
-template<>
-inline void
-Real::assign_mul<Real>(const Real &rhs) {
-  this->value_ *= rhs.value_;
-}
-
-template<>
-inline void
-Real::assign_mul<typename Real::ValueType>(const ValueType &rhs) {
-  this->value_ *= rhs;
+  this->value_ *= result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Real::assign_sub(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ -= tmp.value_;
-}
-
-template<>
-inline void
-Real::assign_sub<Real>(const Real &rhs) {
-  this->value_ -= rhs.value_;
-}
-
-template<>
-inline void
-Real::assign_sub<typename Real::ValueType>(const ValueType &rhs) {
-  this->value_ -= rhs;
+  this->value_ -= result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Real::assign_pow(const U &p) {
-  this->value_ = std::pow(this->value_, p);
-}
-
-template<>
-inline void
-Real::assign_pow<Real>(const Real &p) {
-  this->value_ = std::pow(this->value_, p.value_);
-}
-
-template<>
-inline void
-Real::assign_pow<typename Real::ValueType>(const ValueType &p) {
-  this->value_ = std::pow(this->value_, p);
+  this->value_ = std::pow(this->value_, result_of<U>::value(p));
 }
 
 } // sym

@@ -13,6 +13,7 @@
 #include "../properties/has_assignment.hpp"
 #include "../properties/has_addition.hpp"
 #include "../properties/has_multiplication.hpp"
+#include "../type_traits/result_of.hpp"
 
 namespace sym {
 
@@ -50,61 +51,19 @@ public:
 template< typename U >
 inline void
 Natural::assign(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ = tmp.value_;
-}
-
-template<>
-inline void
-Natural::assign<Natural>(const Natural &rhs) {
-  this->value_ = rhs.value_;
-}
-
-template<>
-inline void
-Natural::assign<typename Natural::ValueType>(const ValueType &rhs) {
-  this->value_ = rhs;
+  this->value_ = result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Natural::assign_add(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ += tmp.value_;
-}
-
-template<>
-inline void
-Natural::assign_add<Natural>(const Natural &rhs) {
-  this->value_ += rhs.value_;
-}
-
-template<>
-inline void
-Natural::assign_add<typename Natural::ValueType>(const ValueType &rhs) {
-  this->value_ += rhs;
+  this->value_ += result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Natural::assign_mul(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ *= tmp.value_;
-}
-
-template<>
-inline void
-Natural::assign_mul<Natural>(const Natural &rhs) {
-  this->value_ *= rhs.value_;
-}
-
-template<>
-inline void
-Natural::assign_mul<typename Natural::ValueType>(const ValueType &rhs) {
-  this->value_ *= rhs;
+  this->value_ *= result_of<U>::value(rhs);
 }
 
 } // sym

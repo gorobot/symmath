@@ -11,11 +11,8 @@
 #include "number.hpp"
 
 #include "../properties/has_value.hpp"
-#include "../properties/has_assignment.hpp"
-#include "../properties/has_addition.hpp"
-#include "../properties/has_division.hpp"
-#include "../properties/has_multiplication.hpp"
-#include "../properties/has_subtraction.hpp"
+#include "../properties/has_algebraic_operations.hpp"
+#include "../type_traits/result_of.hpp"
 
 namespace sym {
 
@@ -24,11 +21,7 @@ namespace sym {
 class Complex
   : private Number,
     public has_value<SYMMATH_COMPLEX_UNDERLYING_TYPE>,
-    public has_assignment<Complex>,
-    public has_addition<Complex>,
-    public has_division<Complex>,
-    public has_multiplication<Complex>,
-    public has_subtraction<Complex> {
+    public has_algebraic_operations<Complex> {
 public:
 
   using ValueType = SYMMATH_COMPLEX_UNDERLYING_TYPE;
@@ -36,7 +29,7 @@ public:
 
   FORWARD_CONSTRUCTOR(has_value, SYMMATH_COMPLEX_UNDERLYING_TYPE);
   FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_COMPLEX_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Complex);
+  FORWARD_ASSIGNMENT_OPERATOR(has_algebraic_operations, Complex);
 
   template< typename U >
   inline void assign(const U &rhs);
@@ -49,6 +42,9 @@ public:
   template< typename U >
   inline void assign_sub(const U &rhs);
 
+  template< typename U >
+  inline void assign_pow(const U &p);
+
 };
 
 // -----------------------------------------------------------------------------
@@ -59,101 +55,37 @@ public:
 template< typename U >
 inline void
 Complex::assign(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ = tmp.value_;
-}
-
-template<>
-inline void
-Complex::assign<Complex>(const Complex &rhs) {
-  this->value_ = rhs.value_;
-}
-
-template<>
-inline void
-Complex::assign<typename Complex::ValueType>(const ValueType &rhs) {
-  this->value_ = rhs;
+  this->value_ = result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Complex::assign_add(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ += tmp.value_;
-}
-
-template<>
-inline void
-Complex::assign_add<Complex>(const Complex &rhs) {
-  this->value_ += rhs.value_;
-}
-
-template<>
-inline void
-Complex::assign_add<typename Complex::ValueType>(const ValueType &rhs) {
-  this->value_ += rhs;
+  this->value_ += result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Complex::assign_div(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ /= tmp.value_;
-}
-
-template<>
-inline void
-Complex::assign_div<Complex>(const Complex &rhs) {
-  this->value_ /= rhs.value_;
-}
-
-template<>
-inline void
-Complex::assign_div<typename Complex::ValueType>(const ValueType &rhs) {
-  this->value_ /= rhs;
+  this->value_ /= result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Complex::assign_mul(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ *= tmp.value_;
-}
-
-template<>
-inline void
-Complex::assign_mul<Complex>(const Complex &rhs) {
-  this->value_ *= rhs.value_;
-}
-
-template<>
-inline void
-Complex::assign_mul<typename Complex::ValueType>(const ValueType &rhs) {
-  this->value_ *= rhs;
+  this->value_ *= result_of<U>::value(rhs);
 }
 
 template< typename U >
 inline void
 Complex::assign_sub(const U &rhs) {
-  typename U::ResultType tmp;
-  assign_(tmp, rhs);
-  this->value_ -= tmp.value_;
+  this->value_ -= result_of<U>::value(rhs);
 }
 
-template<>
+template< typename U >
 inline void
-Complex::assign_sub<Complex>(const Complex &rhs) {
-  this->value_ -= rhs.value_;
-}
-
-template<>
-inline void
-Complex::assign_sub<typename Complex::ValueType>(const ValueType &rhs) {
-  this->value_ -= rhs;
+Complex::assign_pow(const U &p) {
+  this->value_ = std::pow(this->value_, result_of<U>::value(p));
 }
 
 } // sym

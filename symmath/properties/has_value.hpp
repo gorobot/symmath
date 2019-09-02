@@ -32,6 +32,8 @@ public:
   inline has_value<ValueType> &operator=(const ValueType &value);
   inline has_value<ValueType> &operator=(ValueType &&value);
 
+  inline const T &value() const;
+
 private:
 
   template< typename U >
@@ -79,6 +81,13 @@ inline has_value<T> &
 has_value<T>::operator=(ValueType &&value) {
   value_ = std::move(value);
   return *this;
+}
+
+// -----------------------------------------------------------------------------
+// Member Function Definitions
+template< typename T >
+inline const T &has_value<T>::value() const {
+  return value_;
 }
 
 // -----------------------------------------------------------------------------
