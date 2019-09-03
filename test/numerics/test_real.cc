@@ -66,6 +66,9 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == 4.0);
     result ^= 2;
     REQUIRE(result == 16.0);
+
+    result = inv(a);
+    REQUIRE(result == 0.5);
   }
 
   SECTION("should be able to subtract") {
@@ -84,6 +87,11 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == -5.0);
     result -= 1.0;
     REQUIRE(result == -6.0);
+
+    result = -a + b;
+    REQUIRE(result == -1.0);
+    result = a - -b;
+    REQUIRE(result == 3.0);
   }
 
   SECTION("should be able to perform mixed operations") {

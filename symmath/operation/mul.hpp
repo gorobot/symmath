@@ -20,7 +20,8 @@ public:
   using R1 = result_type_t<T1>;
   using R2 = result_type_t<T2>;
 
-  using ResultType = std::common_type_t<R1, R2>;
+  // using ResultType = std::common_type_t<R1, R2>;
+  using ResultType = R1;
 
   using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
   using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;

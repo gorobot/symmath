@@ -26,8 +26,8 @@ protected:
 public:
 
   explicit inline has_value();
-  inline has_value(const ValueType &value);
-  inline has_value(ValueType &&value);
+  explicit inline has_value(const ValueType &value);
+  explicit inline has_value(ValueType &&value);
 
   inline has_value<ValueType> &operator=(const ValueType &value);
   inline has_value<ValueType> &operator=(ValueType &&value);
@@ -37,18 +37,8 @@ public:
 private:
 
   template< typename U >
-  friend inline std::ostream&
-  operator<<(std::ostream& os, const has_value<U>& m);
-
-  template< typename T1,
-            typename T2 >
-  friend inline bool
-  operator==(const has_value<T1> &lhs, const T2 &rhs);
-
-  template< typename T1,
-            typename T2 >
-  friend inline bool
-  operator==(const T1 &lhs, const has_value<T2> &rhs);
+  friend inline std::ostream &
+  operator<<(std::ostream &os, const has_value<U> &m);
 
 };
 
@@ -86,15 +76,16 @@ has_value<T>::operator=(ValueType &&value) {
 // -----------------------------------------------------------------------------
 // Member Function Definitions
 template< typename T >
-inline const T &has_value<T>::value() const {
+inline const T &
+has_value<T>::value() const {
   return value_;
 }
 
 // -----------------------------------------------------------------------------
 
 template< typename U >
-inline std::ostream&
-operator<<(std::ostream& os, const has_value<U>& m) {
+inline std::ostream &
+operator<<(std::ostream &os, const has_value<U> &m) {
   return os << m.value_;
 }
 
@@ -103,29 +94,47 @@ operator<<(std::ostream& os, const has_value<U>& m) {
 template< typename T1,
           typename T2 >
 inline bool
-operator==(const has_value<T1> &lhs, const T2 &rhs) {
-  return (lhs.value_ == rhs);
+operator==(const has_value<T1> &lhs, const has_value<T2> &rhs) {
+  return (lhs.value() == rhs.value());
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+operator==(const T1 &lhs, const has_value<T2> &rhs)
+-> std::enable_if_t<!std::is_base_of<Number, T1>{}, bool> {
+  return (lhs == rhs.value());
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+operator==(const has_value<T1> &lhs, const T2 &rhs)
+-> std::enable_if_t<!std::is_base_of<Number, T2>{}, bool> {
+  return (lhs.value() == rhs);
 }
 
 template< typename T1,
           typename T2 >
 inline bool
-operator==(const T1 &lhs, const has_value<T2> &rhs) {
-  return (lhs == rhs.value_);
+operator!=(const has_value<T1> &lhs, const has_value<T2> &rhs) {
+  return (lhs.value() != rhs.value());
 }
 
 template< typename T1,
           typename T2 >
-inline bool
-operator!=(const has_value<T1> &lhs, const T2 &rhs) {
-  return !(lhs.value_ == rhs);
+inline auto
+operator!=(const T1 &lhs, const has_value<T2> &rhs)
+-> std::enable_if_t<!std::is_base_of<Number, T1>{}, bool> {
+  return (lhs != rhs.value());
 }
 
 template< typename T1,
           typename T2 >
-inline bool
-operator!=(const T1 &lhs, const has_value<T2> &rhs) {
-  return !(lhs == rhs.value_);
+inline auto
+operator!=(const has_value<T1> &lhs, const T2 &rhs)
+-> std::enable_if_t<!std::is_base_of<Number, T2>{}, bool> {
+  return (lhs.value() != rhs);
 }
 
 } // sym

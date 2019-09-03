@@ -1,5 +1,5 @@
-#ifndef SYMMATH_PROPERTIES_HAS_SUBTRACTION_HPP
-#define SYMMATH_PROPERTIES_HAS_SUBTRACTION_HPP
+#ifndef SYMMATH_PROPERTIES_HAS_ADDITIVE_INVERSE_HPP
+#define SYMMATH_PROPERTIES_HAS_ADDITIVE_INVERSE_HPP
 
 #include <type_traits>
 
@@ -11,7 +11,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct has_negation
+struct has_additive_inverse
   : private Property {
 
   template< typename U >
@@ -21,35 +21,36 @@ struct has_negation
 
 // -----------------------------------------------------------------------------
 
-template< typename T1 >
+template< typename T1,
+          typename T2 >
 inline void
-assign_neg_(const T1 &operand) {
-  lhs.assign_neg(operand);
+assign_neg_(T1 &lhs, const T2 &rhs) {
+  lhs.assign_neg(rhs);
 }
 
 template< typename T >
 template< typename U >
 inline void
-has_negation<T>::assign_neg(const U &operand) {
-  static_cast<T&>(*this).assign_neg(operand);
+has_additive_inverse<T>::assign_neg(const U &rhs) {
+  static_cast<T&>(*this).assign_neg(rhs);
 }
 
 // -----------------------------------------------------------------------------
 
 template< typename T1 >
 inline auto
-operator-(const has_negation<T1> &operand)
+operator-(const has_additive_inverse<T1> &operand)
 -> const Neg<T1> {
   return Neg<T1>(static_cast<const T1&>(operand));
 }
 
 template< typename T1 >
 inline auto
-neg(const has_negation<T1> &operand)
+neg(const has_additive_inverse<T1> &operand)
 -> const Neg<T1> {
   return Neg<T1>(static_cast<const T1&>(operand));
 }
 
 } // sym
 
-#endif // SYMMATH_PROPERTIES_HAS_SUBTRACTION_HPP
+#endif // SYMMATH_PROPERTIES_HAS_ADDITIVE_INVERSE_HPP

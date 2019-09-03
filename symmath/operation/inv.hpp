@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATION_NEG_HPP
-#define SYMMATH_OPERATION_NEG_HPP
+#ifndef SYMMATH_OPERATION_INV_HPP
+#define SYMMATH_OPERATION_INV_HPP
 
 #include <type_traits>
 
@@ -12,7 +12,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T1 >
-class Neg
+class Inv
   : private UnaryOperation {
 public:
 
@@ -28,7 +28,7 @@ private:
 
 public:
 
-  explicit inline Neg(const T1 &operand);
+  explicit inline Inv(const T1 &operand);
 
   inline auto eval() const -> const ResultType;
 
@@ -36,19 +36,13 @@ private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Neg<T1> &rhs) {
-    assign_neg_(lhs, rhs.operand_);
+  assign_(U &lhs, const Inv<T1> &rhs) {
+    assign_inv_(lhs, rhs.operand_);
   }
 
   template< typename U >
   friend inline void
-  assign_sub_(U &lhs, const Neg<T1> &rhs) {
-    assign_add_(lhs, rhs.operand_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_neg_(U &lhs, const Neg<T1> &rhs) {
+  assign_inv_(U &lhs, const Inv<T1> &rhs) {
     assign_(lhs, rhs.operand_);
   }
 
@@ -57,13 +51,13 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T1 >
-inline Neg<T1>::Neg(const T1 &operand)
+inline Inv<T1>::Inv(const T1 &operand)
   : operand_(operand) {}
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
 template< typename T1 >
-inline auto Neg<T1>::eval() const
+inline auto Inv<T1>::eval() const
 -> const ResultType {
   ResultType tmp;
   assign_(tmp, *this);
@@ -72,4 +66,4 @@ inline auto Neg<T1>::eval() const
 
 } // sym
 
-#endif // SYMMATH_OPERATION_NEG_HPP
+#endif // SYMMATH_OPERATION_INV_HPP

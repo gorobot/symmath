@@ -26,6 +26,8 @@ template< typename T >
 struct result_of<T, void_t<use_value<T>>> {
 
   static inline decltype(auto) value(const T &m) {
+    // auto result = m.value();
+    // return result_of<decltype(result)>::value(result);
     return m.value();
   }
 
@@ -38,8 +40,8 @@ template< typename T >
 struct result_of<T, void_t<use_eval<T>>> {
 
   static inline decltype(auto) value(const T &m) {
-    auto res = m.eval();
-    return result_of<decltype(res)>::value(res);
+    auto result = m.eval();
+    return result_of<decltype(result)>::value(result);
   }
 
 };

@@ -40,10 +40,10 @@ create_test(
   numerics/test_real
 )
 
-# create_test(
-#   NAME Matrix
-#   FILES
-#   matrix/test_matrix
-#   matrix/test_scalar
-#   matrix/test_vector
-# )
+create_test(
+  NAME Tensors
+  FILES
+  tensors/test_matrix
+  tensors/test_vector
+  tensors/test_scalar
+)

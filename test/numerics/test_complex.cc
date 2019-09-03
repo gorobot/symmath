@@ -41,6 +41,9 @@ TEST_CASE("Complex: operations", "[numerics]") {
     result = (2.0 + 2.0i) * b;
     REQUIRE(result == 0.0 + 4.0i);
     // result = a * 1.0i;
+
+    result = inv(a);
+    REQUIRE(result == 0.25 - 0.25i);
   }
 
   SECTION("should be able to subtract") {
@@ -52,5 +55,10 @@ TEST_CASE("Complex: operations", "[numerics]") {
     result = (2.0 + 2.0i) - b;
     REQUIRE(result == 1.0 + 1.0i);
     // result = a - 1.0i;
+
+    result = -a + b;
+    REQUIRE(result == -1.0 - 1.0i);
+    result = a - -b;
+    REQUIRE(result == 3.0 + 3.0i);
   }
 }

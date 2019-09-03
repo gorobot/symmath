@@ -1,5 +1,5 @@
-#ifndef SYMMATH_NUMBER_INTEGER_HPP
-#define SYMMATH_NUMBER_INTEGER_HPP
+#ifndef SYMMATH_NUMERICS_INTEGER_HPP
+#define SYMMATH_NUMERICS_INTEGER_HPP
 
 #ifndef SYMMATH_INTEGER_UNDERLYING_TYPE
 #define SYMMATH_INTEGER_UNDERLYING_TYPE int
@@ -12,6 +12,7 @@
 #include "../properties/has_value.hpp"
 #include "../properties/has_assignment.hpp"
 #include "../properties/has_addition.hpp"
+#include "../properties/has_additive_inverse.hpp"
 #include "../properties/has_multiplication.hpp"
 #include "../properties/has_subtraction.hpp"
 #include "../type_traits/result_of.hpp"
@@ -25,6 +26,7 @@ class Integer
     public has_value<SYMMATH_INTEGER_UNDERLYING_TYPE>,
     public has_assignment<Integer>,
     public has_addition<Integer>,
+    public has_additive_inverse<Integer>,
     public has_multiplication<Integer>,
     public has_subtraction<Integer> {
 public:
@@ -44,6 +46,9 @@ public:
   inline void assign_mul(const U &rhs);
   template< typename U >
   inline void assign_sub(const U &rhs);
+
+  template< typename U >
+  inline void assign_neg(const U &rhs);
 
 };
 
@@ -76,6 +81,12 @@ Integer::assign_sub(const U &rhs) {
   this->value_ -= result_of<U>::value(rhs);
 }
 
+template< typename U >
+inline void
+Integer::assign_neg(const U &rhs) {
+  this->value_ = -result_of<U>::value(rhs);
+}
+
 } // sym
 
-#endif // SYMMATH_NUMBER_INTEGER_HPP
+#endif // SYMMATH_NUMERICS_INTEGER_HPP

@@ -59,6 +59,11 @@ TEST_CASE("Integer: operations", "[numerics]") {
     REQUIRE(result == -5);
     result -= 1;
     REQUIRE(result == -6);
+
+    result = -a + b;
+    REQUIRE(result == -1);
+    result = a - -b;
+    REQUIRE(result == 3);
   }
 
   SECTION("should be able to perform mixed operations") {

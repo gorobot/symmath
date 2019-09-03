@@ -1,5 +1,5 @@
-#ifndef SYMMATH_NUMBER_COMPLEX_HPP
-#define SYMMATH_NUMBER_COMPLEX_HPP
+#ifndef SYMMATH_NUMERICS_COMPLEX_HPP
+#define SYMMATH_NUMERICS_COMPLEX_HPP
 
 #ifndef SYMMATH_COMPLEX_UNDERLYING_TYPE
 #define SYMMATH_COMPLEX_UNDERLYING_TYPE std::complex<double>
@@ -43,6 +43,10 @@ public:
   inline void assign_sub(const U &rhs);
 
   template< typename U >
+  inline void assign_neg(const U &p);
+  template< typename U >
+  inline void assign_inv(const U &p);
+  template< typename U >
   inline void assign_pow(const U &p);
 
 };
@@ -84,10 +88,22 @@ Complex::assign_sub(const U &rhs) {
 
 template< typename U >
 inline void
+Complex::assign_neg(const U &rhs) {
+  this->value_ = -result_of<U>::value(rhs);
+}
+
+template< typename U >
+inline void
+Complex::assign_inv(const U &rhs) {
+  this->value_ = 1.0/result_of<U>::value(rhs);
+}
+
+template< typename U >
+inline void
 Complex::assign_pow(const U &p) {
   this->value_ = std::pow(this->value_, result_of<U>::value(p));
 }
 
 } // sym
 
-#endif // SYMMATH_NUMBER_COMPLEX_HPP
+#endif // SYMMATH_NUMERICS_COMPLEX_HPP
