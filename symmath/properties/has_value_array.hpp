@@ -37,7 +37,7 @@ public:
   explicit inline has_value_array();
   explicit inline has_value_array(const VectorType &other);
   explicit inline has_value_array(std::initializer_list<T> init);
-  inline has_value_array(const ValueType &value);
+  explicit inline has_value_array(const ValueType &value);
   // inline has_value_array(ValueType &&value);
 
   inline has_value_array<T, Dim...> &operator=(const VectorType &other);

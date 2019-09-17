@@ -1,9 +1,10 @@
-#ifndef SYMMATH_TYPE_TRAITS_IS_NUMERIC_HPP
-#define SYMMATH_TYPE_TRAITS_IS_NUMERIC_HPP
+#ifndef SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
+#define SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
 
 #include <type_traits>
 
-#include "../number/number.hpp"
+#include "is_integral.hpp"
+#include "is_floating_point.hpp"
 
 namespace sym {
 
@@ -11,11 +12,10 @@ namespace sym {
 
 template< typename T >
 struct is_number
-  : std::is_base_of<Number, T> {};
-
-template< typename T >
-using is_number_t = typename is_number<T>::type;
+  : std::integral_constant<bool,
+      is_integral<T>{} ||
+      is_floating_point<T>{}> {};
 
 } // sym
 
-#endif // SYMMATH_TYPE_TRAITS_IS_NUMERIC_HPP
+#endif // SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP

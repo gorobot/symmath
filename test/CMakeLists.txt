@@ -41,9 +41,21 @@ create_test(
 )
 
 create_test(
-  NAME Tensors
+  NAME Expressions
   FILES
-  tensors/test_matrix
-  tensors/test_vector
-  tensors/test_scalar
+  expressions/test_variable
 )
+
+create_test(
+  NAME Sets
+  FILES
+  sets/test_sets
+)
+
+# create_test(
+#   NAME Tensors
+#   FILES
+#   tensors/test_matrix
+#   tensors/test_vector
+#   tensors/test_scalar
+# )

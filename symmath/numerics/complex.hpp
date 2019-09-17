@@ -10,8 +10,9 @@
 
 #include "number.hpp"
 
+#include "sets/complex_numbers.hpp"
+#include "../properties/has_assignment.hpp"
 #include "../properties/has_value.hpp"
-#include "../properties/has_algebraic_operations.hpp"
 #include "../type_traits/result_of.hpp"
 
 namespace sym {
@@ -20,8 +21,9 @@ namespace sym {
 
 class Complex
   : private Number,
-    public has_value<SYMMATH_COMPLEX_UNDERLYING_TYPE>,
-    public has_algebraic_operations<Complex> {
+    public ElementOf<ComplexNumbers>,
+    public has_assignment<Complex>,
+    public has_value<SYMMATH_COMPLEX_UNDERLYING_TYPE> {
 public:
 
   using ValueType = SYMMATH_COMPLEX_UNDERLYING_TYPE;
@@ -29,7 +31,7 @@ public:
 
   FORWARD_CONSTRUCTOR(has_value, SYMMATH_COMPLEX_UNDERLYING_TYPE);
   FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_COMPLEX_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_algebraic_operations, Complex);
+  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Complex);
 
   template< typename U >
   inline void assign(const U &rhs);

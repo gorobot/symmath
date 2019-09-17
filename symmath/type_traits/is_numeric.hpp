@@ -3,8 +3,7 @@
 
 #include <type_traits>
 
-#include "is_integral.hpp"
-#include "is_floating_point.hpp"
+#include "../number/number.hpp"
 
 namespace sym {
 
@@ -12,9 +11,10 @@ namespace sym {
 
 template< typename T >
 struct is_numeric
-  : std::integral_constant<bool,
-      is_integral<T>{} ||
-      is_floating_point<T>{}> {};
+  : std::is_base_of<Number, T> {};
+
+template< typename T >
+using is_numeric_t = typename is_numeric<T>::type;
 
 } // sym
 

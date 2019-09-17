@@ -1,6 +1,8 @@
 #ifndef SYMMATH_PROPERTIES_HAS_PROPERTIES_HPP
 #define SYMMATH_PROPERTIES_HAS_PROPERTIES_HPP
 
+#include <type_traits>
+
 namespace sym {
 
 // -----------------------------------------------------------------------------

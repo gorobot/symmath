@@ -9,8 +9,9 @@
 
 #include "number.hpp"
 
+#include "sets/reals.hpp"
+#include "../properties/has_assignment.hpp"
 #include "../properties/has_value.hpp"
-#include "../properties/has_algebraic_operations.hpp"
 #include "../type_traits/result_of.hpp"
 
 namespace sym {
@@ -19,8 +20,9 @@ namespace sym {
 
 class Real
   : private Number,
-    public has_value<SYMMATH_REAL_UNDERLYING_TYPE>,
-    public has_algebraic_operations<Real> {
+    public ElementOf<Reals>,
+    public has_assignment<Real>,
+    public has_value<SYMMATH_REAL_UNDERLYING_TYPE> {
 public:
 
   using ValueType = SYMMATH_REAL_UNDERLYING_TYPE;
@@ -28,7 +30,7 @@ public:
 
   FORWARD_CONSTRUCTOR(has_value, SYMMATH_REAL_UNDERLYING_TYPE);
   FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_REAL_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_algebraic_operations, Real);
+  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Real);
 
   template< typename U >
   inline void assign(const U &rhs);

@@ -2,8 +2,7 @@
 #define SYMMATH_SYMMATH_HPP
 
 #include "numerics.hpp"
-#include "matrix.hpp"
-
-#include "variable/variable.hpp"
+#include "expressions.hpp"
+#include "tensors.hpp"
 
 #endif // SYMMATH_SYMMATH_HPP

@@ -3,7 +3,7 @@
 
 #include <type_traits>
 
-#include "../operation/operation.hpp"
+#include "../operations/operation.hpp"
 
 namespace sym {
 

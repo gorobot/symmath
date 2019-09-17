@@ -9,10 +9,9 @@
 
 #include "number.hpp"
 
-#include "../properties/has_value.hpp"
+#include "sets/naturals.hpp"
 #include "../properties/has_assignment.hpp"
-#include "../properties/has_addition.hpp"
-#include "../properties/has_multiplication.hpp"
+#include "../properties/has_value.hpp"
 #include "../type_traits/result_of.hpp"
 
 namespace sym {
@@ -21,10 +20,9 @@ namespace sym {
 
 class Natural
   : private Number,
-    public has_value<SYMMATH_NATURAL_UNDERLYING_TYPE>,
+    public ElementOf<Naturals>,
     public has_assignment<Natural>,
-    public has_addition<Natural>,
-    public has_multiplication<Natural> {
+    public has_value<SYMMATH_NATURAL_UNDERLYING_TYPE> {
 public:
 
   using ValueType = SYMMATH_NATURAL_UNDERLYING_TYPE;

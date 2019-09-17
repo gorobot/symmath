@@ -4,7 +4,7 @@
 #include <type_traits>
 
 #include "property.hpp"
-#include "../operation/sub.hpp"
+#include "../operations/sub.hpp"
 
 namespace sym {
 

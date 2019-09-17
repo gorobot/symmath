@@ -1,7 +1,6 @@
 #ifndef SYMMATH_PROPERTIES_HAS_ALGEBRAIC_OPERATIONS_HPP
 #define SYMMATH_PROPERTIES_HAS_ALGEBRAIC_OPERATIONS_HPP
 
-#include "has_value.hpp"
 #include "has_addition.hpp"
 #include "has_additive_inverse.hpp"
 #include "has_assignment.hpp"

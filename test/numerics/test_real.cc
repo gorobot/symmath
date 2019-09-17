@@ -1,6 +1,23 @@
 #include <catch2/catch.hpp>
 
 #include "../../symmath/numerics/real.hpp"
+#include "../../symmath/type_traits/is_element_of.hpp"
+
+TEST_CASE("Real: properties", "[numerics]") {
+
+  SECTION("should be an element of the reals") {
+    REQUIRE(sym::is_element_of<sym::Reals, sym::Real>{});
+  }
+
+  SECTION("should have addition operator") {
+    REQUIRE(sym::has_property<sym::Real, sym::addition>{});
+  }
+
+  SECTION("should have multiplication operator") {
+    REQUIRE(sym::has_property<sym::Real, sym::multiplication>{});
+  }
+
+}
 
 TEST_CASE("Real: operations", "[numerics]") {
   sym::Real a(2.0);

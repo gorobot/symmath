@@ -3,14 +3,13 @@
 
 #include <type_traits>
 
-#include "is_numeric.hpp"
 #include "void_t.hpp"
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T, 
+template< typename T,
           typename = void_t<> >
 struct result_type {
   using type = T;

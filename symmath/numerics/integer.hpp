@@ -9,12 +9,9 @@
 
 #include "number.hpp"
 
-#include "../properties/has_value.hpp"
+#include "sets/integers.hpp"
 #include "../properties/has_assignment.hpp"
-#include "../properties/has_addition.hpp"
-#include "../properties/has_additive_inverse.hpp"
-#include "../properties/has_multiplication.hpp"
-#include "../properties/has_subtraction.hpp"
+#include "../properties/has_value.hpp"
 #include "../type_traits/result_of.hpp"
 
 namespace sym {
@@ -23,12 +20,9 @@ namespace sym {
 
 class Integer
   : private Number,
-    public has_value<SYMMATH_INTEGER_UNDERLYING_TYPE>,
+    public ElementOf<Integers>,
     public has_assignment<Integer>,
-    public has_addition<Integer>,
-    public has_additive_inverse<Integer>,
-    public has_multiplication<Integer>,
-    public has_subtraction<Integer> {
+    public has_value<SYMMATH_INTEGER_UNDERLYING_TYPE> {
 public:
 
   using ValueType = SYMMATH_INTEGER_UNDERLYING_TYPE;

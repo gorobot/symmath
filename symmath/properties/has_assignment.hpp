@@ -4,7 +4,6 @@
 #include <type_traits>
 
 #include "property.hpp"
-#include "../type_traits/is_operation.hpp"
 
 namespace sym {
 
@@ -36,7 +35,8 @@ assign_(T1 &lhs, const T2 &rhs) {
 template< typename T1,
           typename T2 >
 inline void
-assign_(has_assignment<T1> &lhs, const has_assignment<T2> &rhs) {
+assign_(has_assignment<T1> &lhs,
+        const has_assignment<T2> &rhs) {
   lhs.assign(static_cast<const T2&>(rhs));
 }
 
