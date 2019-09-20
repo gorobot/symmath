@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include "property.hpp"
+#include "../type_traits/enable_if.hpp"
 
 namespace sym {
 
@@ -102,7 +103,7 @@ template< typename T1,
           typename T2 >
 inline auto
 operator==(const T1 &lhs, const has_value<T2> &rhs)
--> std::enable_if_t<!std::is_base_of<Number, T1>{}, bool> {
+-> EnableIf_t<!std::is_base_of<Number, T1>{}, bool> {
   return (lhs == rhs.value());
 }
 
@@ -110,7 +111,7 @@ template< typename T1,
           typename T2 >
 inline auto
 operator==(const has_value<T1> &lhs, const T2 &rhs)
--> std::enable_if_t<!std::is_base_of<Number, T2>{}, bool> {
+-> EnableIf_t<!std::is_base_of<Number, T2>{}, bool> {
   return (lhs.value() == rhs);
 }
 
@@ -125,7 +126,7 @@ template< typename T1,
           typename T2 >
 inline auto
 operator!=(const T1 &lhs, const has_value<T2> &rhs)
--> std::enable_if_t<!std::is_base_of<Number, T1>{}, bool> {
+-> EnableIf_t<!std::is_base_of<Number, T1>{}, bool> {
   return (lhs != rhs.value());
 }
 
@@ -133,7 +134,7 @@ template< typename T1,
           typename T2 >
 inline auto
 operator!=(const has_value<T1> &lhs, const T2 &rhs)
--> std::enable_if_t<!std::is_base_of<Number, T2>{}, bool> {
+-> EnableIf_t<!std::is_base_of<Number, T2>{}, bool> {
   return (lhs.value() != rhs);
 }
 

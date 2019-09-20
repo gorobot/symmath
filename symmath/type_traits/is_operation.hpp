@@ -10,11 +10,11 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_operation
+struct IsOperation
   : std::is_base_of<Operation, T> {};
 
 template< typename T >
-using is_operation_t = typename is_operation<T>::type;
+using IsOperation_t = typename IsOperation<T>::type;
 
 } // sym
 

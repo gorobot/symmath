@@ -34,28 +34,24 @@ endmacro()
 create_test(
   NAME Numerics
   FILES
-  numerics/test_complex
-  numerics/test_integer
-  numerics/test_natural
-  numerics/test_real
+  # numerics/test_complex
+  # numerics/test_integer
+  # numerics/test_natural
+  # numerics/test_real
+  # numerics/test_matrix
+  # numerics/test_vector
+  # numerics/test_scalar
 )
 
-create_test(
-  NAME Expressions
-  FILES
-  expressions/test_variable
-)
+# create_test(
+#   NAME Expressions
+#   FILES
+#   expressions/test_variable
+# )
 
 create_test(
   NAME Sets
   FILES
   sets/test_sets
+  sets/test_reals
 )
-
-# create_test(
-#   NAME Tensors
-#   FILES
-#   tensors/test_matrix
-#   tensors/test_vector
-#   tensors/test_scalar
-# )

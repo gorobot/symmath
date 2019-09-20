@@ -3,33 +3,39 @@
 
 #include <type_traits>
 
-#include "../sets/element_of.hpp"
-#include "enable_if.hpp"
-#include "void_t.hpp"
+#include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_operation.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T,
-          typename V >
-struct has_property_helper {
+          typename P >
+struct HasProperty;
+
+template< typename T,
+          typename P >
+struct HasProperty_helper {
 private:
 
   template< typename U >
-  static auto
-  test(ElementOf<U> &)
-  -> EnableIf_t<std::is_base_of<V, U>{}, std::true_type >;
+  static auto test(U &)
+  -> EnableIf_t<HasProperty<typename U::ElementOf, P>{}, std::true_type>;
 
   template< typename U >
-  static auto
-  test(const ElementOf<U> &)
-  -> EnableIf_t<std::is_base_of<V, U>{}, std::true_type >;
+  static auto test(const U &)
+  -> EnableIf_t<HasProperty<typename U::ElementOf, P>{}, std::true_type>;
 
   template< typename U >
-  static auto
-  test(const U &)
-  -> EnableIf_t<std::is_base_of<V, typename U::ResultType>{}, std::true_type >;
+  static auto test(U &)
+  -> EnableIf_t<IsOperation<U>{} &&
+                HasProperty<typename U::ResultType, P>{}, std::true_type>;
+
+  template< typename U >
+  static auto test(const U &)
+  -> EnableIf_t<IsOperation<U>{} &&
+                HasProperty<typename U::ResultType, P>{}, std::true_type>;
 
   static std::false_type test(...);
 
@@ -40,13 +46,13 @@ public:
 };
 
 template< typename T,
-          typename V >
-struct has_property
-  : has_property_helper<T, V>::type {};
+          typename P >
+struct HasProperty
+  : HasProperty_helper<T, P>::type {};
 
 template< typename T,
-          typename V >
-using has_property_t = typename has_property_helper<T, V>::type;
+          typename P >
+using HasProperty_t = typename HasProperty_helper<T, P>::type;
 
 } // sym
 

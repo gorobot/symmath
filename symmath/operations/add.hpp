@@ -4,8 +4,9 @@
 #include <type_traits>
 
 #include "binary_operation.hpp"
-#include "../type_traits/is_operation.hpp"
-#include "../type_traits/result_type.hpp"
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
@@ -17,14 +18,14 @@ class Add
   : private BinaryOperation {
 public:
 
-  using R1 = result_type_t<T1>;
-  using R2 = result_type_t<T2>;
+  using R1 = ResultType_t<T1>;
+  using R2 = ResultType_t<T2>;
 
   // using ResultType = std::common_type_t<R1, R2>;
   using ResultType = R1;
 
-  using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
-  using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
+  using LhsType = If_t<IsOperation<T1>{}, const T1, const T1&>;
+  using RhsType = If_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
@@ -34,8 +35,6 @@ private:
 public:
 
   explicit inline Add(const T1 &lhs, const T2 &rhs);
-
-  inline auto eval() const -> const ResultType &;
 
 private:
 
@@ -72,14 +71,6 @@ inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-template< typename T1,
-          typename T2 >
-inline auto Add<T1, T2>::eval() const
--> const ResultType & {
-  ResultType tmp;
-  assign_(tmp, *this);
-  return tmp;
-}
 
 } // sym
 

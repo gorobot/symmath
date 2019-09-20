@@ -5,6 +5,7 @@
 
 #include "../symbolic.hpp"
 #include "operation.hpp"
+#include "../type_traits/enable_if.hpp"
 #include "../type_traits/is_operation.hpp"
 #include "../type_traits/is_symbolic.hpp"
 
@@ -18,8 +19,8 @@ class Intersection
   : public Operation<Symbolic<Intersection<T1, T2>>> {
 public:
 
-  using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
-  using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
+  using LhsType = std::conditional_t<IsOperation<T1>{}, const T1, const T1&>;
+  using RhsType = std::conditional_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
@@ -35,7 +36,7 @@ private:
   template< typename U >
   friend inline auto
   apply_(U &lhs, const Intersection<T1, T2> &rhs)
-  -> std::enable_if_t<is_set<U>{}> {
+  -> EnableIf_t<is_set<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_(lhs.derived(), rhs.rhs_);
   }
@@ -56,7 +57,7 @@ template< typename T1,
           typename T2 >
 inline auto
 union(T1 &lhs, T2 &rhs)
--> std::enable_if_t<is_set<T1>{} && is_set<T2>{}, const Intersection<T1, T2>> {
+-> EnableIf_t<is_set<T1>{} && is_set<T2>{}, const Intersection<T1, T2>> {
   return Intersection<T1, T2>(lhs.derived(), rhs.derived());
 }
 

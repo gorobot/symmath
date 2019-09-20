@@ -1,9 +1,9 @@
 #ifndef SYMMATH_NUMERICS_HPP
 #define SYMMATH_NUMERICS_HPP
 
-#include "numerics/complex.hpp"
-#include "numerics/integer.hpp"
-#include "numerics/natural.hpp"
-#include "numerics/real.hpp"
+#include <symmath/numerics/complex.hpp>
+#include <symmath/numerics/integer.hpp>
+#include <symmath/numerics/natural.hpp>
+#include <symmath/numerics/real.hpp>
 
 #endif // SYMMATH_NUMERICS_HPP

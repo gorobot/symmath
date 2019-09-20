@@ -1,8 +1,31 @@
 #include <catch2/catch.hpp>
 
 #include "../../symmath/numerics/natural.hpp"
+#include "../../symmath/type_traits/is_element_of.hpp"
+#include "../../symmath/type_traits/is_field.hpp"
+#include "../../symmath/type_traits/is_scalar.hpp"
 
-TEST_CASE("Naturals: operations", "[numerics]") {
+TEST_CASE("Natural: properties", "[numerics]") {
+
+  SECTION("should be an element of the naturals") {
+    REQUIRE(sym::is_element_of<sym::Naturals, sym::Natural>{});
+  }
+
+  SECTION("should have addition operator") {
+    REQUIRE(sym::HasProperty<sym::Natural, sym::addition>{});
+  }
+
+  SECTION("should have multiplication operator") {
+    REQUIRE(sym::HasProperty<sym::Natural, sym::multiplication>{});
+  }
+
+  SECTION("should not be a scalar") {
+    REQUIRE(!sym::is_scalar<sym::Natural>{});
+  }
+
+}
+
+TEST_CASE("Natural: operations", "[numerics]") {
   sym::Natural a(2);
   sym::Natural b(1);
   sym::Natural c(5);

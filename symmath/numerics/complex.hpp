@@ -10,7 +10,7 @@
 
 #include "number.hpp"
 
-#include "sets/complex_numbers.hpp"
+#include <symmath/sets/complex_numbers.hpp>
 #include "../properties/has_assignment.hpp"
 #include "../properties/has_value.hpp"
 #include "../type_traits/result_of.hpp"
@@ -20,11 +20,12 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Complex
-  : private Number,
-    public ElementOf<ComplexNumbers>,
+  : private Number<Complex>,
     public has_assignment<Complex>,
     public has_value<SYMMATH_COMPLEX_UNDERLYING_TYPE> {
 public:
+
+  using ElementOf = ComplexNumbers;
 
   using ValueType = SYMMATH_COMPLEX_UNDERLYING_TYPE;
   using ResultType = Complex;

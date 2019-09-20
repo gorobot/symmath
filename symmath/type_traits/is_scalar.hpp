@@ -3,7 +3,9 @@
 
 #include <type_traits>
 
-#include "../matrix/scalar.hpp"
+#include "../sets/element_of.hpp"
+#include "../type_traits/enable_if.hpp"
+#include "../type_traits/is_field.hpp"
 
 namespace sym {
 
@@ -14,10 +16,14 @@ struct is_scalar_helper {
 private:
 
   template< typename U >
-  static std::true_type test(Scalar<U> &);
+  static auto
+  test(ElementOf<U> &)
+  -> EnableIf_t<is_field<U>{}, std::true_type>;
 
   template< typename U >
-  static std::true_type test(const Scalar<U> &);
+  static auto
+  test(const ElementOf<U> &)
+  -> EnableIf_t<is_field<U>{}, std::true_type>;
 
   static std::false_type test(...);
 

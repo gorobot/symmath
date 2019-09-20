@@ -5,6 +5,7 @@
 
 #include "../symbolic.hpp"
 #include "operation.hpp"
+#include "../type_traits/enable_if.hpp"
 #include "../type_traits/is_operation.hpp"
 #include "../type_traits/is_symbolic.hpp"
 
@@ -22,8 +23,8 @@ public:
 
   using Type = std::common_type_t<LhsResultType, RhsResultType>;
 
-  using LhsType = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
-  using RhsType = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
+  using LhsType = std::conditional_t<IsOperation<T1>{}, const T1, const T1&>;
+  using RhsType = std::conditional_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
@@ -39,7 +40,7 @@ private:
   template< typename U >
   friend inline auto
   apply_(U &lhs, const Sum<T1, T2> &rhs)
-  -> std::enable_if_t<is_symbolic<U>{}> {
+  -> EnableIf_t<is_symbolic<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
   }
@@ -53,16 +54,6 @@ template< typename T1,
 inline Sum<T1, T2>::Sum(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
-
-// -----------------------------------------------------------------------------
-
-template< typename T1,
-          typename T2 >
-inline auto
-operator+(T1 &lhs, T2 &rhs)
--> std::enable_if_t<is_symbolic<T1>{} && is_symbolic<T2>{}, const Sum<T1, T2>> {
-  return Sum<T1, T2>(lhs.derived(), rhs.derived());
-}
 
 } // sym
 

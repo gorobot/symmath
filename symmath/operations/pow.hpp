@@ -4,6 +4,7 @@
 #include <type_traits>
 
 #include "unary_operation.hpp"
+#include "../type_traits/conditional.hpp"
 #include "../type_traits/is_operation.hpp"
 #include "../type_traits/result_type.hpp"
 
@@ -17,13 +18,13 @@ class Pow
   : private UnaryOperation {
 public:
 
-  using R1 = result_type_t<T1>;
-  using R2 = result_type_t<T2>;
+  using R1 = ResultType_t<T1>;
+  using R2 = ResultType_t<T2>;
 
   using ResultType = R1;
 
-  using T1Type = std::conditional_t<is_operation<T1>{}, const T1, const T1&>;
-  using T2Type = std::conditional_t<is_operation<T2>{}, const T2, const T2&>;
+  using T1Type = If_t<IsOperation<T1>{}, const T1, const T1&>;
+  using T2Type = If_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
@@ -33,8 +34,6 @@ private:
 public:
 
   explicit inline Pow(const T1 &operand, const T2 &p);
-
-  inline auto eval() const -> const ResultType;
 
 private:
 
@@ -57,14 +56,6 @@ inline Pow<T1, T2>::Pow(const T1 &operand, const T2 &p)
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-template< typename T1,
-          typename T2 >
-inline auto Pow<T1, T2>::eval() const
--> const ResultType {
-  ResultType tmp;
-  assign_(tmp, *this);
-  return tmp;
-}
 
 } // sym
 

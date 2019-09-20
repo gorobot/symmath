@@ -9,7 +9,7 @@
 
 #include "number.hpp"
 
-#include "sets/integers.hpp"
+#include <symmath/sets/integers.hpp>
 #include "../properties/has_assignment.hpp"
 #include "../properties/has_value.hpp"
 #include "../type_traits/result_of.hpp"
@@ -19,11 +19,12 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Integer
-  : private Number,
-    public ElementOf<Integers>,
+  : private Number<Integer>,
     public has_assignment<Integer>,
     public has_value<SYMMATH_INTEGER_UNDERLYING_TYPE> {
 public:
+
+  using ElementOf = Integers;
 
   using ValueType = SYMMATH_INTEGER_UNDERLYING_TYPE;
   using ResultType = Integer;

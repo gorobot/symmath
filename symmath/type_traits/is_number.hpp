@@ -3,18 +3,42 @@
 
 #include <type_traits>
 
-#include "is_integral.hpp"
-#include "is_floating_point.hpp"
+#include <symmath/number/numeric.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
+// template< typename T >
+// struct IsNumber
+//   : std::is_base_of<Number, T> {};
+//
+// template< typename T >
+// using IsNumeric_t = typename IsNumber<T>::type;
+
+struct IsNumber_helper {
+private:
+
+  template< typename U >
+  static std::true_type test(Number<U> &);
+
+  template< typename U >
+  static std::true_type test(const Number<U> &);
+
+  static std::false_type test(...);
+
+public:
+
+  using type = decltype(test(std::declval<T&>()));
+
+};
+
 template< typename T >
-struct is_number
-  : std::integral_constant<bool,
-      is_integral<T>{} ||
-      is_floating_point<T>{}> {};
+struct IsNumber
+  : IsNumber_helper<T>::type {};
+
+template< typename T >
+using IsNumber_t = typename IsNumber_helper<T>::type;
 
 } // sym
 

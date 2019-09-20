@@ -8,19 +8,19 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_floating_point
+struct IsFloatingPoint
   : std::false_type {};
 
 template<>
-struct is_floating_point<float>
+struct IsFloatingPoint<float>
   : std::true_type {};
 
 template<>
-struct is_floating_point<double>
+struct IsFloatingPoint<double>
   : std::true_type {};
 
 template<>
-struct is_floating_point<long double>
+struct IsFloatingPoint<long double>
   : std::true_type {};
 
 } // sym
