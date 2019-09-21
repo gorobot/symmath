@@ -38,9 +38,7 @@ create_test(
   # numerics/test_integer
   # numerics/test_natural
   # numerics/test_real
-  # numerics/test_matrix
-  # numerics/test_vector
-  # numerics/test_scalar
+  numerics/test_variable
 )
 
 # create_test(
@@ -54,4 +52,12 @@ create_test(
   FILES
   sets/test_sets
   sets/test_reals
+)
+
+create_test(
+  NAME Tensors
+  FILES
+  # tensors/test_matrix
+  # tensors/test_vector
+  tensors/test_scalar
 )

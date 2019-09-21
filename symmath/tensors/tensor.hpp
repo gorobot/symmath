@@ -1,11 +1,18 @@
 #ifndef SYMMATH_TENSORS_TENSOR_HPP
 #define SYMMATH_TENSORS_TENSOR_HPP
 
+#include <array>
+
+#include <symmath/sets/numerics/vector_space.hpp>
+
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-struct Tensor {};
+template< typename T,
+          size_t N,
+          size_t M >
+class Tensor {};
 
 } // sym
 

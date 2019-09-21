@@ -5,7 +5,6 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T >
 struct ScalarMultiplication {};
 
 } // sym
