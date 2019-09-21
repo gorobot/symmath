@@ -10,7 +10,7 @@
 
 #include "number.hpp"
 
-#include <symmath/sets/complex_numbers.hpp>
+#include <symmath/sets/numerics/complex_numbers.hpp>
 #include "../properties/has_assignment.hpp"
 #include "../properties/has_value.hpp"
 #include "../type_traits/result_of.hpp"

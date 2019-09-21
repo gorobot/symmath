@@ -3,7 +3,7 @@
 
 #include <type_traits>
 
-#include <symmath/number/numeric.hpp>
+#include <symmath/numerics/number.hpp>
 
 namespace sym {
 
@@ -16,6 +16,7 @@ namespace sym {
 // template< typename T >
 // using IsNumeric_t = typename IsNumber<T>::type;
 
+template< typename T >
 struct IsNumber_helper {
 private:
 

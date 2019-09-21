@@ -5,6 +5,7 @@
 #define SYMMATH_REAL_UNDERLYING_TYPE double
 #endif
 
+#include <iostream>
 #include <type_traits>
 
 #include <symmath/numerics/number.hpp>
@@ -19,6 +20,8 @@ namespace sym {
 class Real
   : public Number<Real> {
 public:
+
+  using This = Real;
 
   using ElementOf = Reals;
 
@@ -38,110 +41,107 @@ public:
   explicit inline Real(ValueType &&value);
 
                  explicit inline Real(const Real &other);
-  template< typename T >  inline Real(const Number<T> &other);
+  template< typename U >  inline Real(const Number<U> &other);
 
   // Assignment Operator
-  inline Real &operator=(const ValueType &rhs);
-  inline Real &operator=(ValueType &&rhs);
+  inline This &operator=(const ValueType &rhs);
+  inline This &operator=(ValueType &&rhs);
 
-                          inline Real &operator=(const Real &rhs);
-  template< typename T >  inline Real &operator=(const Number<T> &rhs);
-  template< typename T >  inline auto  operator=(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}, Real&>;
+                          inline This &operator=(const Real &rhs);
+  template< typename U >  inline This &operator=(const Number<U> &rhs);
+  template< typename U >  inline auto  operator=(const U &rhs)
+  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
-  inline Real &operator+=(const ValueType &rhs);
-  inline Real &operator+=(ValueType &&rhs);
+  inline This &operator+=(const ValueType &rhs);
+  inline This &operator+=(ValueType &&rhs);
 
-                          inline Real &operator+=(const Real &rhs);
-  template< typename T >  inline Real &operator+=(const Number<T> &rhs);
-  template< typename T >  inline auto  operator+=(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}, Real&>;
+                          inline This &operator+=(const Real &rhs);
+  template< typename U >  inline This &operator+=(const Number<U> &rhs);
+  // template< typename U >  inline auto  operator+=(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
-  inline Real &operator/=(const ValueType &rhs);
-  inline Real &operator/=(ValueType &&rhs);
+  inline This &operator/=(const ValueType &rhs);
+  inline This &operator/=(ValueType &&rhs);
 
-                          inline Real &operator/=(const Real &rhs);
-  template< typename T >  inline Real &operator/=(const Number<T> &rhs);
-  template< typename T >  inline auto  operator/=(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}, Real&>;
+                          inline This &operator/=(const Real &rhs);
+  template< typename U >  inline This &operator/=(const Number<U> &rhs);
+  // template< typename U >  inline auto  operator/=(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
-  inline Real &operator*=(const ValueType &rhs);
-  inline Real &operator*=(ValueType &&rhs);
+  inline This &operator*=(const ValueType &rhs);
+  inline This &operator*=(ValueType &&rhs);
 
-                          inline Real &operator*=(const Real &rhs);
-  template< typename T >  inline Real &operator*=(const Number<T> &rhs);
-  template< typename T >  inline auto  operator*=(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}, Real&>;
+                          inline This &operator*=(const Real &rhs);
+  template< typename U >  inline This &operator*=(const Number<U> &rhs);
+  // template< typename U >  inline auto  operator*=(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
-  inline Real &operator-=(const ValueType &rhs);
-  inline Real &operator-=(ValueType &&rhs);
+  inline This &operator-=(const ValueType &rhs);
+  inline This &operator-=(ValueType &&rhs);
 
-                          inline Real &operator-=(const Real &rhs);
-  template< typename T >  inline Real &operator-=(const Number<T> &rhs);
-  template< typename T >  inline auto  operator-=(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}, Real&>;
+                          inline This &operator-=(const Real &rhs);
+  template< typename U >  inline This &operator-=(const Number<U> &rhs);
+  // template< typename U >  inline auto  operator-=(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+
+  // Implicit Conversion Operator
+  // inline operator ValueType() const;
 
   // Assign
-  inline void assign(const ValueType &rhs);
-
+                          inline void assign(const ValueType &rhs);
                           inline void assign(const Real &rhs);
-  template< typename T >  inline void assign(const Number<T> &rhs);
-  template< typename T >  inline auto assign(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline void assign(const Number<U> &rhs);
+  // template< typename U >  inline auto assign(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Addition
-  inline void assign_add(const ValueType &rhs);
-
+                          inline void assign_add(const ValueType &rhs);
                           inline void assign_add(const Real &rhs);
-  template< typename T >  inline auto assign_add(const Number<T> &rhs);
-  template< typename T >  inline auto assign_add(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_add(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_add(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Division
-  inline void assign_div(const ValueType &rhs);
-
+                          inline void assign_div(const ValueType &rhs);
                           inline void assign_div(const Real &rhs);
-  template< typename T >  inline auto assign_div(const Number<T> &rhs);
-  template< typename T >  inline auto assign_div(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_div(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_div(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Multiplication
-  inline void assign_mul(const ValueType &rhs);
-
+                          inline void assign_mul(const ValueType &rhs);
                           inline void assign_mul(const Real &rhs);
-  template< typename T >  inline auto assign_mul(const Number<T> &rhs);
-  template< typename T >  inline auto assign_mul(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_mul(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_mul(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Subtraction
-  inline void assign_sub(const ValueType &rhs);
-
+                          inline void assign_sub(const ValueType &rhs);
                           inline void assign_sub(const Real &rhs);
-  template< typename T >  inline auto assign_sub(const Number<T> &rhs);
-  template< typename T >  inline auto assign_sub(const T &rhs)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_sub(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_sub(const U &rhs)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Power
-  inline void assign_pow(const ValueType &rhs);
-
+                          inline void assign_pow(const ValueType &rhs);
                           inline void assign_pow(const Real &rhs);
-  template< typename T >  inline auto assign_pow(const Number<T> &rhs);
-  template< typename T >  inline auto assign_pow(const T &other)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_pow(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_pow(const U &other)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Negative
                           inline void assign_neg(const Real &rhs);
-  template< typename T >  inline auto assign_neg(const Number<T> &rhs);
-  template< typename T >  inline auto assign_neg(const T &other)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_neg(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_neg(const U &other)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
   // Assign Inverse
                           inline void assign_inv(const Real &rhs);
-  template< typename T >  inline auto assign_inv(const Number<T> &rhs);
-  template< typename T >  inline auto assign_inv(const T &other)
-  -> EnableIf_t<IsSameResult<Real, T>{}>;
+  template< typename U >  inline auto assign_inv(const Number<U> &rhs);
+  // template< typename U >  inline auto assign_inv(const U &other)
+  // -> EnableIf_t<IsSameResult<This, U>{}>;
 
-  inline const ValueType value() const;
+  inline decltype(auto) value() const;
 
 };
 
@@ -201,8 +201,38 @@ inline auto Real::operator=(const T &rhs)
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-inline const Real::ValueType Real::value() const {
+inline decltype(auto) Real::value() const {
   return value_;
+}
+
+// -----------------------------------------------------------------------------
+// Assign
+inline void Real::assign(const ValueType &rhs) {
+  value_ = rhs;
+}
+
+inline void Real::assign(const Real &rhs) {
+  value_ = rhs.value_;
+}
+
+template< typename U >
+inline void Real::assign(const Number<U> &rhs) {
+  value_ = static_cast<const U&>(rhs).value();
+}
+
+// -----------------------------------------------------------------------------
+// Assign Addition
+inline void Real::assign_add(const ValueType &rhs) {
+  value_ += rhs;
+}
+
+inline void Real::assign_add(const Real &rhs) {
+  value_ += rhs.value_;
+}
+
+template< typename U >
+inline auto Real::assign_add(const Number<U> &rhs) {
+  value_ += static_cast<const U&>(rhs).value();
 }
 
 // inline void Real::assign(const Real &rhs) {

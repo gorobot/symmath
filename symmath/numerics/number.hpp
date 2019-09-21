@@ -102,12 +102,6 @@ inline auto operator-(const T1 &lhs, const Number<T2> &rhs)
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
-inline typename T2::ValueType operator+=(T1 &lhs, const Number<T2> &rhs);
-
-// -----------------------------------------------------------------------------
-
 // template< typename T1,
 //           typename T2 >
 // inline auto operator+(const Number<T1> &lhs, const Number<T2> &rhs)
