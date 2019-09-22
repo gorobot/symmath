@@ -5,7 +5,7 @@
 
 #include <symmath/operations/tensor_prod.hpp>
 #include <symmath/properties/tensor_product.hpp>
-#include <symmath/type_traits/has_property.hpp>
+#include <symmath/property_traits/has_property.hpp>
 
 namespace sym {
 

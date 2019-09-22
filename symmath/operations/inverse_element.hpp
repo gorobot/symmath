@@ -9,7 +9,7 @@
 #include <symmath/operations/neg.hpp>
 #include <symmath/operations/sub.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/has_property.hpp>
+#include <symmath/property_traits/has_property.hpp>
 
 namespace sym {
 

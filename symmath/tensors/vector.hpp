@@ -1,10 +1,9 @@
 #ifndef SYMMATH_TENSORS_VECTOR_HPP
 #define SYMMATH_TENSORS_VECTOR_HPP
 
-#include <initializer_list>
-
+#include <symmath/sets/tensors/vector_space.hpp>
 #include <symmath/tensors/tensor.hpp>
-#include <symmath/sets/numerics/vector_space.hpp>
+#include <symmath/type_traits/nested_initializer_list.hpp>
 
 namespace sym {
 
@@ -54,13 +53,13 @@ public:
   // Constructor
   explicit inline Tensor();
   explicit inline Tensor(const size_t n);
-  explicit inline Tensor(std::initializer_list<T> list);
+  explicit inline Tensor(NestedInitializerList_t<T, Order> list);
 
   template< typename U >  explicit inline Tensor(const Other<U> &other);
   template< typename U >  explicit inline Tensor(Other<U> &&other);
 
   // Assignment Operator
-  inline This &operator=(std::initializer_list<T> list);
+  inline This &operator=(NestedInitializerList_t<T, Order> list);
 
   template< typename U >  inline This &operator=(const Other<U> &other);
   template< typename U >  inline This &operator=(Other<U> &&other);

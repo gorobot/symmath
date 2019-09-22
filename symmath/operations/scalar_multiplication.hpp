@@ -5,8 +5,8 @@
 
 #include <symmath/operations/scalar_mul.hpp>
 #include <symmath/properties/scalar_multiplication.hpp>
-#include <symmath/type_traits/has_property.hpp>
-#include <symmath/type_traits/is_scalar.hpp>
+#include <symmath/property_traits/has_property.hpp>
+#include <symmath/property_traits/is_scalar.hpp>
 
 namespace sym {
 

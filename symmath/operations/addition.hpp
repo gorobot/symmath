@@ -6,7 +6,7 @@
 #include <symmath/operations/add.hpp>
 #include <symmath/properties/addition.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/has_property.hpp>
+#include <symmath/property_traits/has_property.hpp>
 #include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {

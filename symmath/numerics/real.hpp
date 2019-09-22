@@ -57,32 +57,32 @@ public:
 
                           inline This &operator+=(const Real &rhs);
   template< typename U >  inline This &operator+=(const Number<U> &rhs);
-  // template< typename U >  inline auto  operator+=(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  template< typename U >  inline auto  operator+=(const U &rhs)
+  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
   inline This &operator/=(const ValueType &rhs);
   inline This &operator/=(ValueType &&rhs);
 
                           inline This &operator/=(const Real &rhs);
   template< typename U >  inline This &operator/=(const Number<U> &rhs);
-  // template< typename U >  inline auto  operator/=(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  template< typename U >  inline auto  operator/=(const U &rhs)
+  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
   inline This &operator*=(const ValueType &rhs);
   inline This &operator*=(ValueType &&rhs);
 
                           inline This &operator*=(const Real &rhs);
   template< typename U >  inline This &operator*=(const Number<U> &rhs);
-  // template< typename U >  inline auto  operator*=(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  template< typename U >  inline auto  operator*=(const U &rhs)
+  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
   inline This &operator-=(const ValueType &rhs);
   inline This &operator-=(ValueType &&rhs);
 
                           inline This &operator-=(const Real &rhs);
   template< typename U >  inline This &operator-=(const Number<U> &rhs);
-  // template< typename U >  inline auto  operator-=(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  template< typename U >  inline auto  operator-=(const U &rhs)
+  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
   // Implicit Conversion Operator
   // inline operator ValueType() const;
@@ -234,99 +234,6 @@ template< typename U >
 inline auto Real::assign_add(const Number<U> &rhs) {
   value_ += static_cast<const U&>(rhs).value();
 }
-
-// inline void Real::assign(const Real &rhs) {
-//   value_ = rhs.value_;
-// }
-// inline void Real::assign_add(const Real &rhs) {
-//   value_ += rhs.value_;
-// }
-// inline void Real::assign_div(const Real &rhs) {
-//   value_ /= rhs.value_;
-// }
-// inline void Real::assign_mul(const Real &rhs) {
-//   value_ *= rhs.value_;
-// }
-// inline void Real::assign_sub(const Real &rhs) {
-//   value_ -= rhs.value_;
-// }
-// inline void Real::assign_neg(const Real &p) {
-//   value_ = -p.value_;
-// }
-// inline void Real::assign_inv(const Real &p) {
-//   value_ = 1.0/p.value_;
-// }
-// inline void Real::assign_pow(const Real &p) {
-//   value_ = std::pow(value_, p.value_);
-// }
-//
-// template< typename U >
-// inline auto Real::assign(const U &rhs)
-// -> EnableIf_t<IsBasicNumber<U>{}> {
-//   value_ = rhs;
-// }
-// template< typename U >
-// inline auto Real::assign_add(const U &rhs)
-// -> EnableIf_t<IsBasicNumber<U>{}> {
-//   value_ += rhs;
-// }
-// template< typename U >
-// inline auto Real::assign_div(const U &rhs)
-// -> EnableIf_t<IsBasicNumber<U>{}> {
-//   value_ /= rhs;
-// }
-// template< typename U >
-// inline auto Real::assign_mul(const U &rhs)
-// -> EnableIf_t<IsBasicNumber<U>{}> {
-//   value_ *= rhs;
-// }
-// template< typename U >
-// inline auto Real::assign_sub(const U &rhs)
-// -> EnableIf_t<IsBasicNumber<U>{}> {
-//   value_ -= rhs;
-// }
-
-// template< typename U >
-// inline void
-// Real::assign_add(const U &rhs) {
-//   value_ += result_of<U>::value(rhs);
-// }
-//
-// template< typename U >
-// inline void
-// Real::assign_div(const U &rhs) {
-//   value_ /= result_of<U>::value(rhs);
-// }
-//
-// template< typename U >
-// inline void
-// Real::assign_mul(const U &rhs) {
-//   value_ *= result_of<U>::value(rhs);
-// }
-//
-// template< typename U >
-// inline void
-// Real::assign_sub(const U &rhs) {
-//   value_ -= result_of<U>::value(rhs);
-// }
-
-// template< typename U >
-// inline void
-// Real::assign_neg(const U &rhs) {
-//   value_ = -result_of<U>::value(rhs);
-// }
-//
-// template< typename U >
-// inline void
-// Real::assign_inv(const U &rhs) {
-//   value_ = 1.0/result_of<U>::value(rhs);
-// }
-//
-// template< typename U >
-// inline void
-// Real::assign_pow(const U &p) {
-//   value_ = std::pow(value_, result_of<U>::value(p));
-// }
 
 } // sym
 

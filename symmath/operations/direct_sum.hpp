@@ -5,7 +5,7 @@
 
 #include <symmath/operations/dsum.hpp>
 #include <symmath/properties/direct_sum.hpp>
-#include <symmath/type_traits/has_property.hpp>
+#include <symmath/property_traits/has_property.hpp>
 
 namespace sym {
 

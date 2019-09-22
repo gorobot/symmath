@@ -1,8 +1,6 @@
 #ifndef SYMMATH_TENSORS_SCALAR_HPP
 #define SYMMATH_TENSORS_SCALAR_HPP
 
-#include <initializer_list>
-
 #include <symmath/tensors/tensor.hpp>
 
 namespace sym {

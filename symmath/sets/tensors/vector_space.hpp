@@ -12,7 +12,7 @@
 #include <symmath/properties/identity_element.hpp>
 #include <symmath/properties/inverse_element.hpp>
 #include <symmath/properties/scalar_multiplication.hpp>
-#include <symmath/type_traits/has_property.hpp>
+#include <symmath/property_traits/has_property.hpp>
 
 namespace sym {
 

@@ -6,10 +6,10 @@
 #include <numeric>
 #include <vector>
 
-#include <symmath/sets/numerics/vector_space.hpp>
+#include <symmath/sets/tensors/vector_space.hpp>
 #include <symmath/tensors/tensor_initializer.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/nested_initializer.hpp>
+#include <symmath/type_traits/nested_initializer_list.hpp>
 #include <symmath/type_traits/void_t.hpp>
 
 namespace sym {
@@ -58,13 +58,13 @@ public:
   explicit inline Tensor();
   template< typename ...U, typename = EnableIf_t<sizeof...(U) == Order> >
   explicit inline Tensor(const U... dim);
-  explicit inline Tensor(NestedInitializer_t<T, Order> list);
+  explicit inline Tensor(NestedInitializerList_t<T, Order> list);
 
   template< typename U >  explicit inline Tensor(const Other<U> &other);
   template< typename U >  explicit inline Tensor(Other<U> &&other);
 
   // Assignment Operator
-  inline This &operator=(NestedInitializer_t<T, Order> list);
+  inline This &operator=(NestedInitializerList_t<T, Order> list);
 
   template< typename U >  inline This &operator=(const Other<U> &other);
   template< typename U >  inline This &operator=(Other<U> &&other);
@@ -122,14 +122,9 @@ inline Tensor<T, N, M>::Tensor(const U... dim)
 template< typename T,
           size_t N,
           size_t M >
-inline Tensor<T, N, M>::Tensor(NestedInitializer_t<T, Order> list)
+inline Tensor<T, N, M>::Tensor(NestedInitializerList_t<T, Order> list)
   : dim_(dim_initializer_list<T>(list)),
-    value_(flatten_initializer_list<T>(list)) {
-
-  // dim_ = dim_initializer_list<T>(list);
-  // value_ = flatten_initializer_list<T>(list);
-
-}
+    value_(flatten_initializer_list<T>(list)) {}
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions

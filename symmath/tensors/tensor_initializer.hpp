@@ -1,11 +1,12 @@
 #ifndef SYMMATH_TENSORS_TENSOR_INITIALIZER_HPP
 #define SYMMATH_TENSORS_TENSOR_INITIALIZER_HPP
 
+#include <array>
 #include <initializer_list>
 #include <type_traits>
 #include <vector>
 
-#include <symmath/type_traits/nested_initializer.hpp>
+#include <symmath/type_traits/nested_initializer_list.hpp>
 
 namespace sym {
 
@@ -33,13 +34,13 @@ public:
 // -----------------------------------------------------------------------------
 
 template< typename T >
-std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 1> list) {
+std::vector<T> flatten_initializer_list(NestedInitializerList_t<T, 1> list) {
   std::vector<T> v = list;
   return v;
 }
 
 template< typename T >
-std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 2> list) {
+std::vector<T> flatten_initializer_list(NestedInitializerList_t<T, 2> list) {
   std::vector<T> v;
   for(auto l : list) {
     v.insert(v.end(), l);
@@ -48,7 +49,7 @@ std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 2> list) {
 }
 
 template< typename T >
-std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 3> list) {
+std::vector<T> flatten_initializer_list(NestedInitializerList_t<T, 3> list) {
   std::vector<T> v;
   for(auto l : list) {
     std::vector<T> lv = flatten_initializer_list<T>(l);
@@ -58,7 +59,7 @@ std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 3> list) {
 }
 
 template< typename T >
-std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 4> list) {
+std::vector<T> flatten_initializer_list(NestedInitializerList_t<T, 4> list) {
   std::vector<T> v;
   for(auto l : list) {
     std::vector<T> lv = flatten_initializer_list<T>(l);
@@ -70,13 +71,13 @@ std::vector<T> flatten_initializer_list(NestedInitializer_t<T, 4> list) {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-std::array<size_t, 1> dim_initializer_list(NestedInitializer_t<T, 1> list) {
+std::array<size_t, 1> dim_initializer_list(NestedInitializerList_t<T, 1> list) {
   std::array<size_t, 1> arr = {list.size()};
   return arr;
 }
 
 template< typename T >
-std::array<size_t, 2> dim_initializer_list(NestedInitializer_t<T, 2> list) {
+std::array<size_t, 2> dim_initializer_list(NestedInitializerList_t<T, 2> list) {
   std::array<size_t, 2> arr;
   arr[0] = list.size();
 
@@ -89,7 +90,7 @@ std::array<size_t, 2> dim_initializer_list(NestedInitializer_t<T, 2> list) {
 }
 
 template< typename T >
-std::array<size_t, 3> dim_initializer_list(NestedInitializer_t<T, 3> list) {
+std::array<size_t, 3> dim_initializer_list(NestedInitializerList_t<T, 3> list) {
   std::array<size_t, 3> arr;
   arr[0] = list.size();
 
@@ -106,7 +107,7 @@ std::array<size_t, 3> dim_initializer_list(NestedInitializer_t<T, 3> list) {
 }
 
 template< typename T >
-std::array<size_t, 4> dim_initializer_list(NestedInitializer_t<T, 4> list) {
+std::array<size_t, 4> dim_initializer_list(NestedInitializerList_t<T, 4> list) {
   std::array<size_t, 4> arr;
   arr[0] = list.size();
 
@@ -125,49 +126,6 @@ std::array<size_t, 4> dim_initializer_list(NestedInitializer_t<T, 4> list) {
   }
   return arr;
 }
-
-// -----------------------------------------------------------------------------
-
-// template< typename T >
-// struct is_list
-//   : std::false_type {};
-//
-// template< typename T >
-// struct is_list<std::initializer_list<T>>
-//   : std::true_type {};
-//
-// template< typename T >
-// struct is_nested_list
-//   : std::false_type {};
-//
-// // template< typename T >
-// // struct is_nested_list<std::initializer_list<std::initializer_list<T>>>
-// //   : std::true_type {};
-//
-// template< typename L,
-//           typename T >
-// inline auto extract(L list, size_t level, size_t dim[], std::vector<T> &v)
-// -> EnableIf_t<!is_nested_list<L>{}> {}
-//
-// template< typename L,
-//           typename T >
-// inline auto extract(L list, size_t level, size_t dim[], std::vector<T> &v)
-// -> EnableIf_t<is_nested_list<L>{}> {
-//
-//   dim[level] = list.size();
-//   std::cout << list.size() << '\n';
-//
-//   for(const auto &l : list) {
-//
-//     if(is_nested_list<std::remove_cv<std::remove_reference<decltype(l)>>>{}) {
-//       extract(l, ++level, dim, v);
-//     } else {
-//       dim[level + 1] = l.size();
-//       v.insert(v.end(), l);
-//     }
-//
-//   }
-// }
 
 } // sym
 
