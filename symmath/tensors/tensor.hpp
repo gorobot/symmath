@@ -8,7 +8,6 @@
 
 #include <symmath/sets/numerics/vector_space.hpp>
 #include <symmath/tensors/tensor_initializer.hpp>
-#include <symmath/type_traits/product.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/nested_initializer.hpp>
 #include <symmath/type_traits/void_t.hpp>

@@ -1,17 +1,10 @@
 #ifndef SYMMATH_TENSORS_VECTOR_HPP
 #define SYMMATH_TENSORS_VECTOR_HPP
 
-#include <type_traits>
+#include <initializer_list>
 
-#include <symmath/numerics/tensor.hpp>
+#include <symmath/tensors/tensor.hpp>
 #include <symmath/sets/numerics/vector_space.hpp>
-#include "../properties/has_value_array.hpp"
-#include "../properties/has_addition.hpp"
-#include "../properties/has_additive_inverse.hpp"
-#include "../properties/has_assignment.hpp"
-#include "../properties/has_multiplication.hpp"
-#include "../properties/has_subtraction.hpp"
-#include "../type_traits/result_of.hpp"
 
 namespace sym {
 

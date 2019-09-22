@@ -5,8 +5,24 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-// template< typename T >
+namespace {
 
+} // detail
+
+// -----------------------------------------------------------------------------
+
+template< typename R,
+          typename Args... >
+class Function {
+public:
+
+  // using ElementOf =
+
+private:
+
+public:
+
+};
 
 } // sym
 

@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "../symbolic.hpp"
+#include "../type_traits/enable_if.hpp"
 
 namespace sym {
 
@@ -96,7 +97,7 @@ private:
   template< typename U >
   friend inline auto
   apply_(U &lhs, const Expression<U> &rhs)
-  -> std::enable_if_t<is_symbolic<U>{}> {
+  -> EnableIf_t<is_symbolic<U>{}> {
     // auto v = rhs.ptr_->get_visitor();
 
   }
