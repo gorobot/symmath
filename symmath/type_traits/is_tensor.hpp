@@ -3,18 +3,18 @@
 
 #include <type_traits>
 
-#include "../tensor/tensor.hpp"
+#include <symmath/tensors/tensor.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_tensor
+struct IsTensor
   : std::is_base_of<Tensor, T> {};
 
 template< typename T >
-using is_tensor_t = typename is_tensor<T>::type;
+using IsTensor_t = typename IsTensor<T>::type;
 
 } // sym
 

@@ -1,55 +1,61 @@
 #ifndef SYMMATH_OPERATIONS_TENSOR_PRODUCT_HPP
 #define SYMMATH_OPERATIONS_TENSOR_PRODUCT_HPP
 
+#include <type_traits>
+
+#include <symmath/operations/tensor_prod.hpp>
+#include <symmath/properties/tensor_product.hpp>
+#include <symmath/type_traits/has_property.hpp>
+
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T1,
           typename T2 >
-class TensorProduct
-  : public BinaryOperation {
-public:
-
-  using R1 = ResultType_t<T1>;
-  using R2 = ResultType_t<T2>;
-
-  // using ResultType = std::common_type_t<R1, R2>;
-  using ResultType = R1;
-
-  using LhsType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>{}, const T2, const T2&>;
-
-private:
-
-  LhsType lhs_;
-  RhsType rhs_;
-
-public:
-
-  explicit inline TensorProduct(const T1 &lhs, const T2 &rhs);
-
-private:
-
-  template< typename U >
-  friend inline void
-  assign_(U &lhs, const TensorProduct<T1, T2> &rhs) {
-    assign_(lhs, rhs.lhs_);
-    assign_tensor_product_(lhs, rhs.rhs_);
-  }
-
-};
+inline auto
+assign_tensor_prod_(T1 &lhs, const T2 &rhs)
+-> EnableIf_t<HasProperty<T1, TensorProduct>{} &&
+              HasProperty<T2, TensorProduct>{} &&
+              std::is_same<T1, T2>{}> {
+  lhs.assign_tensor_prod(rhs);
+}
 
 // -----------------------------------------------------------------------------
-// Constructor
+
 template< typename T1,
           typename T2 >
-inline TensorProduct<T1, T2>::TensorProduct(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
+auto
+operator*(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<HasProperty<T1, TensorProduct>{} &&
+              HasProperty<T2, TensorProduct>{} &&
+              std::is_same<T1, T2>{},
+              const TensorProd<T1, T2>> {
+  return TensorProd<T1, T2>(lhs, rhs);
+}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
+template< typename T1,
+          typename T2 >
+auto
+mul(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<HasProperty<T1, TensorProduct>{} &&
+              HasProperty<T2, TensorProduct>{} &&
+              std::is_same<T1, T2>{},
+              const TensorProd<T1, T2>> {
+  return TensorProd<T1, T2>(lhs, rhs);
+}
+
+template< typename T1,
+          typename T2 >
+inline auto
+operator*=(T1 &lhs, const T2 &rhs)
+-> EnableIf_t<HasProperty<T1, TensorProduct>{} &&
+              HasProperty<T2, TensorProduct>{} &&
+              std::is_same<T1, T2>{},
+              T1&> {
+  assign_tensor_prod_(lhs, rhs);
+  return lhs;
+}
 
 } // sym
 

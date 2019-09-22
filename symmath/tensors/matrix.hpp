@@ -1,16 +1,9 @@
 #ifndef SYMMATH_TENSORS_MATRIX_HPP
 #define SYMMATH_TENSORS_MATRIX_HPP
 
-#include <type_traits>
+#include <initializer_list>
 
-#include "tensor.hpp"
-#include "../properties/has_value_array.hpp"
-#include "../properties/has_addition.hpp"
-#include "../properties/has_additive_inverse.hpp"
-#include "../properties/has_assignment.hpp"
-#include "../properties/has_multiplication.hpp"
-#include "../properties/has_subtraction.hpp"
-#include "../type_traits/result_of.hpp"
+#include <symmath/tensors/tensor.hpp>
 
 namespace sym {
 
@@ -25,10 +18,15 @@ template< typename T >
 class Tensor<T, 1, 1> {
 public:
 
-  using This = Matrix<T>;
+  static constexpr size_t Order = (2);
 
-  template< typename U >
-  using Other = Matrix<U>;
+                          using This      = Matrix<T>;
+  template< typename U >  using Other     = Matrix<U>;
+
+  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
+  template< typename U >  using Covector  = Tensor<U, 0, 1>;
+  template< typename U >  using Vector    = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
 
   // using ElementOf =
 
@@ -46,7 +44,7 @@ public:
 
 private:
 
-  size_t dim_[2];
+  std::array<size_t, Order> dim_;
 
   ArrayType value_;
 
@@ -68,6 +66,10 @@ public:
 
   // Assign
   template< typename U >  inline void assign(const Other<U> &rhs);
+
+  // Assign Scalar Multiplication
+                          inline void assign_scalar_mul(const ValueType &rhs);
+  template< typename U >  inline void assign_scalar_mul(const Scalar<U> &rhs);
 
   // Assign Tensor Product
   template< typename U, size_t N, size_t M >

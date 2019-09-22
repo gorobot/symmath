@@ -18,10 +18,15 @@ template< typename T >
 class Tensor<T, 0, 0> {
 public:
 
-  using This = Scalar<T>;
+  static constexpr size_t Order = (1);
 
-  template< typename U >
-  using Other = Scalar<U>;
+                          using This      = Scalar<T>;
+  template< typename U >  using Other     = Scalar<U>;
+
+  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
+  template< typename U >  using Covector  = Tensor<U, 0, 1>;
+  template< typename U >  using Vector    = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
 
   using ElementOf = typename T::ElementOf;
 
@@ -51,7 +56,11 @@ public:
 
   // Assign
                           inline void assign(const ValueType &rhs);
-  template< typename U >  inline void assign(const Number<U> &rhs);
+  template< typename U >  inline void assign(const Scalar<U> &rhs);
+
+  // Assign Scalar Multiplication
+                          inline void assign_scalar_mul(const ValueType &rhs);
+  template< typename U >  inline void assign_scalar_mul(const Scalar<U> &rhs);
 
   // Assign Tensor Product
   template< typename U, size_t N, size_t M >

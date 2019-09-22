@@ -26,7 +26,15 @@ template< typename T >
 class Tensor<T, 0, 1> {
 public:
 
-  using This = Covector<T>;
+  static constexpr size_t Order = (1);
+
+                          using This      = Covector<T>;
+  template< typename U >  using Other     = Covector<U>;
+
+  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
+  template< typename U >  using Covector  = Tensor<U, 0, 1>;
+  template< typename U >  using Vector    = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
 
   // using ElementOf = typename T::ElementOf;
 

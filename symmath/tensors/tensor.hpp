@@ -2,13 +2,13 @@
 #define SYMMATH_TENSORS_TENSOR_HPP
 
 #include <algorithm>
-#include <iostream>
+#include <array>
 #include <numeric>
 #include <vector>
 
 #include <symmath/sets/numerics/vector_space.hpp>
+#include <symmath/tensors/tensor_initializer.hpp>
 #include <symmath/type_traits/product.hpp>
-#include <symmath/type_traits/disable_if.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/nested_initializer.hpp>
 #include <symmath/type_traits/void_t.hpp>
@@ -25,9 +25,13 @@ public:
 
   static constexpr size_t Order = (N + M);
 
-  using This = Tensor<T, N, M>;
+                          using This      = Tensor<T, N, M>;
+  template< typename U >  using Other     = Tensor<U, N, M>;
 
-  template< typename U > using Other = Tensor<U, N, M>;
+  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
+  template< typename U >  using Covector  = Tensor<U, 0, 1>;
+  template< typename U >  using Vector    = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
 
   // using ElementOf =
 
@@ -45,7 +49,7 @@ public:
 
 private:
 
-  size_t dim_[Order];
+  std::array<size_t, Order> dim_;
 
   ArrayType value_;
 
@@ -69,11 +73,16 @@ public:
   // Assign
   template< typename U >  inline void assign(const Other<U> &rhs);
 
+  // Assign Scalar Multiplication
+                          inline void assign_scalar_mul(const ValueType &rhs);
+  template< typename U >  inline void assign_scalar_mul(const Scalar<U> &rhs);
+
   // Assign Tensor Product
   template< typename U, size_t P, size_t Q >
   inline void assign_tensor_prod(const Tensor<U, P, Q> &rhs);
 
   inline auto size() const -> size_type;
+  inline auto dim(size_t d) const -> size_type;
 
   template< typename ...U, typename = EnableIf_t<sizeof...(U) == Order> >
   inline auto operator()(U... dim) -> ValueType &;
@@ -101,7 +110,8 @@ inline Tensor<T, N, M>::Tensor(const U... dim)
   : dim_{dim...},
     value_() {
 
-  size_t n = std::accumulate(dim_, dim_ + Order, 1, std::multiplies<size_t>());
+  size_t n;
+  n = std::accumulate(dim_.begin(), dim_.end(), 1, std::multiplies<size_t>());
   value_.reserve(n);
 
   for(size_t i = 0; i < n; i++) {
@@ -110,58 +120,15 @@ inline Tensor<T, N, M>::Tensor(const U... dim)
 
 }
 
-template< typename T >
-struct is_list
-  : std::false_type {};
-
-template< typename T >
-struct is_list<std::initializer_list<T>>
-  : std::true_type {};
-
-template< typename T >
-struct is_nested_list
-  : std::false_type {};
-
-template< typename T >
-struct is_nested_list<std::initializer_list<std::initializer_list<T>>>
-  : std::true_type {};
-
-template< typename L,
-          typename T >
-auto extract(L list, size_t level, size_t dim[], std::vector<T> &v)
--> EnableIf_t<!is_nested_list<L>{}> {}
-
-template< typename L,
-          typename T >
-auto extract(L list, size_t level, size_t dim[], std::vector<T> &v)
--> EnableIf_t<is_nested_list<L>{}> {
-
-  dim[level] = list.size();
-
-  for(const auto &l : list) {
-
-    if(is_nested_list<decltype(l)>{}) {
-      extract(l, ++level, dim, v);
-    } else {
-      dim[level + 1] = l.size();
-      v.insert(v.end(), l);
-    }
-
-  }
-}
-
 template< typename T,
           size_t N,
           size_t M >
 inline Tensor<T, N, M>::Tensor(NestedInitializer_t<T, Order> list)
-  : dim_{0},
-    value_() {
+  : dim_(dim_initializer_list<T>(list)),
+    value_(flatten_initializer_list<T>(list)) {
 
-  extract(list, 0, dim_, value_);
-
-  std::cout << "dim: ";
-  std::cout << dim_[0];
-  std::cout << dim_[1] << '\n';
+  // dim_ = dim_initializer_list<T>(list);
+  // value_ = flatten_initializer_list<T>(list);
 
 }
 
@@ -177,25 +144,26 @@ inline auto Tensor<T, N, M>::size() const -> size_type {
 template< typename T,
           size_t N,
           size_t M >
+inline auto Tensor<T, N, M>::dim(size_t d) const -> size_type {
+  return dim_[d];
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
 template< typename ...U,
           typename >
 inline auto Tensor<T, N, M>::operator()(U... dim) -> ValueType & {
-  size_t pack[] = {dim...};
-  // size_t idx = pack[Order];
+  std::array<size_t, Order> pack = {dim...};
   size_t idx = 0;
-  std::cout << "idx = 0";
-  for(size_t i = Order; i--; ) {
-    std::cout << " + " << pack[i];
+
+  for(size_t i = Order; i --> 0; ) {
     idx += pack[i];
-    for(size_t j = i; j--; ) {
-      std::cout << "*" << dim_[j];
-      idx *= dim_[j];
+    for(size_t j = i; j --> 0; ) {
+      pack[j] *= dim_[i];
     }
   }
-  std::cout << " = " << idx << '\n';
-  // for(size_t i = 1; i < Order; i++) {
-  //   idx += dim_[i] * pack[i];
-  // }
+
   return value_[idx];
 }
 
@@ -205,25 +173,16 @@ template< typename T,
 template< typename ...U,
           typename >
 inline auto Tensor<T, N, M>::operator()(U... dim) const -> const ValueType & {
-  size_t pack[] = {dim...};
-  // size_t idx = pack[Order];
+  std::array<size_t, Order> pack = {dim...};
   size_t idx = 0;
-  for(size_t i = Order; i--; ) {
+
+  for(size_t i = Order; i --> 0; ) {
     idx += pack[i];
-    for(size_t j = i; j--; ) {
-      idx *= dim_[j];
+    for(size_t j = i; j --> 0; ) {
+      pack[j] *= dim_[i];
     }
   }
-  // for(size_t i = 1; i < Order; i++) {
-  //   idx += dim_[i] * pack[i];
-  // }
 
-  // for(size_t i = Order; i--; ) {
-  //   idx += pack[i];
-  //   for(size_t j = i; j--; ) {
-  //     idx *= dim_[j];
-  //   }
-  // }
   return value_[idx];
 }
 

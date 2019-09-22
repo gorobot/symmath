@@ -61,4 +61,5 @@ create_test(
   # tensors/test_vector
   # tensors/test_scalar
   tensors/test_tensor
+  tensors/test_tensor_initializer
 )

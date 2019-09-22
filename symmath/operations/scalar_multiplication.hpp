@@ -3,8 +3,8 @@
 
 #include <type_traits>
 
-#include <symmath/operations/mul.hpp>
-#include <symmath/properties/multiplication.hpp>
+#include <symmath/operations/scalar_mul.hpp>
+#include <symmath/properties/scalar_multiplication.hpp>
 #include <symmath/type_traits/has_property.hpp>
 #include <symmath/type_traits/is_scalar.hpp>
 
@@ -15,11 +15,11 @@ namespace sym {
 template< typename T1,
           typename T2 >
 inline auto
-assign_mul_(T1 &lhs, const T2 &rhs)
+assign_scalar_mul_(T1 &lhs, const T2 &rhs)
 -> EnableIf_t<HasProperty<T1, ScalarMultiplication>{} &&
               HasProperty<T2, ScalarMultiplication>{} &&
               std::is_same<T1, T2>{}> {
-  lhs.assign_mul(rhs);
+  lhs.assign_scalar_mul(rhs);
 }
 
 // -----------------------------------------------------------------------------
@@ -31,8 +31,8 @@ operator*(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<HasProperty<T1, ScalarMultiplication>{} &&
               HasProperty<T2, ScalarMultiplication>{} &&
               std::is_same<T1, T2>{},
-              const Mul<T1, T2>> {
-  return Mul<T1, T2>(lhs, rhs);
+              const ScalarMul<T1, T2>> {
+  return ScalarMul<T1, T2>(lhs, rhs);
 }
 
 template< typename T1,
@@ -42,8 +42,8 @@ mul(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<HasProperty<T1, ScalarMultiplication>{} &&
               HasProperty<T2, ScalarMultiplication>{} &&
               std::is_same<T1, T2>{},
-              const Mul<T1, T2>> {
-  return Mul<T1, T2>(lhs, rhs);
+              const ScalarMul<T1, T2>> {
+  return ScalarMul<T1, T2>(lhs, rhs);
 }
 
 template< typename T1,
@@ -54,7 +54,7 @@ operator*=(T1 &lhs, const T2 &rhs)
               HasProperty<T2, ScalarMultiplication>{} &&
               std::is_same<T1, T2>{},
               T1&> {
-  assign_mul_(lhs, rhs);
+  assign_scalar_mul_(lhs, rhs);
   return lhs;
 }
 
