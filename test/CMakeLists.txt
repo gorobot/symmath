@@ -59,5 +59,6 @@ create_test(
   FILES
   # tensors/test_matrix
   # tensors/test_vector
-  tensors/test_scalar
+  # tensors/test_scalar
+  tensors/test_tensor
 )

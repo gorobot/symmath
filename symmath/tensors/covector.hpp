@@ -1,9 +1,10 @@
-#ifndef SYMMATH_TENSORS_MATRIX_HPP
-#define SYMMATH_TENSORS_MATRIX_HPP
+#ifndef SYMMATH_TENSORS_COVECTOR_HPP
+#define SYMMATH_TENSORS_COVECTOR_HPP
 
 #include <type_traits>
 
-#include "tensor.hpp"
+#include <symmath/numerics/tensor.hpp>
+#include <symmath/sets/numerics/vector_space.hpp>
 #include "../properties/has_value_array.hpp"
 #include "../properties/has_addition.hpp"
 #include "../properties/has_additive_inverse.hpp"
@@ -17,20 +18,17 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-using Matrix = Tensor<T, 1, 1>;
+using Covector = Tensor<T, 0, 1>;
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-class Tensor<T, 1, 1> {
+class Tensor<T, 0, 1> {
 public:
 
-  using This = Matrix<T>;
+  using This = Covector<T>;
 
-  template< typename U >
-  using Other = Matrix<U>;
-
-  // using ElementOf =
+  // using ElementOf = typename T::ElementOf;
 
   using ValueType = T;
   using ArrayType = std::vector<ValueType>;
@@ -46,7 +44,7 @@ public:
 
 private:
 
-  size_t dim_[2];
+  size_t dim_[1];
 
   ArrayType value_;
 
@@ -54,27 +52,20 @@ public:
 
   // Constructor
   explicit inline Tensor();
-  explicit inline Tensor(const size_t n, const size_t m);
-  explicit inline Tensor(std::initializer_list<std::initializer_list<T>> list);
+  explicit inline Tensor(const size_t n);
+  explicit inline Tensor(std::initializer_list<T> list);
 
-  template< typename U >  explicit inline Tensor(const Other<U> &other);
-  template< typename U >  explicit inline Tensor(Other<U> &&other);
+  template< typename U >  explicit inline Tensor(const Covector<U> &other);
+  template< typename U >  explicit inline Tensor(Covector<U> &&other);
 
   // Assignment Operator
-  inline This &operator=(std::initializer_list<std::initializer_list<T>> list);
+  inline This &operator=(std::initializer_list<T> list);
 
-  template< typename U >  inline This &operator=(const Other<U> &other);
-  template< typename U >  inline This &operator=(Other<U> &&other);
+  template< typename U >  inline This &operator=(const Covector<U> &other);
+  template< typename U >  inline This &operator=(Covector<U> &&other);
 
-  // Assign
-  template< typename U >  inline void assign(const Other<U> &rhs);
-
-  // Assign Tensor Product
-  template< typename U, size_t N, size_t M >
-  inline void assign_tensor_prod(const Tensor<U, N, M> &rhs);
-
-  inline ValueType &operator()(const size_t i_, const size_t j_);
-  inline const ValueType &operator()(const size_t i_, const size_t j_) const;
+  inline ValueType &operator()(const size_t i_);
+  inline const ValueType &operator()(const size_t i_) const;
 
 };
 
@@ -87,4 +78,4 @@ public:
 
 } // sym
 
-#endif // SYMMATH_TENSORS_MATRIX_HPP
+#endif // SYMMATH_TENSORS_COVECTOR_HPP

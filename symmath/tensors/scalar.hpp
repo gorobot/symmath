@@ -20,6 +20,9 @@ public:
 
   using This = Scalar<T>;
 
+  template< typename U >
+  using Other = Scalar<U>;
+
   using ElementOf = typename T::ElementOf;
 
   using ValueType = T;
@@ -36,15 +39,23 @@ public:
   explicit inline Tensor(const ValueType &value);
   explicit inline Tensor(ValueType &&value);
 
-  template< typename U >  explicit inline Tensor(const Scalar<U> &other);
-  template< typename U >  explicit inline Tensor(Scalar<U> &&other);
+  template< typename U >  explicit inline Tensor(const Other<U> &other);
+  template< typename U >  explicit inline Tensor(Other<U> &&other);
 
   // Assignment Operator
   inline This &operator=(const ValueType &value);
   inline This &operator=(ValueType &&value);
 
-  template< typename U >  inline This &operator=(const Scalar<U> &other);
-  template< typename U >  inline This &operator=(Scalar<U> &&other);
+  template< typename U >  inline This &operator=(const Other<U> &other);
+  template< typename U >  inline This &operator=(Other<U> &&other);
+
+  // Assign
+                          inline void assign(const ValueType &rhs);
+  template< typename U >  inline void assign(const Number<U> &rhs);
+
+  // Assign Tensor Product
+  template< typename U, size_t N, size_t M >
+  inline void assign_tensor_prod(const Tensor<U, N, M> &rhs);
 
   inline auto operator()() -> ValueType &;
   inline auto operator()() const -> const ValueType &;

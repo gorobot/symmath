@@ -1,5 +1,5 @@
-#ifndef SYMMATH_SETS_NUMERICS_VECTOR_SPACE_HPP
-#define SYMMATH_SETS_NUMERICS_VECTOR_SPACE_HPP
+#ifndef SYMMATH_SETS_NUMERICS_DUAL_SPACE_HPP
+#define SYMMATH_SETS_NUMERICS_DUAL_SPACE_HPP
 
 #include <type_traits>
 
@@ -18,43 +18,43 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-class VectorSpace
+class DualSpace
   : private Set {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations
 template<>
-struct HasProperty<VectorSpace, Addition>
+struct HasProperty<DualSpace, Addition>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, AssociativeProperty<Addition>>
+struct HasProperty<DualSpace, AssociativeProperty<Addition>>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, ClosureProperty<Addition>>
+struct HasProperty<DualSpace, ClosureProperty<Addition>>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, CommutativeProperty<Addition>>
+struct HasProperty<DualSpace, CommutativeProperty<Addition>>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, DistributiveProperty<Addition>>
+struct HasProperty<DualSpace, DistributiveProperty<Addition>>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, IdentityElement<Addition>>
+struct HasProperty<DualSpace, IdentityElement<Addition>>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, InverseElement<Addition>>
+struct HasProperty<DualSpace, InverseElement<Addition>>
   : std::true_type {};
 
 template<>
-struct HasProperty<VectorSpace, ScalarMultiplication>
+struct HasProperty<DualSpace, ScalarMultiplication>
   : std::true_type {};
 
 } // sym
 
-#endif // SYMMATH_SETS_NUMERICS_VECTOR_SPACE_HPP
+#endif // SYMMATH_SETS_NUMERICS_DUAL_SPACE_HPP

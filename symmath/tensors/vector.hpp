@@ -28,10 +28,22 @@ public:
 
   using This = Vector<T>;
 
+  template< typename U >
+  using Other = Vector<U>;
+
   // using ElementOf = typename T::ElementOf;
 
   using ValueType = T;
   using ArrayType = std::vector<ValueType>;
+
+  // STL Type Requirements
+  using value_type      = ValueType;
+  using reference       = ValueType&;
+  using const_reference = const ValueType&;
+  using iterator        = ArrayType::iterator;
+  using const_iterator  = ArrayType::const_iterator;
+  using difference_type = ArrayType::difference_type;
+  using size_type       = ArrayType::size_type;
 
 private:
 
@@ -46,14 +58,21 @@ public:
   explicit inline Tensor(const size_t n);
   explicit inline Tensor(std::initializer_list<T> list);
 
-  template< typename U >  explicit inline Tensor(const Vector<U> &other);
-  template< typename U >  explicit inline Tensor(Vector<U> &&other);
+  template< typename U >  explicit inline Tensor(const Other<U> &other);
+  template< typename U >  explicit inline Tensor(Other<U> &&other);
 
   // Assignment Operator
   inline This &operator=(std::initializer_list<T> list);
 
-  template< typename U >  inline This &operator=(const Vector<U> &other);
-  template< typename U >  inline This &operator=(Vector<U> &&other);
+  template< typename U >  inline This &operator=(const Other<U> &other);
+  template< typename U >  inline This &operator=(Other<U> &&other);
+
+  // Assign
+  template< typename U >  inline void assign(const Other<U> &rhs);
+
+  // Assign Tensor Product
+  template< typename U, size_t N, size_t M >
+  inline void assign_tensor_prod(const Tensor<U, N, M> &rhs);
 
   inline ValueType &operator()(const size_t i_);
   inline const ValueType &operator()(const size_t i_) const;
