@@ -8,39 +8,39 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_integral
+struct IsIntegral
   : std::false_type {};
 
 template<>
-struct is_integral<short>
+struct IsIntegral<short>
   : std::true_type {};
 
 template<>
-struct is_integral<unsigned short>
+struct IsIntegral<unsigned short>
   : std::true_type {};
 
 template<>
-struct is_integral<int>
+struct IsIntegral<int>
   : std::true_type {};
 
 template<>
-struct is_integral<unsigned int>
+struct IsIntegral<unsigned int>
   : std::true_type {};
 
 template<>
-struct is_integral<long>
+struct IsIntegral<long>
   : std::true_type {};
 
 template<>
-struct is_integral<unsigned long>
+struct IsIntegral<unsigned long>
   : std::true_type {};
 
 template<>
-struct is_integral<long long>
+struct IsIntegral<long long>
   : std::true_type {};
 
 template<>
-struct is_integral<unsigned long long>
+struct IsIntegral<unsigned long long>
   : std::true_type {};
 
 } // sym

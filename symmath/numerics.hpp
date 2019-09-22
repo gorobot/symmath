@@ -1,13 +1,10 @@
 #ifndef SYMMATH_NUMERICS_HPP
 #define SYMMATH_NUMERICS_HPP
 
-#include "number/natural.hpp"
-#include "number/integer.hpp"
-#include "number/real.hpp"
-#include "number/complex.hpp"
-
-#include "expression/apply.hpp"
-
-#include "operation/arithmetic.hpp"
+#include <symmath/numerics/complex.hpp>
+#include <symmath/numerics/integer.hpp>
+#include <symmath/numerics/natural.hpp>
+#include <symmath/numerics/real.hpp>
+#include <symmath/numerics/variable.hpp>
 
 #endif // SYMMATH_NUMERICS_HPP

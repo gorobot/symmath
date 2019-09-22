@@ -3,36 +3,18 @@
 
 #include <type_traits>
 
-#include "../operation/operation.hpp"
+#include "../operations/operation.hpp"
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_operation_helper {
-private:
-
-  template< typename U >
-  static std::true_type test(Operation<U> &);
-
-  template< typename U >
-  static std::true_type test(const Operation<U> &);
-
-  static std::false_type test(...);
-
-public:
-
-  using type = decltype(test(std::declval<T&>()));
-
-};
+struct IsOperation
+  : std::is_base_of<Operation, T> {};
 
 template< typename T >
-struct is_operation
-  : is_operation_helper<T>::type {};
-
-template< typename T >
-using is_operation_t = typename is_operation_helper<T>::type;
+using IsOperation_t = typename IsOperation<T>::type;
 
 } // sym
 

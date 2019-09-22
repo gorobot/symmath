@@ -1,16 +1,23 @@
-#ifndef SYMMATH_TYPE_TRAITS_IS_NUMERIC_HPP
-#define SYMMATH_TYPE_TRAITS_IS_NUMERIC_HPP
+#ifndef SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
+#define SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
 
 #include <type_traits>
 
-#include "../number/number.hpp"
+#include <symmath/numerics/number.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
+// template< typename T >
+// struct IsNumber
+//   : std::is_base_of<Number, T> {};
+//
+// template< typename T >
+// using IsNumeric_t = typename IsNumber<T>::type;
+
 template< typename T >
-struct is_number_helper {
+struct IsNumber_helper {
 private:
 
   template< typename U >
@@ -28,12 +35,12 @@ public:
 };
 
 template< typename T >
-struct is_number
-  : is_number_helper<T>::type {};
+struct IsNumber
+  : IsNumber_helper<T>::type {};
 
 template< typename T >
-using is_number_t = typename is_number_helper<T>::type;
+using IsNumber_t = typename IsNumber_helper<T>::type;
 
 } // sym
 
-#endif // SYMMATH_TYPE_TRAITS_IS_NUMERIC_HPP
+#endif // SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
