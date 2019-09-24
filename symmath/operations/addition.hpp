@@ -3,7 +3,7 @@
 
 #include <type_traits>
 
-#include <symmath/operations/add.hpp>
+#include <symmath/operations/basic/add.hpp>
 #include <symmath/property_traits/addable.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_same_result.hpp>

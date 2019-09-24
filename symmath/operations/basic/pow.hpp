@@ -3,9 +3,9 @@
 
 #include <type_traits>
 
-#include "unary_operation.hpp"
-#include "../type_traits/conditional.hpp"
-#include "../type_traits/is_operation.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/is_operation.hpp>
 #include "../type_traits/result_type.hpp"
 
 namespace sym {
@@ -15,7 +15,7 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class Pow
-  : private UnaryOperation {
+  : private Operation {
 public:
 
   using R1 = ResultType_t<T1>;

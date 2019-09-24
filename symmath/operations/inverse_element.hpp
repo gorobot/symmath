@@ -1,10 +1,10 @@
 #ifndef SYMMATH_OPERATIONS_INVERSE_ELEMENT_HPP
 #define SYMMATH_OPERATIONS_INVERSE_ELEMENT_HPP
 
-#include <symmath/operations/div.hpp>
-#include <symmath/operations/inv.hpp>
-#include <symmath/operations/neg.hpp>
-#include <symmath/operations/sub.hpp>
+#include <symmath/operations/basic/div.hpp>
+#include <symmath/operations/basic/inv.hpp>
+#include <symmath/operations/basic/neg.hpp>
+#include <symmath/operations/basic/sub.hpp>
 #include <symmath/properties/addition.hpp>
 #include <symmath/properties/inverse_element.hpp>
 #include <symmath/properties/multiplication.hpp>

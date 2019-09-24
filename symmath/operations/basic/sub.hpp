@@ -1,11 +1,11 @@
-#ifndef SYMMATH_OPERATIONS_DIV_HPP
-#define SYMMATH_OPERATIONS_DIV_HPP
+#ifndef SYMMATH_OPERATIONS_SUB_HPP
+#define SYMMATH_OPERATIONS_SUB_HPP
 
 #include <type_traits>
 
-#include "binary_operation.hpp"
-#include "../type_traits/conditional.hpp"
-#include "../type_traits/is_operation.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/is_operation.hpp>
 #include "../type_traits/result_type.hpp"
 
 namespace sym {
@@ -14,8 +14,8 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class Div
-  : private BinaryOperation {
+class Sub
+  : private Operation {
 public:
 
   using R1 = ResultType_t<T1>;
@@ -34,15 +34,29 @@ private:
 
 public:
 
-  explicit inline Div(const T1 &lhs, const T2 &rhs);
+  explicit inline Sub(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Div<T1, T2> &rhs) {
+  assign_(U &lhs, const Sub<T1, T2> &rhs) {
     assign_(lhs, rhs.lhs_);
-    assign_div_(lhs, rhs.rhs_);
+    assign_sub_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_add_(U &lhs, const Sub<T1, T2> &rhs) {
+    assign_add_(lhs, rhs.lhs_);
+    assign_sub_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_sub_(U &lhs, const Sub<T1, T2> &rhs) {
+    assign_sub_(lhs, rhs.lhs_);
+    assign_add_(lhs, rhs.rhs_);
   }
 
 };
@@ -51,7 +65,7 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
+inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
@@ -60,4 +74,4 @@ inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_DIV_HPP
+#endif // SYMMATH_OPERATIONS_SUB_HPP

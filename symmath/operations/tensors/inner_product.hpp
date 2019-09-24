@@ -6,7 +6,7 @@
 #include "../symbolic.hpp"
 #include "operation.hpp"
 #include "../type_traits/enable_if.hpp"
-#include "../type_traits/is_operation.hpp"
+#include <symmath/type_traits/is_operation.hpp>
 #include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
@@ -24,8 +24,8 @@ public:
 
   using ResultType = std::common_type_t<LhsResultType, RhsResultType>;
 
-  using LhsType = std::conditional_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsType = std::conditional_t<IsOperation<T2>{}, const T2, const T2&>;
+  using LhsType = If_t<IsOperation<T1>, const T1, const T1&>;
+  using RhsType = If_t<IsOperation<T2>, const T2, const T2&>;
 
 private:
 

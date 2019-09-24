@@ -1,5 +1,10 @@
-#ifndef SYMMATH_OPERATIONS_TENSOR_PROD_HPP
-#define SYMMATH_OPERATIONS_TENSOR_PROD_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_EXP_HPP
+#define SYMMATH_OPERATIONS_BASIC_EXP_HPP
+
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
@@ -7,8 +12,8 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class TensorProd
-  : public BinaryOperation {
+class Exp
+  : private Operation {
 public:
 
   using R1 = ResultType_t<T1>;
@@ -27,15 +32,29 @@ private:
 
 public:
 
-  explicit inline TensorProd(const T1 &lhs, const T2 &rhs);
+  explicit inline Exp(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const TensorProd<T1, T2> &rhs) {
+  assign_(U &lhs, const Exp<T1, T2> &rhs) {
     assign_(lhs, rhs.lhs_);
-    assign_tensor_product_(lhs, rhs.rhs_);
+    assign_add_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_add_(U &lhs, const Exp<T1, T2> &rhs) {
+    assign_add_(lhs, rhs.lhs_);
+    assign_add_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_sub_(U &lhs, const Exp<T1, T2> &rhs) {
+    assign_sub_(lhs, rhs.lhs_);
+    assign_sub_(lhs, rhs.rhs_);
   }
 
 };
@@ -44,7 +63,7 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline TensorProd<T1, T2>::TensorProd(const T1 &lhs, const T2 &rhs)
+inline Exp<T1, T2>::Exp(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
@@ -53,4 +72,4 @@ inline TensorProd<T1, T2>::TensorProd(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_TENSOR_PROD_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_EXP_HPP

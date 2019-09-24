@@ -1,12 +1,10 @@
-#ifndef SYMMATH_OPERATIONS_MUL_HPP
-#define SYMMATH_OPERATIONS_MUL_HPP
+#ifndef SYMMATH_OPERATIONS_CONJ_HPP
+#define SYMMATH_OPERATIONS_CONJ_HPP
 
-#include <type_traits>
-
-#include "binary_operation.hpp"
-#include "../type_traits/conditional.hpp"
-#include "../type_traits/is_operation.hpp"
-#include "../type_traits/result_type.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
@@ -14,8 +12,8 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class Mul
-  : private BinaryOperation {
+class Conj
+  : private Operation {
 public:
 
   using R1 = ResultType_t<T1>;
@@ -34,15 +32,29 @@ private:
 
 public:
 
-  explicit inline Mul(const T1 &lhs, const T2 &rhs);
+  explicit inline Conj(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Mul<T1, T2> &rhs) {
+  assign_(U &lhs, const Conj<T1, T2> &rhs) {
     assign_(lhs, rhs.lhs_);
-    assign_mul_(lhs, rhs.rhs_);
+    assign_add_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_add_(U &lhs, const Conj<T1, T2> &rhs) {
+    assign_add_(lhs, rhs.lhs_);
+    assign_add_(lhs, rhs.rhs_);
+  }
+
+  template< typename U >
+  friend inline void
+  assign_sub_(U &lhs, const Conj<T1, T2> &rhs) {
+    assign_sub_(lhs, rhs.lhs_);
+    assign_sub_(lhs, rhs.rhs_);
   }
 
 };
@@ -51,7 +63,7 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline Mul<T1, T2>::Mul(const T1 &lhs, const T2 &rhs)
+inline Conj<T1, T2>::Conj(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
@@ -60,4 +72,4 @@ inline Mul<T1, T2>::Mul(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_MUL_HPP
+#endif // SYMMATH_OPERATIONS_CONJ_HPP

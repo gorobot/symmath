@@ -4,10 +4,10 @@
 #include <type_traits>
 
 #include "../symbolic.hpp"
-#include "binary_operation.hpp"
-#include "../type_traits/conditional.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/conditional.hpp>
 #include "../type_traits/enable_if.hpp"
-#include "../type_traits/is_operation.hpp"
+#include <symmath/type_traits/is_operation.hpp>
 #include "../type_traits/is_scalar.hpp"
 
 namespace sym {
@@ -17,7 +17,7 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class ScalarMul
-  : private BinaryOperation {
+  : private Operation {
 public:
 
   using LhsResultType = typename T1::ResultType;
@@ -27,8 +27,8 @@ public:
   // using ResultType = If_t<is_scalar<LhsResultType>{}, RhsResultType, LhsResultType>;
   using ResultType = LhsResultType;
 
-  using LhsType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using LhsType = If_t<IsOperation<T1>, const T1, const T1&>;
+  using RhsType = If_t<IsOperation<T2>, const T2, const T2&>;
 
 private:
 
