@@ -3,18 +3,15 @@
 
 #include <type_traits>
 
-#include "../operations/operation.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct IsOperation
-  : std::is_base_of<Operation, T> {};
-
-template< typename T >
-using IsOperation_t = typename IsOperation<T>::type;
+using IsOperation = Bool<std::is_base_of<Set, T>{}>;
 
 } // sym
 
