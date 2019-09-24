@@ -45,17 +45,17 @@ mul(const T1 &lhs, const T2 &rhs)
   return Mul<T1, T2>(lhs, rhs);
 }
 
-template< typename T1,
-          typename T2 >
-inline auto
-operator*=(T1 &lhs, const T2 &rhs)
--> EnableIf_t<HasProperty<T1, Multiplication>{} &&
-              HasProperty<T2, Multiplication>{} &&
-              std::is_same<T1, T2>{},
-              T1&> {
-  assign_mul_(lhs, rhs);
-  return lhs;
-}
+// template< typename T1,
+//           typename T2 >
+// inline auto
+// operator*=(T1 &lhs, const T2 &rhs)
+// -> EnableIf_t<HasProperty<T1, Multiplication>{} &&
+//               HasProperty<T2, Multiplication>{} &&
+//               std::is_same<T1, T2>{},
+//               T1&> {
+//   assign_mul_(lhs, rhs);
+//   return lhs;
+// }
 
 } // sym
 

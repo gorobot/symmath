@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <string>
-#include <utility>
 
 #include "../symbolic.hpp"
 #include "../type_traits/enable_if.hpp"

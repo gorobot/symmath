@@ -12,62 +12,60 @@
 #include <symmath/properties/multiplication.hpp>
 #include <symmath/properties/total_order.hpp>
 #include <symmath/property_traits/has_property.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class Naturals
-  : private Set {
-public:
-  // using ElementType = Natural;
-};
+  : private Set {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations
 template<>
 struct HasProperty<Naturals, Addition>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, AssociativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, ClosureProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, CommutativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, DistributiveProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, Multiplication>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, AssociativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, ClosureProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, CommutativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, DistributiveProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Naturals, TotalOrder>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

@@ -13,7 +13,7 @@ template< typename T1,
           typename T2,
           typename = void_t<> >
 struct IsSameResult
-  : std::false_type {};
+  : FalseType {};
 
 template< typename T1,
           typename T2 >

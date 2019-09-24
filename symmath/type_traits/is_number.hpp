@@ -1,9 +1,8 @@
 #ifndef SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
 #define SYMMATH_TYPE_TRAITS_IS_NUMBER_HPP
 
-#include <type_traits>
-
 #include <symmath/numerics/number.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
@@ -21,12 +20,12 @@ struct IsNumber_helper {
 private:
 
   template< typename U >
-  static std::true_type test(Number<U> &);
+  static TrueType test(Number<U> &);
 
   template< typename U >
-  static std::true_type test(const Number<U> &);
+  static TrueType test(const Number<U> &);
 
-  static std::false_type test(...);
+  static FalseType test(...);
 
 public:
 

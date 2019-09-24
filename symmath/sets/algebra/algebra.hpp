@@ -14,6 +14,7 @@
 #include <symmath/properties/multiplication.hpp>
 #include <symmath/properties/total_order.hpp>
 #include <symmath/property_traits/has_property.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
@@ -26,31 +27,31 @@ struct Algebra {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, Addition>
-  : std::true_type {};
+  : TrueType {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, AssociativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, ClosureProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, CommutativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, DistributiveProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, IdentityElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template< typename T >
 struct HasProperty<Algebra<T>, InverseElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

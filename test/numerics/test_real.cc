@@ -4,28 +4,27 @@
 
 #include <symmath/numerics/real.hpp>
 
-using sym::HasProperty;
-using sym::Real;
-
-// #include "../../symmath/type_traits/is_field.hpp"
-// #include "../../symmath/type_traits/is_scalar.hpp"
-
 TEST_CASE("Real: properties", "[numerics]") {
 
-  REQUIRE(HasProperty<Real, sym::Addition>{});
-  REQUIRE(HasProperty<Real, sym::AssociativeProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Real, sym::ClosureProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Real, sym::CommutativeProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Real, sym::DistributiveProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Real, sym::IdentityElement<sym::Addition>>{});
-  REQUIRE(HasProperty<Real, sym::InverseElement<sym::Addition>>{});
-  REQUIRE(HasProperty<Real, sym::Multiplication>{});
-  REQUIRE(HasProperty<Real, sym::AssociativeProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::ClosureProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::CommutativeProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::DistributiveProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::IdentityElement<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::InverseElement<sym::Multiplication>>{});
+  using sym::HasProperty;
+  using sym::Real;
+  using sym::Addition;
+  using sym::Multiplication;
+
+  REQUIRE(HasProperty<Real, Addition>{});
+  REQUIRE(HasProperty<Real, sym::AssociativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, sym::ClosureProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, sym::CommutativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, sym::DistributiveProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, sym::IdentityElement<Addition>>{});
+  REQUIRE(HasProperty<Real, sym::InverseElement<Addition>>{});
+  REQUIRE(HasProperty<Real, Multiplication>{});
+  REQUIRE(HasProperty<Real, sym::AssociativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, sym::ClosureProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, sym::CommutativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, sym::DistributiveProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, sym::IdentityElement<Multiplication>>{});
+  REQUIRE(HasProperty<Real, sym::InverseElement<Multiplication>>{});
   REQUIRE(HasProperty<Real, sym::TotalOrder>{});
 
 }

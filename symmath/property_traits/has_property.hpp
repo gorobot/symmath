@@ -1,8 +1,7 @@
 #ifndef SYMMATH_TYPE_TRAITS_HAS_PROPERTY_HPP
 #define SYMMATH_TYPE_TRAITS_HAS_PROPERTY_HPP
 
-#include <type_traits>
-
+#include <symmath/type_traits/boolean.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 
@@ -21,23 +20,23 @@ private:
 
   template< typename U >
   static auto test(U &)
-  -> EnableIf_t<HasProperty<typename U::ElementOf, P>{}, std::true_type>;
+  -> EnableIf_t<HasProperty<typename U::ElementOf, P>{}, TrueType>;
 
   template< typename U >
   static auto test(const U &)
-  -> EnableIf_t<HasProperty<typename U::ElementOf, P>{}, std::true_type>;
+  -> EnableIf_t<HasProperty<typename U::ElementOf, P>{}, TrueType>;
 
   template< typename U >
   static auto test(U &)
   -> EnableIf_t<IsOperation<U>{} &&
-                HasProperty<typename U::ResultType, P>{}, std::true_type>;
+                HasProperty<typename U::ResultType, P>{}, TrueType>;
 
   template< typename U >
   static auto test(const U &)
   -> EnableIf_t<IsOperation<U>{} &&
-                HasProperty<typename U::ResultType, P>{}, std::true_type>;
+                HasProperty<typename U::ResultType, P>{}, TrueType>;
 
-  static std::false_type test(...);
+  static FalseType test(...);
 
 public:
 
