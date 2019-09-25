@@ -1,12 +1,10 @@
 #ifndef SYMMATH_OPERATIONS_DIV_HPP
 #define SYMMATH_OPERATIONS_DIV_HPP
 
-#include <type_traits>
-
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include "../type_traits/result_type.hpp"
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
@@ -24,13 +22,13 @@ public:
   // using ResultType = std::common_type_t<R1, R2>;
   using ResultType = R1;
 
-  using LhsType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
+  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
-  LhsType lhs_;
-  RhsType rhs_;
+  LhsOperandType lhs_;
+  RhsOperandType rhs_;
 
 public:
 

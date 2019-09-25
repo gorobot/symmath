@@ -27,13 +27,13 @@ public:
   // using ResultType = If_t<is_scalar<LhsResultType>{}, RhsResultType, LhsResultType>;
   using ResultType = LhsResultType;
 
-  using LhsType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
+  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
 
 private:
 
-  LhsType lhs_;
-  RhsType rhs_;
+  LhsOperandType lhs_;
+  RhsOperandType rhs_;
 
 public:
 

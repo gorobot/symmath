@@ -37,7 +37,7 @@ create_test(
   # numerics/test_complex
   # numerics/test_integer
   # numerics/test_natural
-  # numerics/test_real
+  numerics/test_real
   numerics/test_variable
 )
 

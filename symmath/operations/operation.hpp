@@ -22,13 +22,6 @@ eval(const T &operation) {
 // Commute function
 // Requires CommutativeProperty
 
-template< typename T1,
-          typename T2 >
-inline auto
-assign_(T1 &lhs, const T2 &rhs) {
-  lhs.assign(rhs);
-}
-
 } // sym
 
 #endif // SYMMATH_OPERATIONS_OPERATION_HPP

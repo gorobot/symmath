@@ -28,12 +28,32 @@ public:
 
   // Constructor
   explicit inline FiniteSet();
-  explicit inline FiniteSet(NestedInitializerList_t<T, 1> list);
+  inline FiniteSet(NestedInitializerList_t<T, 1> list);
 
   // Assignment Operator
   inline This &operator=(NestedInitializerList_t<T, 1> list);
 
   // Iterable
+
+  // Assign
+                          inline void assign(const FiniteSet &rhs);
+  template< typename U >  inline void assign(const Set<U> &rhs);
+
+  // Assign Union
+                          inline void assign_union(const FiniteSet &rhs);
+  template< typename U >  inline void assign_union(const Set<U> &rhs);
+
+  // Assign Intersection
+                          inline void assign_intersection(const FiniteSet &rhs);
+  template< typename U >  inline void assign_intersection(const Set<U> &rhs);
+
+  // Assign Difference
+                          inline void assign_difference(const FiniteSet &rhs);
+  template< typename U >  inline void assign_difference(const Set<U> &rhs);
+
+  // Assign Complement
+                          inline void assign_complement(const FiniteSet &rhs);
+  template< typename U >  inline void assign_complement(const Set<U> &rhs);
 
 };
 

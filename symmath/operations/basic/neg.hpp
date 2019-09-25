@@ -1,53 +1,39 @@
 #ifndef SYMMATH_OPERATIONS_NEG_HPP
 #define SYMMATH_OPERATIONS_NEG_HPP
 
-#include <type_traits>
-
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include "../type_traits/result_type.hpp"
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1 >
+template< typename T >
 class Neg
   : private Operation {
 public:
 
-  using R1 = ResultType_t<T1>;
+  using R = ResultType_t<T>;
 
-  using ResultType = R1;
+  using ResultType = R;
 
-  using T1Type = If_t<IsOperation<T1>{}, const T1, const T1&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  T1Type operand_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Neg(const T1 &operand);
+  explicit inline Neg(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Neg<T1> &rhs) {
-    assign_neg_(lhs, rhs.operand_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_sub_(U &lhs, const Neg<T1> &rhs) {
-    assign_add_(lhs, rhs.operand_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_neg_(U &lhs, const Neg<T1> &rhs) {
+  assign_(U &lhs, const Neg<T> &rhs) {
     assign_(lhs, rhs.operand_);
   }
 
@@ -55,12 +41,9 @@ private:
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T1 >
-inline Neg<T1>::Neg(const T1 &operand)
+template< typename T >
+inline Neg<T>::Neg(const T &operand)
   : operand_(operand) {}
-
-// -----------------------------------------------------------------------------
-// Member Function Definitions
 
 } // sym
 

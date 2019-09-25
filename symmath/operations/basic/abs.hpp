@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_ABS_HPP
-#define SYMMATH_OPERATIONS_ABS_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_ABS_HPP
+#define SYMMATH_OPERATIONS_BASIC_ABS_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -10,66 +10,41 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
+template< typename T >
 class Abs
   : private Operation {
 public:
 
-  using R1 = ResultType_t<T1>;
-  using R2 = ResultType_t<T2>;
+  using R = ResultType_t<T>;
 
-  // using ResultType = std::common_type_t<R1, R2>;
-  using ResultType = R1;
+  using ResultType = R;
 
-  using LhsType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  LhsType lhs_;
-  RhsType rhs_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Abs(const T1 &lhs, const T2 &rhs);
+  explicit inline Abs(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Abs<T1, T2> &rhs) {
-    assign_(lhs, rhs.lhs_);
-    assign_add_(lhs, rhs.rhs_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_add_(U &lhs, const Abs<T1, T2> &rhs) {
-    assign_add_(lhs, rhs.lhs_);
-    assign_add_(lhs, rhs.rhs_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_sub_(U &lhs, const Abs<T1, T2> &rhs) {
-    assign_sub_(lhs, rhs.lhs_);
-    assign_sub_(lhs, rhs.rhs_);
+  assign_(U &lhs, const Abs<T> &rhs) {
+    assign_(lhs, rhs.operand_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T1,
-          typename T2 >
-inline Abs<T1, T2>::Abs(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
-
-// -----------------------------------------------------------------------------
-// Member Function Definitions
+template< typename T >
+inline Abs<T>::Abs(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_ABS_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_ABS_HPP

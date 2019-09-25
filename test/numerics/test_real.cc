@@ -4,40 +4,37 @@
 
 #include <symmath/numerics/real.hpp>
 
+using namespace sym;
+
 TEST_CASE("Real: properties", "[numerics]") {
 
-  using sym::HasProperty;
-  using sym::Real;
-  using sym::Addition;
-  using sym::Multiplication;
-
   REQUIRE(HasProperty<Real, Addition>{});
-  REQUIRE(HasProperty<Real, sym::AssociativeProperty<Addition>>{});
-  REQUIRE(HasProperty<Real, sym::ClosureProperty<Addition>>{});
-  REQUIRE(HasProperty<Real, sym::CommutativeProperty<Addition>>{});
-  REQUIRE(HasProperty<Real, sym::DistributiveProperty<Addition>>{});
-  REQUIRE(HasProperty<Real, sym::IdentityElement<Addition>>{});
-  REQUIRE(HasProperty<Real, sym::InverseElement<Addition>>{});
+  REQUIRE(HasProperty<Real, AssociativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, ClosureProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, CommutativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, DistributiveProperty<Addition>>{});
+  REQUIRE(HasProperty<Real, IdentityElement<Addition>>{});
+  REQUIRE(HasProperty<Real, InverseElement<Addition>>{});
   REQUIRE(HasProperty<Real, Multiplication>{});
-  REQUIRE(HasProperty<Real, sym::AssociativeProperty<Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::ClosureProperty<Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::CommutativeProperty<Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::DistributiveProperty<Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::IdentityElement<Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::InverseElement<Multiplication>>{});
-  REQUIRE(HasProperty<Real, sym::TotalOrder>{});
+  REQUIRE(HasProperty<Real, AssociativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, ClosureProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, CommutativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, DistributiveProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Real, IdentityElement<Multiplication>>{});
+  REQUIRE(HasProperty<Real, InverseElement<Multiplication>>{});
+  REQUIRE(HasProperty<Real, TotalOrder>{});
 
 }
 
 TEST_CASE("Real: operations", "[numerics]") {
-  sym::Real a(2.0);
-  sym::Real b(1.0);
-  sym::Real c(5.0);
+  Real a(2.0);
+  Real b(1.0);
+  Real c(5.0);
 
   std::cout << a << '\n';
 
   SECTION("should be able to add") {
-    sym::Real result;
+    Real result;
     result = a + b;
     REQUIRE(result == 3.0);
     // result = a + 1.0;
@@ -55,7 +52,7 @@ TEST_CASE("Real: operations", "[numerics]") {
   }
 
   // SECTION("should be able to divide") {
-  //   sym::Real result;
+  //   Real result;
   //   result = a / b;
   //   REQUIRE(result == 2.0);
   //   result = a / 1.0;
@@ -73,7 +70,7 @@ TEST_CASE("Real: operations", "[numerics]") {
   // }
   //
   // SECTION("should be able to multiply") {
-  //   sym::Real result;
+  //   Real result;
   //   result = a * b;
   //   REQUIRE(result == 2.0);
   //   result = a * 1.0;
@@ -101,7 +98,7 @@ TEST_CASE("Real: operations", "[numerics]") {
   // }
   //
   // SECTION("should be able to subtract") {
-  //   sym::Real result;
+  //   Real result;
   //   result = a - b;
   //   REQUIRE(result == 1.0);
   //   result = a - 1.0;
@@ -124,7 +121,7 @@ TEST_CASE("Real: operations", "[numerics]") {
   // }
   //
   // SECTION("should be able to perform mixed operations") {
-  //   sym::Real result;
+  //   Real result;
   //   result = a + (b / (a * b)) - a;
   //   REQUIRE(result == 0.5);
   // }

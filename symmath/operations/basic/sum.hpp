@@ -1,35 +1,34 @@
-#ifndef SYMMATH_OPERATIONS_SUM_HPP
-#define SYMMATH_OPERATIONS_SUM_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_SUM_HPP
+#define SYMMATH_OPERATIONS_BASIC_SUM_HPP
 
-#include <type_traits>
-
-#include "../symbolic.hpp"
-#include "operation.hpp"
-#include "../type_traits/enable_if.hpp"
+#include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include "../type_traits/is_symbolic.hpp"
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T >
+template< typename T1,
+          typename T2 >
 class Sum
-  : public Operation<Symbolic<Sum<T>>> {
+  : private Operation {
 public:
 
-  using LhsResultType = typename T1::Type;
-  using RhsResultType = typename T2::Type;
+  using R1 = ResultType_t<T1>;
+  using R2 = ResultType_t<T2>;
 
-  using Type = std::common_type_t<LhsResultType, RhsResultType>;
+  // using ResultType = std::common_type_t<R1, R2>;
+  using ResultType = R1;
 
-  using LhsType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
+  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
-  LhsType lhs_;
-  RhsType rhs_;
+  LhsOperandType lhs_;
+  RhsOperandType rhs_;
 
 public:
 
@@ -39,8 +38,7 @@ private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const Sum<T1, T2> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
+  apply_(U &lhs, const Sum<T1, T2> &rhs) {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
   }
@@ -57,4 +55,4 @@ inline Sum<T1, T2>::Sum(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_SUM_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_SUM_HPP

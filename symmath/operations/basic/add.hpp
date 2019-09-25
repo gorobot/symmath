@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_ADD_HPP
-#define SYMMATH_OPERATIONS_ADD_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_ADD_HPP
+#define SYMMATH_OPERATIONS_BASIC_ADD_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -22,13 +22,13 @@ public:
   // using ResultType = std::common_type_t<R1, R2>;
   using ResultType = R1;
 
-  using LhsType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
+  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
 
 private:
 
-  LhsType lhs_;
-  RhsType rhs_;
+  LhsOperandType lhs_;
+  RhsOperandType rhs_;
 
 public:
 
@@ -72,4 +72,4 @@ inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_ADD_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_ADD_HPP

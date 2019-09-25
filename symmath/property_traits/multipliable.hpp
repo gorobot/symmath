@@ -1,7 +1,7 @@
 #ifndef SYMMATH_PROPERTY_TRAITS_MULTIPLIABLE_HPP
 #define SYMMATH_PROPERTY_TRAITS_MULTIPLIABLE_HPP
 
-#include <symmath/property/multiplication.hpp>
+#include <symmath/properties/multiplication.hpp>
 #include <symmath/property_traits/has_property.hpp>
 #include <symmath/property_traits/requires.hpp>
 #include <symmath/type_traits/boolean_logic.hpp>

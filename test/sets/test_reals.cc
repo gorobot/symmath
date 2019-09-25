@@ -7,70 +7,49 @@
 #include <symmath/sets/set.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/numerics/real.hpp>
-#include <symmath/functions/function.hpp>
 
-#include <symmath/property_traits/addable.hpp>
-#include <symmath/type_traits/boolean_logic.hpp>
-#include <symmath/operations/addition.hpp>
-
-using sym::HasProperty;
-using sym::Reals;
+using namespace sym;
 
 TEST_CASE("Reals: properties", "[sets]") {
 
-  REQUIRE(HasProperty<Reals, sym::Addition>{});
-  REQUIRE(HasProperty<Reals, sym::AssociativeProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::ClosureProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::CommutativeProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::DistributiveProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::IdentityElement<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::InverseElement<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::Multiplication>{});
-  REQUIRE(HasProperty<Reals, sym::AssociativeProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::ClosureProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::CommutativeProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::DistributiveProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::IdentityElement<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::InverseElement<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::TotalOrder>{});
+  REQUIRE(HasProperty<Reals, Addition>{});
+  REQUIRE(HasProperty<Reals, AssociativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, ClosureProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, CommutativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, DistributiveProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, IdentityElement<Addition>>{});
+  REQUIRE(HasProperty<Reals, InverseElement<Addition>>{});
+  REQUIRE(HasProperty<Reals, Multiplication>{});
+  REQUIRE(HasProperty<Reals, AssociativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, ClosureProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, CommutativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, DistributiveProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, IdentityElement<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, InverseElement<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, TotalOrder>{});
 
 }
 
 TEST_CASE("Reals: functions", "[real]") {
 
-  REQUIRE(sym::And<sym::TrueType, sym::TrueType>{});
-  REQUIRE(!sym::And<sym::TrueType, sym::FalseType>{});
-  REQUIRE(!sym::And<sym::FalseType, sym::TrueType>{});
-  REQUIRE(!sym::And<sym::FalseType, sym::FalseType>{});
+  REQUIRE(And<TrueType, TrueType>{});
+  REQUIRE(!And<TrueType, FalseType>{});
+  REQUIRE(!And<FalseType, TrueType>{});
+  REQUIRE(!And<FalseType, FalseType>{});
 
-  REQUIRE(sym::Or<sym::TrueType, sym::TrueType>{});
-  REQUIRE(sym::Or<sym::TrueType, sym::FalseType>{});
-  REQUIRE(sym::Or<sym::FalseType, sym::TrueType>{});
-  REQUIRE(!sym::Or<sym::FalseType, sym::FalseType>{});
+  REQUIRE(Or<TrueType, TrueType>{});
+  REQUIRE(Or<TrueType, FalseType>{});
+  REQUIRE(Or<FalseType, TrueType>{});
+  REQUIRE(!Or<FalseType, FalseType>{});
 
-  REQUIRE(sym::Any<sym::TrueType, sym::FalseType, sym::FalseType>{});
-  REQUIRE(sym::Any<sym::FalseType, sym::TrueType, sym::FalseType>{});
-  REQUIRE(sym::Any<sym::FalseType, sym::FalseType, sym::TrueType>{});
-  REQUIRE(!sym::Any<sym::FalseType, sym::FalseType, sym::FalseType>{});
+  REQUIRE(Any<TrueType, FalseType, FalseType>{});
+  REQUIRE(Any<FalseType, TrueType, FalseType>{});
+  REQUIRE(Any<FalseType, FalseType, TrueType>{});
+  REQUIRE(!Any<FalseType, FalseType, FalseType>{});
 
-  REQUIRE(!sym::All<sym::FalseType, sym::TrueType, sym::TrueType>{});
-  REQUIRE(!sym::All<sym::TrueType, sym::FalseType, sym::TrueType>{});
-  REQUIRE(!sym::All<sym::TrueType, sym::TrueType, sym::FalseType>{});
-  REQUIRE(sym::All<sym::TrueType, sym::TrueType, sym::TrueType>{});
-
-  REQUIRE(sym::IsAddable<sym::Real>);
-  REQUIRE(sym::IsAddable<sym::Real, sym::Real>);
-
-  sym::Real a, b;
-  auto c = a + b;
-
-  // sym::Real x(1.0);
-  //
-  // auto f_(sym::Reals) -> sym::Reals;
-  //
-  // sym::Function<decltype(f_)> f = x;
-
-  // Function f = sym::Reals -> sym::Reals;
-  // f(x) = x;
+  REQUIRE(!All<FalseType, TrueType, TrueType>{});
+  REQUIRE(!All<TrueType, FalseType, TrueType>{});
+  REQUIRE(!All<TrueType, TrueType, FalseType>{});
+  REQUIRE(All<TrueType, TrueType, TrueType>{});
 
 }

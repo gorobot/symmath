@@ -21,15 +21,15 @@ constexpr bool HasPartialOrder = All<HasProperty<T, PartialOrder>...>{};
 template< typename ...T >
 constexpr bool HasTotalOrder = All<HasProperty<T, TotalOrder>...>{};
 
-template< typename ...T >
-constexpr bool HasOrder = All<HasPartialOrder<T...> || HasTotalOrder<T...>>{};
+// template< typename ...T >
+// constexpr bool HasOrder = All<HasPartialOrder<T...> || HasTotalOrder<T...>>{};
 
 } // detail
 
 // -----------------------------------------------------------------------------
 
 template< typename ...T >
-constexpr bool IsComparable = Requires(HasOrder<T...>);
+constexpr bool IsComparable = Requires(HasPartialOrder<T...>);
 
 template< typename T,
           typename = EnableIf_t<IsComparable<T>> >
