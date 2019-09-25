@@ -56,9 +56,11 @@ install:
 script:
   - mkdir build
   - cd build
-  - cmake -DBUILD_TESTS=ON ..
+  - cmake -DBUILD_TESTS=OFF ..
   - make
   - sudo make install
+  - cmake -DBUILD_TESTS=ON ..
+  - make
   - ctest --verbose
 
   # (cd build && cmake -DBUILD_TESTS=ON .. && make install && ctest --verbose)
