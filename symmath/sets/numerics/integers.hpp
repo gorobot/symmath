@@ -14,74 +14,72 @@
 #include <symmath/properties/multiplication.hpp>
 #include <symmath/properties/total_order.hpp>
 #include <symmath/property_traits/has_property.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class Integers
-  : private Set {
-public:
-  // using ElementType = Integer;
-};
+  : public Set<Integers> {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations
 template<>
 struct HasProperty<Integers, Addition>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, AssociativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, ClosureProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, CommutativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, DistributiveProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, IdentityElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, InverseElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, Multiplication>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, AssociativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, ClosureProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, CommutativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, DistributiveProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, IdentityElement<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Integers, TotalOrder>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

@@ -7,7 +7,7 @@
 
 #include <type_traits>
 
-#include "number.hpp"
+#include <symmath/numerics/number.hpp>
 
 #include <symmath/sets/integers.hpp>
 #include "../properties/has_assignment.hpp"

@@ -1,27 +1,27 @@
 #include <catch2/catch.hpp>
 
-#include "../../symmath/sets/set.hpp"
-#include "../../symmath/sets/numerics/reals.hpp"
+#include <symmath/sets/set.hpp>
+#include <symmath/sets/numerics/reals.hpp>
+#include <symmath/numerics/real.hpp>
 
-using sym::HasProperty;
-using sym::Reals;
+using namespace sym;
 
 TEST_CASE("Reals: properties", "[sets]") {
 
-  REQUIRE(HasProperty<Reals, sym::Addition>{});
-  REQUIRE(HasProperty<Reals, sym::AssociativeProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::ClosureProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::CommutativeProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::DistributiveProperty<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::IdentityElement<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::InverseElement<sym::Addition>>{});
-  REQUIRE(HasProperty<Reals, sym::Multiplication>{});
-  REQUIRE(HasProperty<Reals, sym::AssociativeProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::ClosureProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::CommutativeProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::DistributiveProperty<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::IdentityElement<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::InverseElement<sym::Multiplication>>{});
-  REQUIRE(HasProperty<Reals, sym::TotalOrder>{});
+  REQUIRE(HasProperty<Reals, Addition>{});
+  REQUIRE(HasProperty<Reals, AssociativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, ClosureProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, CommutativeProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, DistributiveProperty<Addition>>{});
+  REQUIRE(HasProperty<Reals, IdentityElement<Addition>>{});
+  REQUIRE(HasProperty<Reals, InverseElement<Addition>>{});
+  REQUIRE(HasProperty<Reals, Multiplication>{});
+  REQUIRE(HasProperty<Reals, AssociativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, ClosureProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, CommutativeProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, DistributiveProperty<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, IdentityElement<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, InverseElement<Multiplication>>{});
+  REQUIRE(HasProperty<Reals, TotalOrder>{});
 
 }

@@ -14,78 +14,76 @@
 #include <symmath/properties/multiplication.hpp>
 #include <symmath/properties/total_order.hpp>
 #include <symmath/property_traits/has_property.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class ComplexNumbers
-  : private Set {
-public:
-  // using ElementType = Complex;
-};
+  : public Set<ComplexNumbers> {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations
 template<>
 struct HasProperty<ComplexNumbers, Addition>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, AssociativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, ClosureProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, CommutativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, DistributiveProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, IdentityElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, InverseElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, Multiplication>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, AssociativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, ClosureProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, CommutativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, DistributiveProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, IdentityElement<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, InverseElement<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<ComplexNumbers, TotalOrder>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

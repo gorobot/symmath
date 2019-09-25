@@ -14,78 +14,76 @@
 #include <symmath/properties/multiplication.hpp>
 #include <symmath/properties/total_order.hpp>
 #include <symmath/property_traits/has_property.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class Reals
-  : private Set {
-public:
-  // using ElementType = Real;
-};
+  : public Set<Reals> {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations
 template<>
 struct HasProperty<Reals, Addition>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, AssociativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, ClosureProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, CommutativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, DistributiveProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, IdentityElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, InverseElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, Multiplication>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, AssociativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, ClosureProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, CommutativeProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, DistributiveProperty<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, IdentityElement<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, InverseElement<Multiplication>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<Reals, TotalOrder>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

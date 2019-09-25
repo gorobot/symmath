@@ -1,6 +1,7 @@
 #ifndef SYMMATH_NUMERICS_NUMBER_HPP
 #define SYMMATH_NUMERICS_NUMBER_HPP
 
+#include <symmath/operations/basic.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_basic_number.hpp>
 

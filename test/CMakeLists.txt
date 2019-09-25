@@ -37,7 +37,7 @@ create_test(
   # numerics/test_complex
   # numerics/test_integer
   # numerics/test_natural
-  # numerics/test_real
+  numerics/test_real
   numerics/test_variable
 )
 
@@ -51,6 +51,7 @@ create_test(
   NAME Sets
   FILES
   sets/test_sets
+  sets/test_finite_set
   sets/test_reals
 )
 
@@ -62,4 +63,11 @@ create_test(
   # tensors/test_scalar
   tensors/test_tensor
   tensors/test_tensor_initializer
+)
+
+create_test(
+  NAME TypeTraits
+  FILES
+  type_traits/test_boolean
+  type_traits/test_conditional
 )

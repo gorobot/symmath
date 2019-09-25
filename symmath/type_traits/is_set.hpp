@@ -3,18 +3,15 @@
 
 #include <type_traits>
 
-#include "../sets/set.hpp"
+#include <symmath/sets/set.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-struct is_set
-  : std::is_base_of<Set, T> {};
-
-template< typename T >
-using is_set_t = typename is_set<T>::type;
+using IsSet = Bool<std::is_base_of<Set<T>, T>{}>;
 
 } // sym
 

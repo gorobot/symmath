@@ -1,7 +1,7 @@
 #ifndef SYMMATH_TYPE_TRAITS_IS_INTEGRAL_HPP
 #define SYMMATH_TYPE_TRAITS_IS_INTEGRAL_HPP
 
-#include <type_traits>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
@@ -9,39 +9,39 @@ namespace sym {
 
 template< typename T >
 struct IsIntegral
-  : std::false_type {};
+  : FalseType {};
 
 template<>
 struct IsIntegral<short>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<unsigned short>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<int>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<unsigned int>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<long>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<unsigned long>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<long long>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct IsIntegral<unsigned long long>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

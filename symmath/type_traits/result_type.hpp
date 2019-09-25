@@ -3,7 +3,7 @@
 
 #include <type_traits>
 
-#include "void_t.hpp"
+#include <symmath/type_traits/void_t.hpp>
 
 namespace sym {
 

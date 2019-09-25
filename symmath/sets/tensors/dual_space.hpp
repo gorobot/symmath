@@ -13,47 +13,48 @@
 #include <symmath/properties/inverse_element.hpp>
 #include <symmath/properties/scalar_multiplication.hpp>
 #include <symmath/property_traits/has_property.hpp>
+#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class DualSpace
-  : private Set {};
+  : public Set<DualSpace> {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations
 template<>
 struct HasProperty<DualSpace, Addition>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, AssociativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, ClosureProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, CommutativeProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, DistributiveProperty<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, IdentityElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, InverseElement<Addition>>
-  : std::true_type {};
+  : TrueType {};
 
 template<>
 struct HasProperty<DualSpace, ScalarMultiplication>
-  : std::true_type {};
+  : TrueType {};
 
 } // sym
 

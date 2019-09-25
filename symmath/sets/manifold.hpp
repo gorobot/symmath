@@ -8,7 +8,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Manifold
-  : private Set {};
+  : public Set<Manifold> {};
 
 } // sym
 

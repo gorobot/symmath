@@ -1,11 +1,10 @@
 #ifndef SYMMATH_TYPE_TRAITS_IS_SCALAR_HPP
 #define SYMMATH_TYPE_TRAITS_IS_SCALAR_HPP
 
-#include <type_traits>
-
-#include "../sets/element_of.hpp"
-#include "../type_traits/enable_if.hpp"
-#include "../type_traits/is_field.hpp"
+#include <symmath/type_traits/boolean.hpp>
+#include <symmath/sets/element_of.hpp>
+#include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_field.hpp>
 
 namespace sym {
 
@@ -18,14 +17,14 @@ private:
   template< typename U >
   static auto
   test(ElementOf<U> &)
-  -> EnableIf_t<is_field<U>{}, std::true_type>;
+  -> EnableIf_t<is_field<U>{}, TrueType>;
 
   template< typename U >
   static auto
   test(const ElementOf<U> &)
-  -> EnableIf_t<is_field<U>{}, std::true_type>;
+  -> EnableIf_t<is_field<U>{}, TrueType>;
 
-  static std::false_type test(...);
+  static FalseType test(...);
 
 public:
 

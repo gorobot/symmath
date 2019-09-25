@@ -1,8 +1,6 @@
 #ifndef SYMMATH_TYPE_TRAITS_NESTED_INITIALIZER_HPP
 #define SYMMATH_TYPE_TRAITS_NESTED_INITIALIZER_HPP
 
-#include <initializer_list>
-
 namespace sym {
 
 // -----------------------------------------------------------------------------

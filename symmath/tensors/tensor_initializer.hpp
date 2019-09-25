@@ -2,10 +2,9 @@
 #define SYMMATH_TENSORS_TENSOR_INITIALIZER_HPP
 
 #include <array>
-#include <initializer_list>
-#include <type_traits>
 #include <vector>
 
+#include <symmath/type_traits/boolean.hpp>
 #include <symmath/type_traits/nested_initializer_list.hpp>
 
 namespace sym {
@@ -19,9 +18,9 @@ struct IsNestedInitializer {
 private:
 
   template< typename U >
-  static std::true_type test(std::initializer_list<U>);
+  static TrueType test(std::initializer_list<U>);
 
-  static std::false_type test(...);
+  static FalseType test(...);
 
 public:
 

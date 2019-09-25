@@ -3,8 +3,8 @@
 
 #include <type_traits>
 
-#include "is_integral.hpp"
-#include "is_floating_point.hpp"
+#include <symmath/type_traits/is_integral.hpp>
+#include <symmath/type_traits/is_floating_point.hpp>
 
 namespace sym {
 

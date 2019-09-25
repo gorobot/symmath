@@ -2,10 +2,10 @@
 
 #include <complex>
 
-#include "../../symmath/numerics/complex.hpp"
-#include "../../symmath/type_traits/is_element_of.hpp"
-#include "../../symmath/type_traits/is_field.hpp"
-#include "../../symmath/type_traits/is_scalar.hpp"
+#include <symmath/numerics/complex.hpp>
+#include <symmath/type_traits/is_element_of.hpp>
+#include <symmath/type_traits/is_field.hpp>
+#include <symmath/type_traits/is_scalar.hpp>
 
 using namespace std::complex_literals;
 

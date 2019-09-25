@@ -3,13 +3,13 @@
 
 #include <type_traits>
 
-#include "has_property.hpp"
-#include "../properties/addition.hpp"
-#include "../properties/additive_inverse.hpp"
-#include "../properties/associative_property.hpp"
-#include "../properties/commutative_property.hpp"
-#include "../properties/multiplication.hpp"
-#include "../properties/multiplicative_inverse.hpp"
+#include <symmath/property_traits/has_property.hpp>
+#include <symmath/properties/addition.hpp>
+#include <symmath/properties/additive_inverse.hpp>
+#include <symmath/properties/associative_property.hpp>
+#include <symmath/properties/commutative_property.hpp>
+#include <symmath/properties/multiplication.hpp>
+#include <symmath/properties/multiplicative_inverse.hpp>
 
 namespace sym {
 

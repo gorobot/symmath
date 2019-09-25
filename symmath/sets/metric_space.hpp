@@ -8,7 +8,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class MetricSpace
-  : private Set {};
+  : public Set<MetricSpace> {};
 
 } // sym
 

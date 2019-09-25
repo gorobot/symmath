@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 
-#include "../../symmath/numerics/complex.hpp"
-#include "../../symmath/numerics/real.hpp"
-#include "../../symmath/tensors/vector.hpp"
+#include <symmath/numerics/complex.hpp>
+#include <symmath/numerics/real.hpp>
+#include <symmath/tensors/vector.hpp>
 
 TEMPLATE_TEST_CASE(
   "Vector: operations",
