@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_KPROD_HPP
-#define SYMMATH_OPERATIONS_BASIC_KPROD_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_KPROD_HPP
+#define SYMMATH_OPERATIONS_TENSORS_KPROD_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -56,4 +56,4 @@ inline KProd<T1, T2>::KProd(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_KPROD_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_KPROD_HPP

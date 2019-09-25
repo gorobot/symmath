@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_PROD_HPP
-#define SYMMATH_OPERATIONS_BASIC_PROD_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_MATRIX_PINV_HPP
+#define SYMMATH_OPERATIONS_TENSORS_MATRIX_PINV_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -56,4 +56,4 @@ inline Magnitude<T1, T2>::Magnitude(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_PROD_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_MATRIX_PINV_HPP

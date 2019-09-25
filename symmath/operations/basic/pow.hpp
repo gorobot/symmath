@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_POW_HPP
-#define SYMMATH_OPERATIONS_POW_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_POW_HPP
+#define SYMMATH_OPERATIONS_BASIC_POW_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
@@ -57,4 +57,4 @@ inline Pow<T1, T2>::Pow(const T1 &operand, const T2 &p)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_POW_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_POW_HPP

@@ -20,7 +20,7 @@ TEST_CASE("FiniteSet: instantiation", "[sets]") {
 
   SECTION("should be constructible using inititializer list") {
     FiniteSet<double> t1({1.0, 2.0});
-    FiniteSet<double> t2 = {1.0, 2.0};  
+    FiniteSet<double> t2 = {1.0, 2.0};
   }
 
 }

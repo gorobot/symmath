@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_NEG_HPP
-#define SYMMATH_OPERATIONS_NEG_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_NEG_HPP
+#define SYMMATH_OPERATIONS_BASIC_NEG_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
@@ -47,4 +47,4 @@ inline Neg<T>::Neg(const T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_NEG_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_NEG_HPP

@@ -29,27 +29,3 @@ TEST_CASE("Reals: properties", "[sets]") {
   REQUIRE(HasProperty<Reals, TotalOrder>{});
 
 }
-
-TEST_CASE("Reals: functions", "[real]") {
-
-  REQUIRE(And<TrueType, TrueType>{});
-  REQUIRE(!And<TrueType, FalseType>{});
-  REQUIRE(!And<FalseType, TrueType>{});
-  REQUIRE(!And<FalseType, FalseType>{});
-
-  REQUIRE(Or<TrueType, TrueType>{});
-  REQUIRE(Or<TrueType, FalseType>{});
-  REQUIRE(Or<FalseType, TrueType>{});
-  REQUIRE(!Or<FalseType, FalseType>{});
-
-  REQUIRE(Any<TrueType, FalseType, FalseType>{});
-  REQUIRE(Any<FalseType, TrueType, FalseType>{});
-  REQUIRE(Any<FalseType, FalseType, TrueType>{});
-  REQUIRE(!Any<FalseType, FalseType, FalseType>{});
-
-  REQUIRE(!All<FalseType, TrueType, TrueType>{});
-  REQUIRE(!All<TrueType, FalseType, TrueType>{});
-  REQUIRE(!All<TrueType, TrueType, FalseType>{});
-  REQUIRE(All<TrueType, TrueType, TrueType>{});
-
-}

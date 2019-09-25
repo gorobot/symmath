@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_MUL_HPP
-#define SYMMATH_OPERATIONS_MUL_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_MUL_HPP
+#define SYMMATH_OPERATIONS_BASIC_MUL_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -58,4 +58,4 @@ inline Mul<T1, T2>::Mul(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_MUL_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_MUL_HPP

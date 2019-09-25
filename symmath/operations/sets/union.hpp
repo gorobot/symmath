@@ -51,16 +51,6 @@ inline Union<T1, T2>::Union(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
-// -----------------------------------------------------------------------------
-
-template< typename T1,
-          typename T2 >
-inline auto
-union(T1 &lhs, T2 &rhs)
--> EnableIf_t<IsSet<T1>{} && IsSet<T2>{}, const Union<T1, T2>> {
-  return Union<T1, T2>(lhs.derived(), rhs.derived());
-}
-
 } // sym
 
 #endif // SYMMATH_SET_UNION_HPP

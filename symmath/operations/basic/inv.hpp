@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_INV_HPP
-#define SYMMATH_OPERATIONS_INV_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_INV_HPP
+#define SYMMATH_OPERATIONS_BASIC_INV_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
@@ -47,4 +47,4 @@ inline Inv<T>::Inv(const T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_INV_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_INV_HPP

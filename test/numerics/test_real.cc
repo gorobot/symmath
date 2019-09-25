@@ -31,8 +31,6 @@ TEST_CASE("Real: operations", "[numerics]") {
   Real b(1.0);
   Real c(5.0);
 
-  std::cout << a << '\n';
-
   SECTION("should be able to add") {
     Real result;
     result = a + b;

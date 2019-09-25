@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_CONJ_HPP
-#define SYMMATH_OPERATIONS_CONJ_HPP
+#ifndef SYMMATH_OPERATIONS_BASIC_CONJ_HPP
+#define SYMMATH_OPERATIONS_BASIC_CONJ_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -47,4 +47,4 @@ inline Conj<T>::Conj(const T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_CONJ_HPP
+#endif // SYMMATH_OPERATIONS_BASIC_CONJ_HPP

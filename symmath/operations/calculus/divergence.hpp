@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_ADD_HPP
-#define SYMMATH_OPERATIONS_ADD_HPP
+#ifndef SYMMATH_OPERATIONS_CALCULUS_DIVERGENCE_HPP
+#define SYMMATH_OPERATIONS_CALCULUS_DIVERGENCE_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -10,66 +10,41 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
-class Add
+template< typename T >
+class Divergence
   : private Operation {
 public:
 
-  using R1 = ResultType_t<T1>;
-  using R2 = ResultType_t<T2>;
+  using R = ResultType_t<T>;
 
-  // using ResultType = std::common_type_t<R1, R2>;
-  using ResultType = R1;
+  using ResultType = R;
 
-  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Add(const T1 &lhs, const T2 &rhs);
+  explicit inline Divergence(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Add<T1, T2> &rhs) {
-    assign_(lhs, rhs.lhs_);
-    assign_add_(lhs, rhs.rhs_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_add_(U &lhs, const Add<T1, T2> &rhs) {
-    assign_add_(lhs, rhs.lhs_);
-    assign_add_(lhs, rhs.rhs_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_sub_(U &lhs, const Add<T1, T2> &rhs) {
-    assign_sub_(lhs, rhs.lhs_);
-    assign_sub_(lhs, rhs.rhs_);
+  assign_(U &lhs, const Divergence<T> &rhs) {
+    assign_(lhs, rhs.operand_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T1,
-          typename T2 >
-inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
-
-// -----------------------------------------------------------------------------
-// Member Function Definitions
+template< typename T >
+inline Divergence<T>::Divergence(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_ADD_HPP
+#endif // SYMMATH_OPERATIONS_CALCULUS_DIVERGENCE_HPP

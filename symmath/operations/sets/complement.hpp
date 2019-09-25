@@ -10,43 +10,36 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
+template< typename T >
 class Complement
   : private Operation {
 public:
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Complement(const T1 &lhs, const T2 &rhs);
+  explicit inline Complement(const T &operand);
 
 private:
 
   template< typename U >
-  friend inline auto
-  apply_(U &lhs, const Complement<T1, T2> &rhs)
-  -> EnableIf_t<IsSet<U>{}> {
-    apply_(lhs.derived(), rhs.lhs_);
-    apply_(lhs.derived(), rhs.rhs_);
+  friend inline void
+  assign_(U &lhs, const Complement<T> &rhs) {
+    assign_(lhs, rhs.operand_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
-
-template< typename T1,
-          typename T2 >
-inline Complement<T1, T2>::Complement(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
+// Constructor
+template< typename T >
+inline Complement<T>::Complement(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 

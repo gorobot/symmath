@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_NORM_HPP
-#define SYMMATH_OPERATIONS_NORM_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_NORM_HPP
+#define SYMMATH_OPERATIONS_TENSORS_NORM_HPP
 
 #include <type_traits>
 
@@ -61,4 +61,4 @@ inline Norm<T1, T2>::Norm(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_NORM_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_NORM_HPP

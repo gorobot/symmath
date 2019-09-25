@@ -64,3 +64,10 @@ create_test(
   tensors/test_tensor
   tensors/test_tensor_initializer
 )
+
+create_test(
+  NAME TypeTraits
+  FILES
+  type_traits/test_boolean
+  type_traits/test_conditional
+)
