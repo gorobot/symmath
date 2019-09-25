@@ -2,9 +2,9 @@
 #define SYMMATH_TYPE_TRAITS_IS_SCALAR_HPP
 
 #include <symmath/type_traits/boolean.hpp>
-#include "../sets/element_of.hpp"
-#include "../type_traits/enable_if.hpp"
-#include "../type_traits/is_field.hpp"
+#include <symmath/sets/element_of.hpp>
+#include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_field.hpp>
 
 namespace sym {
 

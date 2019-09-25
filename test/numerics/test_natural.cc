@@ -1,9 +1,9 @@
 #include <catch2/catch.hpp>
 
-#include "../../symmath/numerics/natural.hpp"
-#include "../../symmath/type_traits/is_element_of.hpp"
-#include "../../symmath/type_traits/is_field.hpp"
-#include "../../symmath/type_traits/is_scalar.hpp"
+#include <symmath/numerics/natural.hpp>
+#include <symmath/type_traits/is_element_of.hpp>
+#include <symmath/type_traits/is_field.hpp>
+#include <symmath/type_traits/is_scalar.hpp>
 
 TEST_CASE("Natural: properties", "[numerics]") {
 

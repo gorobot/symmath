@@ -38,8 +38,7 @@ private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const OuterProduct<T1, T2> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
+  apply_(U &lhs, const OuterProduct<T1, T2> &rhs) {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
   }

@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_HPP
-#define SYMMATH_OPERATIONS_BASIC_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_HPP
+#define SYMMATH_OPERATIONS_TENSORS_HPP
 
 #include <symmath/operations/tensors/cross.hpp>
 #include <symmath/operations/tensors/ctranspose.hpp>
@@ -85,4 +85,4 @@ inline auto transpose(T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_HPP

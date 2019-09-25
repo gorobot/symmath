@@ -1,13 +1,9 @@
 #ifndef SYMMATH_OPERATIONS_TENSORS_NORM_HPP
 #define SYMMATH_OPERATIONS_TENSORS_NORM_HPP
 
-#include <type_traits>
-
-#include "../symbolic.hpp"
-#include "operation.hpp"
-#include "../type_traits/enable_if.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
 

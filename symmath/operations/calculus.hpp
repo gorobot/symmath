@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_HPP
-#define SYMMATH_OPERATIONS_BASIC_HPP
+#ifndef SYMMATH_OPERATIONS_CALCULUS_HPP
+#define SYMMATH_OPERATIONS_CALCULUS_HPP
 
 #include <symmath/operations/basic.hpp>
 #include <symmath/operations/calculus/curl.hpp>
@@ -56,4 +56,4 @@ inline auto pdiff(T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_HPP
+#endif // SYMMATH_OPERATIONS_CALCULUS_HPP

@@ -20,6 +20,9 @@ public:
 
   using This = FiniteSet<T>;
 
+  using IteratorType      = typename std::vector<T>::iterator;
+  using ConstIteratorType = typename std::vector<T>::const_iterator;
+
 private:
 
   std::vector<T> value_;
@@ -34,6 +37,20 @@ public:
   inline This &operator=(NestedInitializerList_t<T, 1> list);
 
   // Iterable
+  inline size_t size() const;
+  inline size_t capacity() const;
+
+  inline bool empty() const;
+
+  inline IteratorType       begin();
+  inline ConstIteratorType  begin() const;
+  inline ConstIteratorType  cbegin() const;
+  inline IteratorType       end();
+  inline ConstIteratorType  end() const;
+  inline ConstIteratorType  cend() const;
+
+  inline T &operator[](const size_t pos);
+  inline const T &operator[](const size_t pos) const;
 
   // Assign
                           inline void assign(const FiniteSet &rhs);

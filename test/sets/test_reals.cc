@@ -1,9 +1,5 @@
 #include <catch2/catch.hpp>
 
-#include <functional>
-#include <iostream>
-#include <tuple>
-
 #include <symmath/sets/set.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/numerics/real.hpp>

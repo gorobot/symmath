@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_HPP
-#define SYMMATH_OPERATIONS_BASIC_HPP
+#ifndef SYMMATH_OPERATIONS_SETS_HPP
+#define SYMMATH_OPERATIONS_SETS_HPP
 
 #include <symmath/operations/sets/complement.hpp>
 #include <symmath/operations/sets/difference.hpp>
@@ -40,4 +40,4 @@ inline auto union(T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_HPP
+#endif // SYMMATH_OPERATIONS_SETS_HPP

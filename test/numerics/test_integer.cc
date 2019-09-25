@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 
-#include "../../symmath/numerics/integer.hpp"
+#include <symmath/numerics/integer.hpp>
 
 TEST_CASE("Integer: operations", "[numerics]") {
   sym::Integer a(2);

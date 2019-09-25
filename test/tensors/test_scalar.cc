@@ -1,7 +1,5 @@
 #include <catch2/catch.hpp>
 
-#include <iostream>
-
 // #include <symmath/numerics/complex.hpp>
 #include <symmath/numerics/real.hpp>
 #include <symmath/tensors/scalar.hpp>

@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_INEQUALITY_GREATER_THAN_HPP
-#define SYMMATH_OPERATIONS_INEQUALITY_GREATER_THAN_HPP
+#ifndef SYMMATH_OPERATIONS_INEQUALITY_EQUAL_HPP
+#define SYMMATH_OPERATIONS_INEQUALITY_EQUAL_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -12,7 +12,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class GreaterThan
+class Equal
   : private Operation {
 public:
 
@@ -32,27 +32,27 @@ private:
 
 public:
 
-  explicit inline GreaterThan(const T1 &lhs, const T2 &rhs);
+  explicit inline Equal(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const GreaterThan<T1, T2> &rhs) {
+  assign_(U &lhs, const Equal<T1, T2> &rhs) {
     assign_(lhs, rhs.lhs_);
     assign_add_(lhs, rhs.rhs_);
   }
 
   template< typename U >
   friend inline void
-  assign_add_(U &lhs, const GreaterThan<T1, T2> &rhs) {
+  assign_add_(U &lhs, const Equal<T1, T2> &rhs) {
     assign_add_(lhs, rhs.lhs_);
     assign_add_(lhs, rhs.rhs_);
   }
 
   template< typename U >
   friend inline void
-  assign_sub_(U &lhs, const GreaterThan<T1, T2> &rhs) {
+  assign_sub_(U &lhs, const Equal<T1, T2> &rhs) {
     assign_sub_(lhs, rhs.lhs_);
     assign_sub_(lhs, rhs.rhs_);
   }
@@ -63,7 +63,7 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline GreaterThan<T1, T2>::GreaterThan(const T1 &lhs, const T2 &rhs)
+inline Equal<T1, T2>::Equal(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
@@ -72,4 +72,4 @@ inline GreaterThan<T1, T2>::GreaterThan(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_INEQUALITY_GREATER_THAN_HPP
+#endif // SYMMATH_OPERATIONS_INEQUALITY_EQUAL_HPP

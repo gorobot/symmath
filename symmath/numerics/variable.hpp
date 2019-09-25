@@ -1,7 +1,6 @@
 #ifndef SYMMATH_NUMERICS_VARIABLE_HPP
 #define SYMMATH_NUMERICS_VARIABLE_HPP
 
-#include <iostream>
 #include <memory>
 
 #include <symmath/expressions/variable.hpp>

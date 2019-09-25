@@ -3,12 +3,10 @@
 
 #include <type_traits>
 
-#include "../symbolic.hpp"
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include "../type_traits/enable_if.hpp"
+#include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include "../type_traits/is_scalar.hpp"
 
 namespace sym {
 
@@ -43,19 +41,10 @@ private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const ScalarMul<T1, T2> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
+  apply_(U &lhs, const ScalarMul<T1, T2> &rhs) {
     apply_(lhs.derived(), rhs.lhs_);
     apply_mul_(lhs.derived(), rhs.rhs_);
   }
-
-  // template< typename U >
-  // friend inline auto
-  // apply_(U &lhs, const ScalarMul<T1, T2> &rhs)
-  // -> EnableIf_t<is_symbolic<U>{}> {
-  //   apply_(lhs.derived(), rhs.lhs_);
-  //   apply_mul_(lhs.derived(), rhs.rhs_);
-  // }
 
 };
 
@@ -66,9 +55,6 @@ template< typename T1,
 inline ScalarMul<T1, T2>::ScalarMul(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
-
-// -----------------------------------------------------------------------------
-// Member Function Definitions
 
 } // sym
 

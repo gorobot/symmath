@@ -1,8 +1,5 @@
 #include <catch2/catch.hpp>
 
-#include <iostream>
-#include <type_traits>
-
 #include <symmath/numerics/real.hpp>
 #include <symmath/tensors/tensor.hpp>
 

@@ -3,10 +3,10 @@
 
 #include <type_traits>
 
-#include "has_property.hpp"
-#include "../properties/associative_property.hpp"
-#include "../properties/closure_property.hpp"
-#include "../properties/identity_element.hpp"
+#include <symmath/property_traits/has_property.hpp>
+#include <symmath/properties/associative_property.hpp>
+#include <symmath/properties/closure_property.hpp>
+#include <symmath/properties/identity_element.hpp>
 
 namespace sym {
 

@@ -4,8 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "../symbolic.hpp"
-#include "../type_traits/enable_if.hpp"
+#include <symmath/type_traits/enable_if.hpp>
 
 namespace sym {
 
@@ -14,103 +13,60 @@ namespace sym {
 class Expression {
 public:
 
-  using ResultType = Expression;
+
 
 private:
 
-  struct Concept;
+                          struct Concept;
+  template< typename T >  struct Model;
 
-  template< typename T >
-  struct Model;
-
-  class BaseVisitor {
-  public:
-
-    virtual ~BaseVisitor() = default;
-
-    template< typename U >
-    void visit(U &lhs) {
-      // apply_(lhs, data_);
-    }
-
-  };
-
-  template< typename T >
-  class Visitor
-    : public BaseVisitor {
-  public:
-
-    T data_;
-
-    Visitor(T data)
-      : data_(data) {}
-
-  };
-
-  class Concept {
-  public:
-
-    virtual ~Concept() = default;
-
-    template< typename T >
-    void apply(T &m) const {
-      auto v = get_visitor();
-      // decltype(v)::show;
-    }
-
-  private:
-
-    virtual BaseVisitor &get_visitor() const = 0;
-
-  };
-
-  template< typename T >
-  class Model final
-    : public Concept {
-  private:
-
-    T data_;
-
-  public:
-
-    Model(T data)
-      : data_(data) {}
-
-    Visitor<T> &get_visitor() const override {
-      return Visitor<T>(data_);
-    }
-
-  };
-
-  std::shared_ptr<const Concept> ptr_;
+  std::shared_ptr<const Concept> lhs_;
+  std::shared_ptr<const Concept> rhs_;
 
 public:
 
-  template< typename T >
-  inline Expression &operator=(const Symbolic<T> &rhs);
+  explicit inline Expression();
 
-  inline auto eval() const -> const ResultType;
-
-private:
-
-  template< typename U >
-  friend inline auto
-  apply_(U &lhs, const Expression<U> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
-    // auto v = rhs.ptr_->get_visitor();
-
-  }
+  template< typename T1, typename T2 >
+  explicit inline Expression(const T1 &lhs, const T2 &rhs);
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
+inline Expression::Expression()
+  : lhs_(),
+    rhs_() {}
+
+template< typename T1,
+          typename T2 >
+inline Expression::Expression(const T1 &lhs, const T2 &rhs)
+  : lhs_(std::make_shared<Model<T>>(lhs)),
+    rhs_(std::make_shared<Model<T>>(rhs)) {}
+
+// -----------------------------------------------------------------------------
+// Concept
+struct Expression::Concept {
+  virtual ~Concept() = default;
+};
+
+// -----------------------------------------------------------------------------
+// Model
 template< typename T >
-inline Expression &Expression::operator=(const Symbolic<T> &rhs) {
-  ptr_.reset();
-  ptr_ = std::make_shared<Model<T>>(std::move(rhs.derived()));
-  return *this;
-}
+struct Expression::Model final
+  : public Expression::Concept {
+
+  const T &data_;
+
+  inline Model(T data);
+
+};
+
+// -----------------------------------------------------------------------------
+// Model Constructor
+template< typename T >
+inline Expression::Model<T>::Model(T data)
+  : data_(data) {}
 
 } // sym
 

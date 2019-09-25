@@ -5,9 +5,6 @@
 #define SYMMATH_REAL_UNDERLYING_TYPE double
 #endif
 
-#include <iostream>
-#include <type_traits>
-
 #include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/type_traits/enable_if.hpp>

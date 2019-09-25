@@ -3,11 +3,9 @@
 
 #include <type_traits>
 
-#include "../symbolic.hpp"
-#include "operation.hpp"
-#include "../type_traits/enable_if.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
 
@@ -41,8 +39,7 @@ private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const InnerProduct<T1, T2> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
+  apply_(U &lhs, const InnerProduct<T1, T2> &rhs) {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
   }

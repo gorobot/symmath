@@ -3,11 +3,9 @@
 
 #include <type_traits>
 
-#include "../symbolic.hpp"
-#include "operation.hpp"
-#include "../type_traits/enable_if.hpp"
+#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include "../type_traits/is_symbolic.hpp"
 
 namespace sym {
 
@@ -16,7 +14,7 @@ namespace sym {
 template< typename T1,
           typename T2 >
 class Union
-  : public Operation<Symbolic<Union<T1, T2>>> {
+  : private Operation {
 public:
 
   using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;

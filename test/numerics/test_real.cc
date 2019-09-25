@@ -1,7 +1,5 @@
 #include <catch2/catch.hpp>
 
-#include <iostream>
-
 #include <symmath/numerics/real.hpp>
 
 using namespace sym;

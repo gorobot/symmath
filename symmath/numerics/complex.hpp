@@ -8,8 +8,7 @@
 #include <complex>
 #include <type_traits>
 
-#include "number.hpp"
-
+#include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/complex_numbers.hpp>
 #include "../properties/has_assignment.hpp"
 #include "../properties/has_value.hpp"

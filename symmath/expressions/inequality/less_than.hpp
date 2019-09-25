@@ -1,8 +1,6 @@
 #ifndef SYMMATH_OPERATIONS_INEQUALITY_LESS_THAN_HPP
 #define SYMMATH_OPERATIONS_INEQUALITY_LESS_THAN_HPP
 
-#include <type_traits>
-
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/conditional.hpp>

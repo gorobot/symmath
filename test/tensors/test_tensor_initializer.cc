@@ -1,6 +1,5 @@
 #include <catch2/catch.hpp>
 
-#include <iostream>
 #include <vector>
 
 #include <symmath/tensors/tensor_initializer.hpp>

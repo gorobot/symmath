@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_HPP
-#define SYMMATH_OPERATIONS_BASIC_HPP
+#ifndef SYMMATH_OPERATIONS_PROBABILITY_HPP
+#define SYMMATH_OPERATIONS_PROBABILITY_HPP
 
 #include <symmath/operations/probability/conditional_probability.hpp>
 #include <symmath/operations/probability/correlation.hpp>
@@ -45,4 +45,4 @@ inline auto variance(T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_HPP
+#endif // SYMMATH_OPERATIONS_PROBABILITY_HPP
