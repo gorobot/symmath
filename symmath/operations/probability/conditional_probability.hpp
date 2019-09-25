@@ -53,9 +53,6 @@ inline ConditionalProbability<T1, T2>::ConditionalProbability(const T1 &lhs, con
   : lhs_(lhs),
     rhs_(rhs) {}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
-
 } // sym
 
 #endif // SYMMATH_OPERATIONS_PROBABILITY_CONDITIONAL_PROBABILITY_HPP

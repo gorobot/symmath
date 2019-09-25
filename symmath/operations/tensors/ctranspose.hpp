@@ -10,49 +10,40 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
-class Transpose
+template< typename T >
+class CTranspose
   : private Operation {
 public:
 
-  using LhsResultType = typename T1::Type;
-  using RhsResultType = typename T2::Type;
+  using R = ResultType_t<T>;
 
-  // using Type = std::common_type_t<LhsResultType, RhsResultType>;
-  using ResultType = R1;
+  using ResultType = R;
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Transpose(const T1 &lhs, const T2 &rhs);
+  explicit inline CTranspose(const T &operand);
 
 private:
 
   template< typename U >
-  friend inline auto
-  apply_(U &lhs, const Transpose<T1, T2> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
-    apply_(lhs.derived(), rhs.lhs_);
-    apply_add_(lhs.derived(), rhs.rhs_);
+  friend inline void
+  assign_(U &lhs, const CTranspose<T> &rhs) {
+    assign_(lhs, rhs.operand_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
-
-template< typename T1,
-          typename T2 >
-inline Transpose<T1, T2>::Transpose(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
+// Constructor
+template< typename T >
+inline CTranspose<T>::CTranspose(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 

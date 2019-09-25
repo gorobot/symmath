@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_DSUM_HPP
-#define SYMMATH_OPERATIONS_DSUM_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_DIRECT_SUM_HPP
+#define SYMMATH_OPERATIONS_TENSORS_DIRECT_SUM_HPP
 
 namespace sym {
 
@@ -7,7 +7,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class DSum
+class DirectSum
   : public BinaryOperation {
 public:
 
@@ -27,13 +27,13 @@ private:
 
 public:
 
-  explicit inline DSum(const T1 &lhs, const T2 &rhs);
+  explicit inline DirectSum(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const DSum<T1, T2> &rhs) {
+  assign_(U &lhs, const DirectSum<T1, T2> &rhs) {
     assign_(lhs, rhs.lhs_);
     assign_dsum_(lhs, rhs.rhs_);
   }
@@ -44,13 +44,10 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline DSum<T1, T2>::DSum(const T1 &lhs, const T2 &rhs)
+inline DirectSum<T1, T2>::DirectSum(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
-
 } // sym
 
-#endif // SYMMATH_OPERATIONS_DSUM_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_DIRECT_SUM_HPP

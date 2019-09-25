@@ -67,9 +67,6 @@ inline Correlation<T1, T2>::Correlation(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
-
 } // sym
 
 #endif // SYMMATH_OPERATIONS_PROBABILITY_CORRELATION_HPP

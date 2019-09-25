@@ -12,7 +12,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class Magnitude
+class MatrixMul
   : private Operation {
 public:
 
@@ -32,13 +32,13 @@ private:
 
 public:
 
-  explicit inline Magnitude(const T1 &lhs, const T2 &rhs);
+  explicit inline MatrixMul(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const Magnitude<T1, T2> &rhs)
+  apply_(U &lhs, const MatrixMul<T1, T2> &rhs)
   -> EnableIf_t<is_symbolic<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
@@ -50,7 +50,7 @@ private:
 
 template< typename T1,
           typename T2 >
-inline Magnitude<T1, T2>::Magnitude(const T1 &lhs, const T2 &rhs)
+inline MatrixMul<T1, T2>::MatrixMul(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 

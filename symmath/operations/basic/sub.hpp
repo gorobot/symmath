@@ -67,9 +67,6 @@ inline Sub<T1, T2>::Sub(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
-
 } // sym
 
 #endif // SYMMATH_OPERATIONS_BASIC_SUB_HPP

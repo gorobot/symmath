@@ -53,9 +53,6 @@ inline Mul<T1, T2>::Mul(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
-
 } // sym
 
 #endif // SYMMATH_OPERATIONS_BASIC_MUL_HPP

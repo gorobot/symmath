@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_TENSORS_KPROD_HPP
-#define SYMMATH_OPERATIONS_TENSORS_KPROD_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_OUTER_PRODUCT_HPP
+#define SYMMATH_OPERATIONS_TENSORS_OUTER_PRODUCT_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -12,7 +12,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class KProd
+class OuterProduct
   : private Operation {
 public:
 
@@ -32,13 +32,13 @@ private:
 
 public:
 
-  explicit inline KProd(const T1 &lhs, const T2 &rhs);
+  explicit inline OuterProduct(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const KProd<T1, T2> &rhs)
+  apply_(U &lhs, const OuterProduct<T1, T2> &rhs)
   -> EnableIf_t<is_symbolic<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
@@ -50,10 +50,10 @@ private:
 
 template< typename T1,
           typename T2 >
-inline KProd<T1, T2>::KProd(const T1 &lhs, const T2 &rhs)
+inline OuterProduct<T1, T2>::OuterProduct(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_TENSORS_KPROD_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_OUTER_PRODUCT_HPP

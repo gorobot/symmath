@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_TENSORS_CROSS_PROD_HPP
-#define SYMMATH_OPERATIONS_TENSORS_CROSS_PROD_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_CROSS_HPP
+#define SYMMATH_OPERATIONS_TENSORS_CROSS_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -12,7 +12,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class CProd
+class Cross
   : private Operation {
 public:
 
@@ -32,13 +32,13 @@ private:
 
 public:
 
-  explicit inline CProd(const T1 &lhs, const T2 &rhs);
+  explicit inline Cross(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const CProd<T1, T2> &rhs)
+  apply_(U &lhs, const Cross<T1, T2> &rhs)
   -> EnableIf_t<is_symbolic<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
@@ -50,10 +50,10 @@ private:
 
 template< typename T1,
           typename T2 >
-inline CProd<T1, T2>::CProd(const T1 &lhs, const T2 &rhs)
+inline Cross<T1, T2>::Cross(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_TENSORS_CROSS_PROD_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_CROSS_HPP

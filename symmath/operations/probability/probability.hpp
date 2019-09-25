@@ -10,65 +10,40 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
+template< typename T >
 class Probability
   : private Operation {
 public:
 
-  using R1 = ResultType_t<T1>;
-  using R2 = ResultType_t<T2>;
+  using R = ResultType_t<T>;
 
-  // using ResultType = std::common_type_t<R1, R2>;
-  using ResultType = R1;
+  using ResultType = R;
 
-  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Probability(const T1 &lhs, const T2 &rhs);
+  explicit inline Probability(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Probability<T1, T2> &rhs) {
-    assign_(lhs, rhs.lhs_);
-    assign_add_(lhs, rhs.rhs_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_add_(U &lhs, const Probability<T1, T2> &rhs) {
-    assign_add_(lhs, rhs.lhs_);
-    assign_add_(lhs, rhs.rhs_);
-  }
-
-  template< typename U >
-  friend inline void
-  assign_sub_(U &lhs, const Probability<T1, T2> &rhs) {
-    assign_sub_(lhs, rhs.lhs_);
-    assign_sub_(lhs, rhs.rhs_);
+  assign_(U &lhs, const Probability<T> &rhs) {
+    assign_(lhs, rhs.operand_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T1,
-          typename T2 >
-inline Probability<T1, T2>::Probability(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
-
-// -----------------------------------------------------------------------------
-// Member Function Definitions
+template< typename T >
+inline Probability<T>::Probability(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 

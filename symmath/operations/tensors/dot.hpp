@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_TENSORS_DOT_PRODUCT_HPP
-#define SYMMATH_OPERATIONS_TENSORS_DOT_PRODUCT_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_DOT_HPP
+#define SYMMATH_OPERATIONS_TENSORS_DOT_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -12,7 +12,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class DotProduct
+class Dot
   : private Operation {
 public:
 
@@ -32,13 +32,13 @@ private:
 
 public:
 
-  explicit inline DotProduct(const T1 &lhs, const T2 &rhs);
+  explicit inline Dot(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const DotProduct<T1, T2> &rhs)
+  apply_(U &lhs, const Dot<T1, T2> &rhs)
   -> EnableIf_t<is_symbolic<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
@@ -50,10 +50,10 @@ private:
 
 template< typename T1,
           typename T2 >
-inline DotProduct<T1, T2>::DotProduct(const T1 &lhs, const T2 &rhs)
+inline Dot<T1, T2>::Dot(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_TENSORS_DOT_PRODUCT_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_DOT_HPP

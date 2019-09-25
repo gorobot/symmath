@@ -52,9 +52,6 @@ inline Pow<T1, T2>::Pow(const T1 &operand, const T2 &p)
   : operand_(operand),
     p_(p) {}
 
-// -----------------------------------------------------------------------------
-// Member Function Definitions
-
 } // sym
 
 #endif // SYMMATH_OPERATIONS_BASIC_POW_HPP

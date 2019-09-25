@@ -13,51 +13,40 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
+template< typename T >
 class Norm
-  : public Operation<Symbolic<Norm<T1, T2>>> {
+  : private Operation {
 public:
 
-  using LhsResultType = typename T1::ResultType;
-  using RhsResultType = typename T2::ResultType;
+  using R = ResultType_t<T>;
 
-  using ResultType = std::common_type_t<LhsResultType, RhsResultType>;
+  using ResultType = R;
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  OperandType operand_;
 
 public:
 
-  explicit inline Norm(const T1 &lhs, const T2 &rhs);
+  explicit inline Norm(const T &operand);
 
 private:
 
   template< typename U >
-  friend inline auto
-  apply_(U &lhs, const Norm<T1, T2> &rhs)
-  -> EnableIf_t<is_symbolic<U>{}> {
-    apply_(lhs.derived(), rhs.lhs_);
-    apply_mul_(lhs.derived(), rhs.rhs_);
+  friend inline void
+  assign_(U &lhs, const Norm<T> &rhs) {
+    assign_(lhs, rhs.operand_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
-template< typename T1,
-          typename T2 >
-inline Norm<T1, T2>::Norm(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
-
-// -----------------------------------------------------------------------------
-// Member Function Definitions
+template< typename T >
+inline Norm<T>::Norm(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 
