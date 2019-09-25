@@ -33,7 +33,7 @@ private:
   template< typename U >
   friend inline auto
   apply_(U &lhs, const Difference<T1, T2> &rhs)
-  -> EnableIf_t<is_set<U>{}> {
+  -> EnableIf_t<IsSet<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_(lhs.derived(), rhs.rhs_);
   }

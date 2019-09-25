@@ -20,7 +20,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class VectorSpace
-  : private Set {};
+  : public Set<VectorSpace> {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations

@@ -51,6 +51,7 @@ create_test(
   NAME Sets
   FILES
   sets/test_sets
+  sets/test_finite_set
   sets/test_reals
 )
 

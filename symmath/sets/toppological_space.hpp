@@ -8,7 +8,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class TopologicalSpace
-  : private Set {};
+  : public Set<TopologicalSpace> {};
 
 } // sym
 

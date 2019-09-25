@@ -62,7 +62,7 @@ TEST_CASE("Reals: functions", "[real]") {
   REQUIRE(sym::IsAddable<sym::Real, sym::Real>);
 
   sym::Real a, b;
-  auto c = a + b; 
+  auto c = a + b;
 
   // sym::Real x(1.0);
   //

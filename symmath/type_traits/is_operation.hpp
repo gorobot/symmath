@@ -11,7 +11,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-using IsOperation = Bool<std::is_base_of<Set, T>{}>;
+using IsOperation = Bool<std::is_base_of<Operation, T>{}>;
 
 } // sym
 

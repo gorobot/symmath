@@ -36,7 +36,7 @@ private:
   template< typename U >
   friend inline auto
   apply_(U &lhs, const Union<T1, T2> &rhs)
-  -> EnableIf_t<is_set<U>{}> {
+  -> EnableIf_t<IsSet<U>{}> {
     apply_(lhs.derived(), rhs.lhs_);
     apply_(lhs.derived(), rhs.rhs_);
   }
@@ -57,7 +57,7 @@ template< typename T1,
           typename T2 >
 inline auto
 union(T1 &lhs, T2 &rhs)
--> EnableIf_t<is_set<T1>{} && is_set<T2>{}, const Union<T1, T2>> {
+-> EnableIf_t<IsSet<T1>{} && IsSet<T2>{}, const Union<T1, T2>> {
   return Union<T1, T2>(lhs.derived(), rhs.derived());
 }
 

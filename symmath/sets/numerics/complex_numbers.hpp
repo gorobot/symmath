@@ -21,7 +21,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class ComplexNumbers
-  : private Set {};
+  : public Set<ComplexNumbers> {};
 
 // -----------------------------------------------------------------------------
 // Set Property Specializations

@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_CPROD_HPP
-#define SYMMATH_OPERATIONS_BASIC_CPROD_HPP
+#ifndef SYMMATH_OPERATIONS_TENSORS_CROSS_PROD_HPP
+#define SYMMATH_OPERATIONS_TENSORS_CROSS_PROD_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
@@ -56,4 +56,4 @@ inline CProd<T1, T2>::CProd(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_CPROD_HPP
+#endif // SYMMATH_OPERATIONS_TENSORS_CROSS_PROD_HPP
