@@ -4,8 +4,8 @@
 #include <symmath/sets/superset.hpp>
 #include <symmath/property_traits/requires.hpp>
 #include <symmath/type_traits/boolean.hpp>
+#include <symmath/type_traits/detect.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_detected.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/is_set.hpp>
 

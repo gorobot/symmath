@@ -4,7 +4,7 @@
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/covariant_result.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -17,14 +17,12 @@ class Add
   : private Operation {
 public:
 
-  using R1 = ResultType_t<T1>;
-  using R2 = ResultType_t<T2>;
+  using R1              = ResultType_t<T1>;
+  using R2              = ResultType_t<T2>;
+  using ResultType      = Covariant_t<R1, R2>;
 
-  using ResultType = CovariantResult_t<R1, R2>;
-  // using ResultType = R1;
-
-  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using LhsOperandType  = If_t<IsOperation<T1>{}, const T1, const T1>;
+  using RhsOperandType  = If_t<IsOperation<T2>{}, const T2, const T2>;
 
 private:
 

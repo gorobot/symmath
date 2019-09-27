@@ -7,9 +7,9 @@
 
 #include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/reals.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_operation.hpp>
-#include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {
 
@@ -48,7 +48,7 @@ public:
                           inline This &operator=(const Real &rhs);
   template< typename U >  inline This &operator=(const Number<U> &rhs);
   template< typename U >  inline auto  operator=(const U &rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&>;
 
   inline This &operator+=(const ValueType &rhs);
   inline This &operator+=(ValueType &&rhs);
@@ -56,7 +56,7 @@ public:
                           inline This &operator+=(const Real &rhs);
   template< typename U >  inline This &operator+=(const Number<U> &rhs);
   template< typename U >  inline auto  operator+=(const U &rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&>;
 
   inline This &operator/=(const ValueType &rhs);
   inline This &operator/=(ValueType &&rhs);
@@ -64,7 +64,7 @@ public:
                           inline This &operator/=(const Real &rhs);
   template< typename U >  inline This &operator/=(const Number<U> &rhs);
   template< typename U >  inline auto  operator/=(const U &rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&>;
 
   inline This &operator*=(const ValueType &rhs);
   inline This &operator*=(ValueType &&rhs);
@@ -72,7 +72,7 @@ public:
                           inline This &operator*=(const Real &rhs);
   template< typename U >  inline This &operator*=(const Number<U> &rhs);
   template< typename U >  inline auto  operator*=(const U &rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&>;
 
   inline This &operator-=(const ValueType &rhs);
   inline This &operator-=(ValueType &&rhs);
@@ -80,61 +80,61 @@ public:
                           inline This &operator-=(const Real &rhs);
   template< typename U >  inline This &operator-=(const Number<U> &rhs);
   template< typename U >  inline auto  operator-=(const U &rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&>;
 
   // Assign
                           inline void assign(const ValueType &rhs);
                           inline void assign(const Real &rhs);
   template< typename U >  inline void assign(const Number<U> &rhs);
-  // template< typename U >  inline auto assign(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  template< typename U >  inline auto assign(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Addition
                           inline void assign_add(const ValueType &rhs);
                           inline void assign_add(const Real &rhs);
   template< typename U >  inline auto assign_add(const Number<U> &rhs);
-  // template< typename U >  inline auto assign_add(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  template< typename U >  inline auto assign_add(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Division
                           inline void assign_div(const ValueType &rhs);
                           inline void assign_div(const Real &rhs);
   template< typename U >  inline auto assign_div(const Number<U> &rhs);
-  // template< typename U >  inline auto assign_div(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  template< typename U >  inline auto assign_div(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Multiplication
                           inline void assign_mul(const ValueType &rhs);
                           inline void assign_mul(const Real &rhs);
   template< typename U >  inline auto assign_mul(const Number<U> &rhs);
-  // template< typename U >  inline auto assign_mul(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  template< typename U >  inline auto assign_mul(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Subtraction
                           inline void assign_sub(const ValueType &rhs);
                           inline void assign_sub(const Real &rhs);
   template< typename U >  inline auto assign_sub(const Number<U> &rhs);
-  // template< typename U >  inline auto assign_sub(const U &rhs)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  template< typename U >  inline auto assign_sub(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Power
                           inline void assign_pow(const ValueType &rhs);
                           inline void assign_pow(const Real &rhs);
   template< typename U >  inline auto assign_pow(const Number<U> &rhs);
   // template< typename U >  inline auto assign_pow(const U &other)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  // -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Negative
                           inline void assign_neg(const Real &rhs);
   template< typename U >  inline auto assign_neg(const Number<U> &rhs);
   // template< typename U >  inline auto assign_neg(const U &other)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  // -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   // Assign Inverse
                           inline void assign_inv(const Real &rhs);
   template< typename U >  inline auto assign_inv(const Number<U> &rhs);
   // template< typename U >  inline auto assign_inv(const U &other)
-  // -> EnableIf_t<IsSameResult<This, U>{}>;
+  // -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
   inline decltype(auto) value() const;
 
@@ -189,7 +189,7 @@ inline Real &Real::operator=(const Number<U> &other) {
 
 template< typename U >
 inline auto Real::operator=(const U &rhs)
--> EnableIf_t<IsSameResult<This, U>{}, Real&> {
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Real&> {
   assign_(*this, rhs);
   return *this;
 }
@@ -219,7 +219,7 @@ inline Real &Real::operator+=(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Real::operator+=(const U &rhs)
--> EnableIf_t<IsSameResult<This, U>{}, This&> {
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&> {
   assign_add_(*this, rhs);
   return *this;
 }
@@ -249,7 +249,7 @@ inline Real &Real::operator/=(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Real::operator/=(const U &rhs)
--> EnableIf_t<IsSameResult<This, U>{}, This&> {
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&> {
   assign_div_(*this, rhs);
   return *this;
 }
@@ -279,7 +279,7 @@ inline Real &Real::operator*=(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Real::operator*=(const U &rhs)
--> EnableIf_t<IsSameResult<This, U>{}, This&> {
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&> {
   assign_mul_(*this, rhs);
   return *this;
 }
@@ -309,7 +309,7 @@ inline Real &Real::operator-=(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Real::operator-=(const U &rhs)
--> EnableIf_t<IsSameResult<This, U>{}, This&> {
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, This&> {
   assign_sub_(*this, rhs);
   return *this;
 }
@@ -335,6 +335,12 @@ inline void Real::assign(const Number<U> &rhs) {
   value_ = static_cast<const U&>(rhs).value();
 }
 
+template< typename U >
+inline auto Real::assign(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_(*this, rhs);
+}
+
 // -----------------------------------------------------------------------------
 // Assign Addition
 inline void Real::assign_add(const ValueType &rhs) {
@@ -348,6 +354,12 @@ inline void Real::assign_add(const Real &rhs) {
 template< typename U >
 inline auto Real::assign_add(const Number<U> &rhs) {
   value_ += static_cast<const U&>(rhs).value();
+}
+
+template< typename U >
+inline auto Real::assign_add(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_(*this, rhs);
 }
 
 // -----------------------------------------------------------------------------
@@ -365,6 +377,12 @@ inline auto Real::assign_div(const Number<U> &rhs) {
   value_ /= static_cast<const U&>(rhs).value();
 }
 
+template< typename U >
+inline auto Real::assign_div(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_(*this, rhs);
+}
+
 // -----------------------------------------------------------------------------
 // Assign Multiplication
 inline void Real::assign_mul(const ValueType &rhs) {
@@ -380,6 +398,12 @@ inline auto Real::assign_mul(const Number<U> &rhs) {
   value_ *= static_cast<const U&>(rhs).value();
 }
 
+template< typename U >
+inline auto Real::assign_mul(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_(*this, rhs);
+}
+
 // -----------------------------------------------------------------------------
 // Assign Subtraction
 inline void Real::assign_sub(const ValueType &rhs) {
@@ -393,6 +417,12 @@ inline void Real::assign_sub(const Real &rhs) {
 template< typename U >
 inline auto Real::assign_sub(const Number<U> &rhs) {
   value_ -= static_cast<const U&>(rhs).value();
+}
+
+template< typename U >
+inline auto Real::assign_sub(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_(*this, rhs);
 }
 
 } // sym

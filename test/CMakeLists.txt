@@ -70,8 +70,7 @@ create_test(
   FILES
   type_traits/test_boolean
   type_traits/test_conditional
-  type_traits/test_covariant_result
-  type_traits/test_covariant_type
+  type_traits/test_covariant
   type_traits/test_detect
   type_traits/test_result_type
 )

@@ -2,6 +2,7 @@
 #define SYMMATH_NUMERICS_NUMBER_HPP
 
 #include <symmath/operations/basic.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_basic_number.hpp>
 
@@ -57,138 +58,129 @@ inline auto operator!=(const T1 &lhs, const Number<T2> &rhs)
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
-inline auto operator+(const Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, const Add<T1, T1>>;
+// template< typename T1,
+//           typename T2 >
+// inline auto operator+(const T1 &lhs, const T2 &rhs)
+// -> EnableIf_t<IsBasicNumber<T2> &&
+//               IsCovariant<ResultType_t<T1>, ResultType_t<T2>>,
+//               const Add<T1, T1>>;
+//
+// template< typename T1,
+//           typename T2 >
+// inline auto operator+(const T1 &lhs, const T2 &rhs)
+// -> EnableIf_t<IsBasicNumber<T1> &&
+//               IsCovariant<ResultType_t<T1>, ResultType_t<T2>>,
+//               const Add<T2, T2>>;
 
-template< typename T1,
-          typename T2 >
-inline auto operator+(const T1 &lhs, const Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, const Add<T2, T2>>;
-
-template< typename T1,
-          typename T2 >
-inline auto operator/(const Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, const Div<T1, T1>>;
-
-template< typename T1,
-          typename T2 >
-inline auto operator/(const T1 &lhs, const Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, const Div<T2, T2>>;
-
-template< typename T1,
-          typename T2 >
-inline auto operator*(const Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, const Mul<T1, T1>>;
-
-template< typename T1,
-          typename T2 >
-inline auto operator*(const T1 &lhs, const Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, const Mul<T2, T2>>;
-
-template< typename T1,
-          typename T2 >
-inline auto operator-(const Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, const Sub<T1, T1>>;
-
-template< typename T1,
-          typename T2 >
-inline auto operator-(const T1 &lhs, const Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, const Sub<T2, T2>>;
-
-// -----------------------------------------------------------------------------
-
-template< typename T1,
-          typename T2 >
-inline auto operator+(const Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, const Add<T1, T1>> {
-  return Add<T1, T1>(static_cast<const T1&>(lhs), T1(rhs));
-}
-
-template< typename T1,
-          typename T2 >
-inline auto operator+(const T1 &lhs, const Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, const Add<T2, T2>> {
-  return Add<T2, T2>(T2(lhs), static_cast<const T2&>(rhs));
-}
+// template< typename T1,
+//           typename T2 >
+// inline auto operator/(const Number<T1> &lhs, const T2 &rhs)
+// -> EnableIf_t<IsBasicNumber<T2>, const Div<T1, T1>>;
+//
+// template< typename T1,
+//           typename T2 >
+// inline auto operator/(const T1 &lhs, const Number<T2> &rhs)
+// -> EnableIf_t<IsBasicNumber<T1>, const Div<T2, T2>>;
+//
+// template< typename T1,
+//           typename T2 >
+// inline auto operator*(const Number<T1> &lhs, const T2 &rhs)
+// -> EnableIf_t<IsBasicNumber<T2>, const Mul<T1, T1>>;
+//
+// template< typename T1,
+//           typename T2 >
+// inline auto operator*(const T1 &lhs, const Number<T2> &rhs)
+// -> EnableIf_t<IsBasicNumber<T1>, const Mul<T2, T2>>;
+//
+// template< typename T1,
+//           typename T2 >
+// inline auto operator-(const Number<T1> &lhs, const T2 &rhs)
+// -> EnableIf_t<IsBasicNumber<T2>, const Sub<T1, T1>>;
+//
+// template< typename T1,
+//           typename T2 >
+// inline auto operator-(const T1 &lhs, const Number<T2> &rhs)
+// -> EnableIf_t<IsBasicNumber<T1>, const Sub<T2, T2>>;
 
 // -----------------------------------------------------------------------------
 
 template< typename T1,
-          typename T2 >
-inline auto operator-(Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Number<T1>> {
-  // static_cast<T1&>(lhs).assign_sub(rhs);
-  return lhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator+(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T2>, Add<T1, CT>> {
+  return Add<T1, CT>(lhs, CT(rhs));
 }
 
 template< typename T1,
-          typename T2 >
-inline auto operator-(const T1 &lhs, Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Number<T2>> {
-  // static_cast<T2&>(rhs).assign_sub(lhs);
-  return rhs;
-}
-
-template< typename T1,
-          typename T2 >
-inline auto operator-=(Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Number<T1>> {
-  // static_cast<T1&>(lhs).assign_sub(rhs);
-  return lhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator+(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T1>, Add<CT, T2>> {
+  return Add<CT, T2>(CT(lhs), rhs);
 }
 
 // -----------------------------------------------------------------------------
 
+
 template< typename T1,
-          typename T2 >
-inline auto operator*(Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Number<T1>> {
-  // static_cast<T1&>(lhs).assign_mul(rhs);
-  return lhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator/(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T2>, Div<T1, CT>> {
+  return Div<T1, CT>(lhs, CT(rhs));
 }
 
 template< typename T1,
-          typename T2 >
-inline auto operator*(const T1 &lhs, Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Number<T2>> {
-  // static_cast<T2&>(rhs).assign_mul(lhs);
-  return rhs;
-}
-
-template< typename T1,
-          typename T2 >
-inline auto operator*=(Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Number<T1>> {
-  // static_cast<T1&>(lhs).assign_mul(rhs);
-  return lhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator/(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T1>, Div<CT, T2>> {
+  return Div<CT, T2>(CT(lhs), rhs);
 }
 
 // -----------------------------------------------------------------------------
 
 template< typename T1,
-          typename T2 >
-inline auto operator/(Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Number<T1>> {
-  // static_cast<T1&>(lhs).assign_div(rhs);
-  return lhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator*(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T2>, Mul<T1, CT>> {
+  return Mul<T1, CT>(lhs, CT(rhs));
 }
 
 template< typename T1,
-          typename T2 >
-inline auto operator/(const T1 &lhs, Number<T2> &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Number<T2>> {
-  // static_cast<T2&>(rhs).assign_div(lhs);
-  return rhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator*(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T1>, Mul<CT, T2>> {
+  return Mul<CT, T2>(CT(lhs), rhs);
+}
+
+// -----------------------------------------------------------------------------
+
+template< typename T1,
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator-(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T2>, Sub<T1, CT>> {
+  return Sub<T1, CT>(lhs, CT(rhs));
 }
 
 template< typename T1,
-          typename T2 >
-inline auto operator/=(Number<T1> &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Number<T1>> {
-  // static_cast<T1&>(lhs).assign_div(rhs);
-  return lhs;
+          typename T2,
+          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+inline auto
+operator-(const T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsBasicNumber<T1>, Sub<CT, T2>> {
+  return Sub<CT, T2>(CT(lhs), rhs);
 }
 
 // -----------------------------------------------------------------------------

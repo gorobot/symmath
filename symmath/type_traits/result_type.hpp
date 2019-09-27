@@ -12,9 +12,6 @@ namespace sym {
 
 namespace {
 
-template< typename T >
-using HasResultTypeTrait = typename T::ResultType;
-
 template< typename T,
           typename = void_t<> >
 struct ResultType_helper {
