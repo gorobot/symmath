@@ -1,5 +1,5 @@
-#ifndef SYMMATH_TYPE_TRAITS_IS_DETECTED_HPP
-#define SYMMATH_TYPE_TRAITS_IS_DETECTED_HPP
+#ifndef SYMMATH_TYPE_TRAITS_DETECT_HPP
+#define SYMMATH_TYPE_TRAITS_DETECT_HPP
 
 #include <symmath/type_traits/boolean.hpp>
 #include <symmath/type_traits/void_t.hpp>
@@ -10,15 +10,15 @@ namespace sym {
 
 namespace {
 
-template< template<typename...> class T,
-          typename = void_t<>,
+template< typename,
+          template<class...> class T,
           typename ...Args >
-struct detector
+struct detect
   : FalseType {};
 
-template< template<typename...> class T,
+template< template<class...> class T,
           typename ...Args >
-struct detector<T, void_t<T<Args...>>, Args...>
+struct detect<void_t<T<Args...>>, T, Args...>
   : TrueType {};
 
 } // detail
@@ -27,8 +27,8 @@ struct detector<T, void_t<T<Args...>>, Args...>
 
 template< template<typename...> class T,
           typename ...Args >
-constexpr bool IsDetected = detector<T, void, Args...>{};
+constexpr bool Detect = detect<void, T, Args...>{};
 
 } // sym
 
-#endif // SYMMATH_TYPE_TRAITS_IS_DETECTED_HPP
+#endif // SYMMATH_TYPE_TRAITS_DETECT_HPP

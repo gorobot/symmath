@@ -130,47 +130,47 @@ operator>=(const Comparable<T1> &lhs, const Comparable<T2> &rhs) {
 // -----------------------------------------------------------------------------
 
 template< typename T1, typename T2 >
-inline auto operator+(Addable<T1> &lhs, const Addable<T2> &rhs)
+inline auto operator+(const Addable<T1> &lhs, const Addable<T2> &rhs)
 -> const Add<T1, T2>;
 
 template< typename T1, typename T2 >
-inline auto operator/(Invertible<T1> &lhs, const Invertible<T2> &rhs)
+inline auto operator/(const Invertible<T1> &lhs, const Invertible<T2> &rhs)
 -> const Div<T1, T2>;
 
 template< typename T1, typename T2 >
-inline auto operator*(Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
+inline auto operator*(const Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
 -> const Mul<T1, T2>;
 
 template< typename T1, typename T2 >
-inline auto operator-(Negatable<T1> &lhs, const Negatable<T2> &rhs)
+inline auto operator-(const Negatable<T1> &lhs, const Negatable<T2> &rhs)
 -> const Sub<T1, T2>;
 
 // -----------------------------------------------------------------------------
 
 template< typename T1,
           typename T2 >
-inline auto operator+(Addable<T1> &lhs, const Addable<T2> &rhs)
+inline auto operator+(const Addable<T1> &lhs, const Addable<T2> &rhs)
 -> const Add<T1, T2> {
   return Add<T1, T2>(lhs, rhs);
 }
 
 template< typename T1,
           typename T2 >
-inline auto operator/(Invertible<T1> &lhs, const Invertible<T2> &rhs)
+inline auto operator/(const Invertible<T1> &lhs, const Invertible<T2> &rhs)
 -> const Div<T1, T2> {
   return Div<T1, T2>(lhs, rhs);
 }
 
 template< typename T1,
           typename T2 >
-inline auto operator*(Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
+inline auto operator*(const Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
 -> const Mul<T1, T2> {
   return Mul<T1, T2>(lhs, rhs);
 }
 
 template< typename T1,
           typename T2 >
-inline auto operator-(Negatable<T1> &lhs, const Negatable<T2> &rhs)
+inline auto operator-(const Negatable<T1> &lhs, const Negatable<T2> &rhs)
 -> const Sub<T1, T2> {
   return Sub<T1, T2>(lhs, rhs);
 }

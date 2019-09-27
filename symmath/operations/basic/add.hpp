@@ -4,6 +4,7 @@
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -19,8 +20,8 @@ public:
   using R1 = ResultType_t<T1>;
   using R2 = ResultType_t<T2>;
 
-  // using ResultType = std::common_type_t<R1, R2>;
-  using ResultType = R1;
+  using ResultType = CovariantResult_t<R1, R2>;
+  // using ResultType = R1;
 
   using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
   using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
@@ -33,6 +34,9 @@ private:
 public:
 
   explicit inline Add(const T1 &lhs, const T2 &rhs);
+  explicit inline Add(const T1 &lhs, T2 &&rhs);
+  // explicit inline Add(T1 &&lhs, const T2 &rhs);
+  // explicit inline Add(T1 &&lhs, T2 &&rhs);
 
 private:
 
@@ -66,6 +70,12 @@ template< typename T1,
 inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
+
+template< typename T1,
+          typename T2 >
+inline Add<T1, T2>::Add(const T1 &lhs, T2 &&rhs)
+  : lhs_(lhs),
+    rhs_(std::move(rhs)) {}
 
 } // sym
 

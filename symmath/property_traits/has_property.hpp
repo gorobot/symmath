@@ -21,9 +21,9 @@ struct HasProperty;
 
 namespace {
 
-// template< typename T >
-// using IsElementOfSet = typename T::ElementOf;
-//
+template< typename T >
+using IsElementOfSet = typename T::ElementOf;
+
 // template< typename T,
 //           typename P >
 // constexpr bool SetHasProperty = HasProperty<typename T::ElementOf, P>{};

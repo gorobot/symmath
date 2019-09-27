@@ -7,15 +7,15 @@ namespace sym {
 
 namespace {
 
-template< typename ...T >
-constexpr bool HasValueTypeTrait = 
+template< typename T >
+using HasValueTypeTrait = typename T::ValueType;
 
 } // detail
 
 // -----------------------------------------------------------------------------
 
-template< typename ...T >
-constexpr bool IsValueType = Requires(HasValueTypeTrait<T...>);
+template< typename T >
+constexpr bool IsValueType = Requires(HasValueTypeTrait<T>);
 
 template< typename T,
           typename = EnableIf_t<IsValueType<T>> >

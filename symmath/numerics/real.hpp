@@ -8,6 +8,7 @@
 #include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {
@@ -81,9 +82,6 @@ public:
   template< typename U >  inline auto  operator-=(const U &rhs)
   -> EnableIf_t<IsSameResult<This, U>{}, This&>;
 
-  // Implicit Conversion Operator
-  // inline operator ValueType() const;
-
   // Assign
                           inline void assign(const ValueType &rhs);
                           inline void assign(const Real &rhs);
@@ -156,12 +154,12 @@ inline Real::Real(ValueType &&value)
 inline Real::Real(const Real &other)
   : value_(other.value_) {}
 
-template< typename T >
-inline Real::Real(const Number<T> &other)
-  : value_(static_cast<const T&>(other).value()) {}
+template< typename U >
+inline Real::Real(const Number<U> &other)
+  : value_(static_cast<const U&>(other).value()) {}
 
-// template< typename T >
-// inline Real::Real(const T &other)
+// template< typename U >
+// inline Real::Real(const U &other)
 //   : value_() {
 //   assign_(*this, other);
 // }
@@ -183,16 +181,136 @@ inline Real &Real::operator=(const Real &other) {
   return *this;
 }
 
-template< typename T >
-inline Real &Real::operator=(const Number<T> &other) {
-  value_ = static_cast<const T&>(other).value_;
+template< typename U >
+inline Real &Real::operator=(const Number<U> &other) {
+  value_ = static_cast<const U&>(other).value_;
   return *this;
 }
 
-template< typename T >
-inline auto Real::operator=(const T &rhs)
--> EnableIf_t<IsSameResult<Real, T>{}, Real&> {
+template< typename U >
+inline auto Real::operator=(const U &rhs)
+-> EnableIf_t<IsSameResult<This, U>{}, Real&> {
   assign_(*this, rhs);
+  return *this;
+}
+
+// -----------------------------------------------------------------------------
+
+inline Real &Real::operator+=(const ValueType &rhs) {
+  value_ += rhs;
+  return *this;
+}
+
+inline Real &Real::operator+=(ValueType &&rhs) {
+  value_ += std::move(rhs);
+  return *this;
+}
+
+inline Real &Real::operator+=(const Real &rhs) {
+  value_ += rhs.value_;
+  return *this;
+}
+
+template< typename U >
+inline Real &Real::operator+=(const Number<U> &rhs) {
+  value_ += static_cast<const U&>(rhs).value();
+  return *this;
+}
+
+template< typename U >
+inline auto Real::operator+=(const U &rhs)
+-> EnableIf_t<IsSameResult<This, U>{}, This&> {
+  assign_add_(*this, rhs);
+  return *this;
+}
+
+// -----------------------------------------------------------------------------
+
+inline Real &Real::operator/=(const ValueType &rhs) {
+  value_ /= rhs;
+  return *this;
+}
+
+inline Real &Real::operator/=(ValueType &&rhs) {
+  value_ /= std::move(rhs);
+  return *this;
+}
+
+inline Real &Real::operator/=(const Real &rhs) {
+  value_ /= rhs.value_;
+  return *this;
+}
+
+template< typename U >
+inline Real &Real::operator/=(const Number<U> &rhs) {
+  value_ /= static_cast<const U&>(rhs).value();
+  return *this;
+}
+
+template< typename U >
+inline auto Real::operator/=(const U &rhs)
+-> EnableIf_t<IsSameResult<This, U>{}, This&> {
+  assign_div_(*this, rhs);
+  return *this;
+}
+
+// -----------------------------------------------------------------------------
+
+inline Real &Real::operator*=(const ValueType &rhs) {
+  value_ *= rhs;
+  return *this;
+}
+
+inline Real &Real::operator*=(ValueType &&rhs) {
+  value_ *= std::move(rhs);
+  return *this;
+}
+
+inline Real &Real::operator*=(const Real &rhs) {
+  value_ *= rhs.value_;
+  return *this;
+}
+
+template< typename U >
+inline Real &Real::operator*=(const Number<U> &rhs) {
+  value_ *= static_cast<const U&>(rhs).value();
+  return *this;
+}
+
+template< typename U >
+inline auto Real::operator*=(const U &rhs)
+-> EnableIf_t<IsSameResult<This, U>{}, This&> {
+  assign_mul_(*this, rhs);
+  return *this;
+}
+
+// -----------------------------------------------------------------------------
+
+inline Real &Real::operator-=(const ValueType &rhs) {
+  value_ -= rhs;
+  return *this;
+}
+
+inline Real &Real::operator-=(ValueType &&rhs) {
+  value_ -= std::move(rhs);
+  return *this;
+}
+
+inline Real &Real::operator-=(const Real &rhs) {
+  value_ -= rhs.value_;
+  return *this;
+}
+
+template< typename U >
+inline Real &Real::operator-=(const Number<U> &rhs) {
+  value_ -= static_cast<const U&>(rhs).value();
+  return *this;
+}
+
+template< typename U >
+inline auto Real::operator-=(const U &rhs)
+-> EnableIf_t<IsSameResult<This, U>{}, This&> {
+  assign_sub_(*this, rhs);
   return *this;
 }
 
@@ -230,6 +348,51 @@ inline void Real::assign_add(const Real &rhs) {
 template< typename U >
 inline auto Real::assign_add(const Number<U> &rhs) {
   value_ += static_cast<const U&>(rhs).value();
+}
+
+// -----------------------------------------------------------------------------
+// Assign Division
+inline void Real::assign_div(const ValueType &rhs) {
+  value_ /= rhs;
+}
+
+inline void Real::assign_div(const Real &rhs) {
+  value_ /= rhs.value_;
+}
+
+template< typename U >
+inline auto Real::assign_div(const Number<U> &rhs) {
+  value_ /= static_cast<const U&>(rhs).value();
+}
+
+// -----------------------------------------------------------------------------
+// Assign Multiplication
+inline void Real::assign_mul(const ValueType &rhs) {
+  value_ *= rhs;
+}
+
+inline void Real::assign_mul(const Real &rhs) {
+  value_ *= rhs.value_;
+}
+
+template< typename U >
+inline auto Real::assign_mul(const Number<U> &rhs) {
+  value_ *= static_cast<const U&>(rhs).value();
+}
+
+// -----------------------------------------------------------------------------
+// Assign Subtraction
+inline void Real::assign_sub(const ValueType &rhs) {
+  value_ -= rhs;
+}
+
+inline void Real::assign_sub(const Real &rhs) {
+  value_ -= rhs.value_;
+}
+
+template< typename U >
+inline auto Real::assign_sub(const Number<U> &rhs) {
+  value_ -= static_cast<const U&>(rhs).value();
 }
 
 } // sym

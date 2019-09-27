@@ -3,6 +3,7 @@
 
 #include <symmath/properties/multiplication.hpp>
 #include <symmath/properties/inverse_element.hpp>
+#include <symmath/property_traits/multipliable.hpp>
 #include <symmath/property_traits/has_property.hpp>
 #include <symmath/property_traits/requires.hpp>
 #include <symmath/type_traits/boolean_logic.hpp>
@@ -15,20 +16,17 @@ namespace sym {
 
 namespace {
 
-template< typename ...T >
-constexpr bool HasMultiplication = All<HasProperty<T, Multiplication>...>{};
-
-template< typename ...T >
-constexpr bool HasMultiplicativeInverse =
-  All<HasProperty<T, InverseElement<Multiplication>>...>{};
+template< typename T >
+constexpr bool HasMultiplicativeInverseProperty =
+  All<HasProperty<T, InverseElement<Multiplication>>>{};
 
 } // detail
 
 // -----------------------------------------------------------------------------
 
-template< typename ...T >
+template< typename T >
 constexpr bool IsInvertible =
-  Requires(HasMultiplication<T...> && HasMultiplicativeInverse<T...>);
+  Requires(IsMultipliable<T> && HasMultiplicativeInverseProperty<T>);
 
 template< typename T,
           typename = EnableIf_t<IsInvertible<T>> >
