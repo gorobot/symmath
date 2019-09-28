@@ -9,10 +9,10 @@ struct Operation {};
 
 // -----------------------------------------------------------------------------
 
-template< typename T >
-inline const typename T::ResultType
-eval(const T &operation) {
-  typename T::ResultType tmp;
+template< typename T,
+          typename R = typename T::ResultType >
+inline const R eval(const T &operation) {
+  R tmp;
   assign_(tmp, operation);
   return tmp;
 }

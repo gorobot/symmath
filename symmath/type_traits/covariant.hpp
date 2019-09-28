@@ -1,7 +1,6 @@
 #ifndef SYMMATH_TYPE_TRAITS_COVARIANT_HPP
 #define SYMMATH_TYPE_TRAITS_COVARIANT_HPP
 
-#include <symmath/type_traits/detect.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_constructible.hpp>
 

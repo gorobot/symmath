@@ -32,7 +32,7 @@ private:
 public:
 
   explicit inline Add(const T1 &lhs, const T2 &rhs);
-  explicit inline Add(const T1 &lhs, T2 &&rhs);
+  // explicit inline Add(const T1 &lhs, T2 &&rhs);
   // explicit inline Add(T1 &&lhs, const T2 &rhs);
   // explicit inline Add(T1 &&lhs, T2 &&rhs);
 
@@ -69,11 +69,11 @@ inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
-template< typename T1,
-          typename T2 >
-inline Add<T1, T2>::Add(const T1 &lhs, T2 &&rhs)
-  : lhs_(lhs),
-    rhs_(std::move(rhs)) {}
+// template< typename T1,
+//           typename T2 >
+// inline Add<T1, T2>::Add(const T1 &lhs, T2 &&rhs)
+//   : lhs_(lhs),
+//     rhs_(std::move(rhs)) {}
 
 } // sym
 

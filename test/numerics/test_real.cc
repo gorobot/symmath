@@ -215,11 +215,9 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == -1.0);
   }
 
-  // SECTION("should be able to perform mixed operations") {
-  //   Real result;
-  //   result = a + (b / (a * d)) - a;
-  //   // auto r = a + (b / (a * d)) - a;
-  //   // decltype(r)::show;
-  //   REQUIRE(result == 0.5);
-  // }
+  SECTION("should be able to perform mixed operations") {
+    Real result;
+    result = a + (b / (a * d)) - a;
+    REQUIRE(result == 0.5);
+  }
 }
