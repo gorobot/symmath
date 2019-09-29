@@ -154,7 +154,6 @@ TEST_CASE("Real: operations", "[numerics]") {
     REQUIRE(result == 24.0);
     result = a * b * c * 4.0;
     REQUIRE(result == 24.0);
-
   }
 
   SECTION("should be able to multiply assign") {

@@ -5,64 +5,259 @@
 #define SYMMATH_NATURAL_UNDERLYING_TYPE int
 #endif
 
-#include <type_traits>
-
 #include <symmath/numerics/number.hpp>
-
-#include <symmath/sets/naturals.hpp>
-#include "../properties/has_assignment.hpp"
-#include "../properties/has_value.hpp"
-#include "../type_traits/result_of.hpp"
+#include <symmath/sets/numerics/naturals.hpp>
+#include <symmath/type_traits/covariant.hpp>
+#include <symmath/type_traits/enable_if.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 class Natural
-  : private Number<Natural>,
-    public has_assignment<Natural>,
-    public has_value<SYMMATH_NATURAL_UNDERLYING_TYPE> {
+  : public Number<Natural> {
 public:
 
-  using ElementOf = Naturals;
+  using This            = Natural;
+  using Reference       = Natural&;
+  using ConstReference  = const Natural&;
 
-  using ValueType = SYMMATH_NATURAL_UNDERLYING_TYPE;
-  using ResultType = Natural;
+  using ElementOf       = Naturals;
 
-  FORWARD_CONSTRUCTOR(has_value, SYMMATH_NATURAL_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_value, SYMMATH_NATURAL_UNDERLYING_TYPE);
-  FORWARD_ASSIGNMENT_OPERATOR(has_assignment, Natural);
+  using ValueType       = SYMMATH_NATURAL_UNDERLYING_TYPE;
+  using ResultType      = Natural;
 
-  template< typename U >
-  inline void assign(const U &rhs);
-  template< typename U >
-  inline void assign_add(const U &rhs);
-  template< typename U >
-  inline void assign_mul(const U &rhs);
+private:
+
+  ValueType value_;
+
+public:
+
+  // Constructor
+  explicit inline Natural();
+
+  explicit inline Natural(const ValueType &value);
+  explicit inline Natural(ValueType &&value);
+
+                 explicit inline Natural(ConstReference other);
+  template< typename U >  inline Natural(const Number<U> &other);
+
+  // Assignment Operator
+  inline Reference operator=(const ValueType &rhs);
+  inline Reference operator=(ValueType &&rhs);
+
+                          inline Reference operator=(ConstReference rhs);
+  template< typename U >  inline Reference operator=(const Number<U> &rhs);
+  template< typename U >  inline auto      operator=(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
+
+  inline Reference operator+=(const ValueType &rhs);
+  inline Reference operator+=(ValueType &&rhs);
+
+                          inline Reference operator+=(ConstReference rhs);
+  template< typename U >  inline Reference operator+=(const Number<U> &rhs);
+  template< typename U >  inline auto      operator+=(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
+
+  inline Reference operator*=(const ValueType &rhs);
+  inline Reference operator*=(ValueType &&rhs);
+
+                          inline Reference operator*=(ConstReference rhs);
+  template< typename U >  inline Reference operator*=(const Number<U> &rhs);
+  template< typename U >  inline auto      operator*=(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
+
+  inline decltype(auto) value() const;
+
+  // Assign
+                          inline void assign(ConstReference rhs);
+  template< typename U >  inline void assign(const Number<U> &rhs);
+  template< typename U >  inline auto assign(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+
+  // Assign Addition
+                          inline void assign_add(ConstReference rhs);
+  template< typename U >  inline auto assign_add(const Number<U> &rhs);
+  template< typename U >  inline auto assign_add(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+
+  // Assign Multiplication
+                          inline void assign_mul(ConstReference rhs);
+  template< typename U >  inline auto assign_mul(const Number<U> &rhs);
+  template< typename U >  inline auto assign_mul(const U &rhs)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+
+  // Assign Power
+                          inline void assign_pow(ConstReference rhs);
+  template< typename U >  inline auto assign_pow(const Number<U> &rhs);
+  template< typename U >  inline auto assign_pow(const U &other)
+  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
+inline Natural::Natural()
+  : value_(0.0) {}
+
+inline Natural::Natural(const ValueType &value)
+  : value_(value) {}
+
+inline Natural::Natural(ValueType &&value)
+  : value_(std::move(value)) {}
+
+inline Natural::Natural(ConstReference other)
+  : value_(other.value_) {}
+
+template< typename U >
+inline Natural::Natural(const Number<U> &other)
+  : value_(static_cast<const U&>(other).value()) {}
+
+// -----------------------------------------------------------------------------
+// Assignment Operator
+inline Natural::Reference Natural::operator=(const ValueType &value) {
+  value_ = value;
+  return *this;
+}
+
+inline Natural::Reference Natural::operator=(ValueType &&value) {
+  value_ = std::move(value);
+  return *this;
+}
+
+inline Natural::Reference Natural::operator=(ConstReference other) {
+  value_ = other.value_;
+  return *this;
+}
+
+template< typename U >
+inline Natural::Reference Natural::operator=(const Number<U> &other) {
+  value_ = static_cast<const U&>(other).value_;
+  return *this;
+}
+
+template< typename U >
+inline auto Natural::operator=(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference> {
+  assign_(*this, rhs);
+  return *this;
+}
+
+// -----------------------------------------------------------------------------
+
+inline Natural::Reference Natural::operator+=(const ValueType &rhs) {
+  value_ += rhs;
+  return *this;
+}
+
+inline Natural::Reference Natural::operator+=(ValueType &&rhs) {
+  value_ += std::move(rhs);
+  return *this;
+}
+
+inline Natural::Reference Natural::operator+=(ConstReference rhs) {
+  value_ += rhs.value_;
+  return *this;
+}
+
+template< typename U >
+inline Natural::Reference Natural::operator+=(const Number<U> &rhs) {
+  value_ += static_cast<const U&>(rhs).value();
+  return *this;
+}
+
+template< typename U >
+inline auto Natural::operator+=(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference> {
+  assign_add_(*this, rhs);
+  return *this;
+}
+
+// -----------------------------------------------------------------------------
+
+inline Natural::Reference Natural::operator*=(const ValueType &rhs) {
+  value_ *= rhs;
+  return *this;
+}
+
+inline Natural::Reference Natural::operator*=(ValueType &&rhs) {
+  value_ *= std::move(rhs);
+  return *this;
+}
+
+inline Natural::Reference Natural::operator*=(ConstReference rhs) {
+  value_ *= rhs.value_;
+  return *this;
+}
+
+template< typename U >
+inline Natural::Reference Natural::operator*=(const Number<U> &rhs) {
+  value_ *= static_cast<const U&>(rhs).value();
+  return *this;
+}
+
+template< typename U >
+inline auto Natural::operator*=(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference> {
+  assign_mul_(*this, rhs);
+  return *this;
+}
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
-template< typename U >
-inline void
-Natural::assign(const U &rhs) {
-  this->value_ = result_of<U>::value(rhs);
+inline decltype(auto) Natural::value() const {
+  return value_;
+}
+
+// -----------------------------------------------------------------------------
+// Assign
+inline void Natural::assign(ConstReference rhs) {
+  value_ = rhs.value_;
 }
 
 template< typename U >
-inline void
-Natural::assign_add(const U &rhs) {
-  this->value_ += result_of<U>::value(rhs);
+inline void Natural::assign(const Number<U> &rhs) {
+  value_ = static_cast<const U&>(rhs).value();
 }
 
 template< typename U >
-inline void
-Natural::assign_mul(const U &rhs) {
-  this->value_ *= result_of<U>::value(rhs);
+inline auto Natural::assign(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_(*this, eval(rhs));
+}
+
+// -----------------------------------------------------------------------------
+// Assign Addition
+inline void Natural::assign_add(ConstReference rhs) {
+  value_ += rhs.value_;
+}
+
+template< typename U >
+inline auto Natural::assign_add(const Number<U> &rhs) {
+  value_ += static_cast<const U&>(rhs).value();
+}
+
+template< typename U >
+inline auto Natural::assign_add(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_add_(*this, eval(rhs));
+}
+
+// -----------------------------------------------------------------------------
+// Assign Multiplication
+inline void Natural::assign_mul(ConstReference rhs) {
+  value_ *= rhs.value_;
+}
+
+template< typename U >
+inline auto Natural::assign_mul(const Number<U> &rhs) {
+  value_ *= static_cast<const U&>(rhs).value();
+}
+
+template< typename U >
+inline auto Natural::assign_mul(const U &rhs)
+-> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+  assign_mul_(*this, eval(rhs));
 }
 
 } // sym

@@ -9,7 +9,6 @@
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_operation.hpp>
 
 namespace sym {
 
@@ -84,6 +83,8 @@ public:
   template< typename U >  inline auto      operator-=(const U &rhs)
   -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
 
+  inline decltype(auto) value() const;
+
   // Assign
                           inline void assign(ConstReference rhs);
   template< typename U >  inline void assign(const Number<U> &rhs);
@@ -131,8 +132,6 @@ public:
   template< typename U >  inline auto assign_inv(const Number<U> &rhs);
   template< typename U >  inline auto assign_inv(const U &other)
   -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
-
-  inline decltype(auto) value() const;
 
 };
 

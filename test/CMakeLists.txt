@@ -34,9 +34,9 @@ endmacro()
 create_test(
   NAME Numerics
   FILES
-  # numerics/test_complex
-  # numerics/test_integer
-  # numerics/test_natural
+  numerics/test_complex
+  numerics/test_integer
+  numerics/test_natural
   numerics/test_real
   numerics/test_variable
 )
