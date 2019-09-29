@@ -2,7 +2,7 @@
 #define SYMMATH_NUMERICS_NUMBER_HPP
 
 #include <symmath/operations/basic.hpp>
-#include <symmath/type_traits/covariant.hpp>
+#include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_basic_number.hpp>
 
@@ -60,7 +60,7 @@ inline auto operator!=(const T1 &lhs, const Number<T2> &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator+(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T2>, Add<T1, CT>> {
@@ -69,7 +69,7 @@ operator+(const T1 &lhs, const T2 &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator+(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T1>, Add<CT, T2>> {
@@ -78,10 +78,9 @@ operator+(const T1 &lhs, const T2 &rhs)
 
 // -----------------------------------------------------------------------------
 
-
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator/(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T2>, Div<T1, CT>> {
@@ -90,7 +89,7 @@ operator/(const T1 &lhs, const T2 &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator/(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T1>, Div<CT, T2>> {
@@ -101,7 +100,7 @@ operator/(const T1 &lhs, const T2 &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator*(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T2>, Mul<T1, CT>> {
@@ -110,7 +109,7 @@ operator*(const T1 &lhs, const T2 &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator*(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T1>, Mul<CT, T2>> {
@@ -121,7 +120,7 @@ operator*(const T1 &lhs, const T2 &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator-(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T2>, Sub<T1, CT>> {
@@ -130,7 +129,7 @@ operator-(const T1 &lhs, const T2 &rhs)
 
 template< typename T1,
           typename T2,
-          typename CT = Covariant_t<ResultType_t<T1>, ResultType_t<T2>> >
+          typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator-(const T1 &lhs, const T2 &rhs)
 -> EnableIf_t<IsBasicNumber<T1>, Sub<CT, T2>> {

@@ -11,8 +11,8 @@
 #include <symmath/operations/calculus/laplacian.hpp>
 #include <symmath/operations/calculus/lim.hpp>
 #include <symmath/operations/calculus/pdiff.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {
 

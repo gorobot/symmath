@@ -16,8 +16,8 @@
 #include <symmath/operations/tensors/scalar_mul.hpp>
 #include <symmath/operations/tensors/tensor_prod.hpp>
 #include <symmath/operations/tensors/transpose.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {
 

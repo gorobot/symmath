@@ -7,7 +7,7 @@
 
 #include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/naturals.hpp>
-#include <symmath/type_traits/covariant.hpp>
+#include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 
 namespace sym {
@@ -49,7 +49,7 @@ public:
                           inline Reference operator=(ConstReference rhs);
   template< typename U >  inline Reference operator=(const Number<U> &rhs);
   template< typename U >  inline auto      operator=(const U &rhs)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
+  -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
 
   inline Reference operator+=(const ValueType &rhs);
   inline Reference operator+=(ValueType &&rhs);
@@ -57,7 +57,7 @@ public:
                           inline Reference operator+=(ConstReference rhs);
   template< typename U >  inline Reference operator+=(const Number<U> &rhs);
   template< typename U >  inline auto      operator+=(const U &rhs)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
+  -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
 
   inline Reference operator*=(const ValueType &rhs);
   inline Reference operator*=(ValueType &&rhs);
@@ -65,7 +65,7 @@ public:
                           inline Reference operator*=(ConstReference rhs);
   template< typename U >  inline Reference operator*=(const Number<U> &rhs);
   template< typename U >  inline auto      operator*=(const U &rhs)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference>;
+  -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
 
   inline decltype(auto) value() const;
 
@@ -73,25 +73,25 @@ public:
                           inline void assign(ConstReference rhs);
   template< typename U >  inline void assign(const Number<U> &rhs);
   template< typename U >  inline auto assign(const U &rhs)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+  -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Addition
                           inline void assign_add(ConstReference rhs);
   template< typename U >  inline auto assign_add(const Number<U> &rhs);
   template< typename U >  inline auto assign_add(const U &rhs)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+  -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Multiplication
                           inline void assign_mul(ConstReference rhs);
   template< typename U >  inline auto assign_mul(const Number<U> &rhs);
   template< typename U >  inline auto assign_mul(const U &rhs)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+  -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Power
                           inline void assign_pow(ConstReference rhs);
   template< typename U >  inline auto assign_pow(const Number<U> &rhs);
   template< typename U >  inline auto assign_pow(const U &other)
-  -> EnableIf_t<IsCovariant<This, ResultType_t<U>>>;
+  -> EnableIf_t<IsCovariantResult<This, U>>;
 
 };
 
@@ -138,7 +138,7 @@ inline Natural::Reference Natural::operator=(const Number<U> &other) {
 
 template< typename U >
 inline auto Natural::operator=(const U &rhs)
--> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference> {
+-> EnableIf_t<IsCovariantResult<This, U>, Reference> {
   assign_(*this, rhs);
   return *this;
 }
@@ -168,7 +168,7 @@ inline Natural::Reference Natural::operator+=(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Natural::operator+=(const U &rhs)
--> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference> {
+-> EnableIf_t<IsCovariantResult<This, U>, Reference> {
   assign_add_(*this, rhs);
   return *this;
 }
@@ -198,7 +198,7 @@ inline Natural::Reference Natural::operator*=(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Natural::operator*=(const U &rhs)
--> EnableIf_t<IsCovariant<This, ResultType_t<U>>, Reference> {
+-> EnableIf_t<IsCovariantResult<This, U>, Reference> {
   assign_mul_(*this, rhs);
   return *this;
 }
@@ -222,7 +222,7 @@ inline void Natural::assign(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Natural::assign(const U &rhs)
--> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+-> EnableIf_t<IsCovariantResult<This, U>> {
   assign_(*this, eval(rhs));
 }
 
@@ -239,7 +239,7 @@ inline auto Natural::assign_add(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Natural::assign_add(const U &rhs)
--> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+-> EnableIf_t<IsCovariantResult<This, U>> {
   assign_add_(*this, eval(rhs));
 }
 
@@ -256,7 +256,7 @@ inline auto Natural::assign_mul(const Number<U> &rhs) {
 
 template< typename U >
 inline auto Natural::assign_mul(const U &rhs)
--> EnableIf_t<IsCovariant<This, ResultType_t<U>>> {
+-> EnableIf_t<IsCovariantResult<This, U>> {
   assign_mul_(*this, eval(rhs));
 }
 

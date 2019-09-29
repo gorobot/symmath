@@ -4,7 +4,7 @@
 
 using namespace sym;
 
-TEST_CASE("Natural: operations", "[numerics]") {
+TEST_CASE("Natural: addition", "[numerics]") {
   sym::Natural a(1);
   sym::Natural b(2);
   sym::Natural c(3);
@@ -55,6 +55,13 @@ TEST_CASE("Natural: operations", "[numerics]") {
     result += 1;
     REQUIRE(result == 2);
   }
+}
+
+TEST_CASE("Natural: multiplication", "[numerics]") {
+  sym::Natural a(1);
+  sym::Natural b(2);
+  sym::Natural c(3);
+  sym::Natural d(4);
 
   SECTION("should be able to multiply naturals") {
     Natural result;
@@ -101,6 +108,13 @@ TEST_CASE("Natural: operations", "[numerics]") {
     result *= 2;
     REQUIRE(result == 2);
   }
+}
+
+TEST_CASE("Natural: mixed operations", "[numerics]") {
+  sym::Natural a(1);
+  sym::Natural b(2);
+  sym::Natural c(3);
+  sym::Natural d(4);
 
   SECTION("should be able to perform mixed operations") {
     Natural result;

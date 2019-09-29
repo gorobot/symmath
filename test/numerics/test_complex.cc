@@ -5,7 +5,7 @@
 using namespace sym;
 using namespace std::complex_literals;
 
-TEST_CASE("Complex: operations", "[numerics]") {
+TEST_CASE("Complex: addition", "[numerics]") {
   Complex a(1.0 + 0.0i);
   Complex b(2.0 + 0.0i);
   Complex c(3.0 + 0.0i);
@@ -68,6 +68,13 @@ TEST_CASE("Complex: operations", "[numerics]") {
     result += 1.0i;
     REQUIRE(result == 1.0 + 1.0i);
   }
+}
+
+TEST_CASE("Complex: division", "[numerics]") {
+  Complex a(1.0 + 0.0i);
+  Complex b(2.0 + 0.0i);
+  Complex c(3.0 + 0.0i);
+  Complex d(4.0 + 0.0i);
 
   SECTION("should be able to divide complex numbers") {
     Complex result;
@@ -126,6 +133,13 @@ TEST_CASE("Complex: operations", "[numerics]") {
     result /= 1.0i;
     REQUIRE(result == -2.0i);
   }
+}
+
+TEST_CASE("Complex: multiplication", "[numerics]") {
+  Complex a(1.0 + 0.0i);
+  Complex b(2.0 + 0.0i);
+  Complex c(3.0 + 0.0i);
+  Complex d(4.0 + 0.0i);
 
   SECTION("should be able to multiply complex numbers") {
     Complex result;
@@ -184,6 +198,13 @@ TEST_CASE("Complex: operations", "[numerics]") {
     result *= 2.0i;
     REQUIRE(result == 2.0i);
   }
+}
+
+TEST_CASE("Complex: subtraction", "[numerics]") {
+  Complex a(1.0 + 0.0i);
+  Complex b(2.0 + 0.0i);
+  Complex c(3.0 + 0.0i);
+  Complex d(4.0 + 0.0i);
 
   SECTION("should be able to subtract complex numbers") {
     Complex result;
@@ -242,6 +263,13 @@ TEST_CASE("Complex: operations", "[numerics]") {
     result -= 2.0i;
     REQUIRE(result == 1.0 - 2.0i);
   }
+}
+
+TEST_CASE("Complex: mixed operations", "[numerics]") {
+  Complex a(1.0 + 0.0i);
+  Complex b(2.0 + 0.0i);
+  Complex c(3.0 + 0.0i);
+  Complex d(4.0 + 0.0i);
 
   SECTION("should be able to perform mixed operations") {
     Complex result;

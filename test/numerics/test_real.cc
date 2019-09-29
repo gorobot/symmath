@@ -24,7 +24,7 @@ TEST_CASE("Real: properties", "[numerics]") {
 
 }
 
-TEST_CASE("Real: operations", "[numerics]") {
+TEST_CASE("Real: addition", "[numerics]") {
   Real a(1.0);
   Real b(2.0);
   Real c(3.0);
@@ -75,6 +75,13 @@ TEST_CASE("Real: operations", "[numerics]") {
     result += 1.0;
     REQUIRE(result == 2.0);
   }
+}
+
+TEST_CASE("Real: division", "[numerics]") {
+  Real a(1.0);
+  Real b(2.0);
+  Real c(3.0);
+  Real d(4.0);
 
   SECTION("should be able to divide reals") {
     Real result;
@@ -121,6 +128,13 @@ TEST_CASE("Real: operations", "[numerics]") {
     result /= 1.0;
     REQUIRE(result == 2.0);
   }
+}
+
+TEST_CASE("Real: multiplication", "[numerics]") {
+  Real a(1.0);
+  Real b(2.0);
+  Real c(3.0);
+  Real d(4.0);
 
   SECTION("should be able to multiply reals") {
     Real result;
@@ -167,6 +181,13 @@ TEST_CASE("Real: operations", "[numerics]") {
     result *= 2.0;
     REQUIRE(result == 2.0);
   }
+}
+
+TEST_CASE("Real: subtraction", "[numerics]") {
+  Real a(1.0);
+  Real b(2.0);
+  Real c(3.0);
+  Real d(4.0);
 
   SECTION("should be able to subtract reals") {
     Real result;
@@ -213,6 +234,13 @@ TEST_CASE("Real: operations", "[numerics]") {
     result -= 2.0;
     REQUIRE(result == -1.0);
   }
+}
+
+TEST_CASE("Real: mixed operations", "[numerics]") {
+  Real a(1.0);
+  Real b(2.0);
+  Real c(3.0);
+  Real d(4.0);
 
   SECTION("should be able to perform mixed operations") {
     Real result;

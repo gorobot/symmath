@@ -4,7 +4,7 @@
 
 using namespace sym;
 
-TEST_CASE("Integer: operations", "[numerics]") {
+TEST_CASE("Integer: addition", "[numerics]") {
   Integer a(1);
   Integer b(2);
   Integer c(3);
@@ -55,6 +55,13 @@ TEST_CASE("Integer: operations", "[numerics]") {
     result += 1;
     REQUIRE(result == 2);
   }
+}
+
+TEST_CASE("Integer: multiplication", "[numerics]") {
+  Integer a(1);
+  Integer b(2);
+  Integer c(3);
+  Integer d(4);
 
   SECTION("should be able to multiply integers") {
     Integer result;
@@ -101,6 +108,13 @@ TEST_CASE("Integer: operations", "[numerics]") {
     result *= 2;
     REQUIRE(result == 2);
   }
+}
+
+TEST_CASE("Integer: subtraction", "[numerics]") {
+  Integer a(1);
+  Integer b(2);
+  Integer c(3);
+  Integer d(4);
 
   SECTION("should be able to subtract integers") {
     Integer result;
@@ -147,6 +161,13 @@ TEST_CASE("Integer: operations", "[numerics]") {
     result -= 2;
     REQUIRE(result == -1);
   }
+}
+
+TEST_CASE("Integer: mixed operations", "[numerics]") {
+  Integer a(1);
+  Integer b(2);
+  Integer c(3);
+  Integer d(4);
 
   SECTION("should be able to perform mixed operations") {
     sym::Integer result;

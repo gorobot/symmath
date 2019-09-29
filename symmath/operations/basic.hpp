@@ -19,8 +19,9 @@
 #include <symmath/property_traits/invertible.hpp>
 #include <symmath/property_traits/multipliable.hpp>
 #include <symmath/property_traits/negatable.hpp>
+#include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_same_result.hpp>
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
@@ -28,23 +29,23 @@ namespace sym {
 
 template< typename T1, typename T2 >
 inline auto assign_(T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}>;
+-> EnableIf_t<IsCovariantResult<T1, T2>>;
 
 template< typename T1, typename T2 >
 inline auto assign_add_(Addable<T1> &lhs, const Addable<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}>;
+-> EnableIf_t<IsCovariantResult<T1, T2>>;
 
 template< typename T1, typename T2 >
 inline auto assign_div_(Invertible<T1> &lhs, const Invertible<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}>;
+-> EnableIf_t<IsCovariantResult<T1, T2>>;
 
 template< typename T1, typename T2 >
 inline auto assign_mul_(Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}>;
+-> EnableIf_t<IsCovariantResult<T1, T2>>;
 
 template< typename T1, typename T2 >
 inline auto assign_sub_(Negatable<T1> &lhs, const Negatable<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}>;
+-> EnableIf_t<IsCovariantResult<T1, T2>>;
 
 // -----------------------------------------------------------------------------
 
@@ -52,7 +53,7 @@ template< typename T1,
           typename T2 >
 inline auto
 assign_(T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}> {
+-> EnableIf_t<IsCovariantResult<T1, T2>> {
   lhs.assign(rhs);
 }
 
@@ -60,7 +61,7 @@ template< typename T1,
           typename T2 >
 inline auto
 assign_add_(Addable<T1> &lhs, const Addable<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}> {
+-> EnableIf_t<IsCovariantResult<T1, T2>> {
   lhs.assign_add(rhs);
 }
 
@@ -68,7 +69,7 @@ template< typename T1,
           typename T2 >
 inline auto
 assign_div_(Invertible<T1> &lhs, const Invertible<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}> {
+-> EnableIf_t<IsCovariantResult<T1, T2>> {
   lhs.assign_div(rhs);
 }
 
@@ -76,7 +77,7 @@ template< typename T1,
           typename T2 >
 inline auto
 assign_mul_(Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}> {
+-> EnableIf_t<IsCovariantResult<T1, T2>> {
   lhs.assign_mul(rhs);
 }
 
@@ -84,7 +85,7 @@ template< typename T1,
           typename T2 >
 inline auto
 assign_sub_(Negatable<T1> &lhs, const Negatable<T2> &rhs)
--> EnableIf_t<IsSameResult<T1, T2>{}> {
+-> EnableIf_t<IsCovariantResult<T1, T2>> {
   lhs.assign_sub(rhs);
 }
 
