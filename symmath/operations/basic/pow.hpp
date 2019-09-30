@@ -3,7 +3,7 @@
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/is_temporary.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -21,8 +21,8 @@ public:
 
   using ResultType = R1;
 
-  using T1Type = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using T2Type = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using T1Type = If_t<IsTemporary<T1>, const T1, const T1&>;
+  using T2Type = If_t<IsTemporary<T2>, const T2, const T2&>;
 
 private:
 

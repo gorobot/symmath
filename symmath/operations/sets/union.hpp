@@ -5,7 +5,7 @@
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/is_temporary.hpp>
 
 namespace sym {
 
@@ -17,8 +17,8 @@ class Union
   : private Operation {
 public:
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
+  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
 
 private:
 

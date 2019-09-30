@@ -2,8 +2,8 @@
 #define SYMMATH_OPERATIONS_BASIC_CONJ_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/is_temporary.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -19,7 +19,7 @@ public:
 
   using ResultType = R;
 
-  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
+  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
 
 private:
 

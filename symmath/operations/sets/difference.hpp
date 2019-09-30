@@ -2,7 +2,7 @@
 #define SYMMATH_OPERATIONS_SETS_DIFFERENCE_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/is_temporary.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
@@ -16,8 +16,8 @@ class Difference
   : private Operation {
 public:
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
+  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
 
 private:
 

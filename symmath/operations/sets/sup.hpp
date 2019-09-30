@@ -2,7 +2,7 @@
 #define SYMMATH_OPERATIONS_SETS_SUP_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/is_temporary.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
@@ -15,7 +15,7 @@ class Sup
   : private Operation {
 public:
 
-  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
+  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
 
 private:
 

@@ -34,10 +34,10 @@ endmacro()
 create_test(
   NAME Numerics
   FILES
-  numerics/test_complex
-  numerics/test_integer
-  numerics/test_natural
-  numerics/test_real
+  # numerics/test_complex
+  # numerics/test_integer
+  # numerics/test_natural
+  # numerics/test_real
   numerics/test_variable
 )
 
@@ -47,30 +47,30 @@ create_test(
 #   expressions/test_variable
 # )
 
-create_test(
-  NAME Sets
-  FILES
-  sets/test_sets
-  sets/test_finite_set
-  sets/test_reals
-)
-
-create_test(
-  NAME Tensors
-  FILES
-  # tensors/test_matrix
-  # tensors/test_vector
-  # tensors/test_scalar
-  tensors/test_tensor
-  tensors/test_tensor_initializer
-)
-
-create_test(
-  NAME TypeTraits
-  FILES
-  type_traits/test_boolean
-  type_traits/test_conditional
-  type_traits/test_covariant
-  type_traits/test_detect
-  type_traits/test_result_type
-)
+# create_test(
+#   NAME Sets
+#   FILES
+#   sets/test_sets
+#   sets/test_finite_set
+#   sets/test_reals
+# )
+#
+# create_test(
+#   NAME Tensors
+#   FILES
+#   # tensors/test_matrix
+#   # tensors/test_vector
+#   # tensors/test_scalar
+#   tensors/test_tensor
+#   tensors/test_tensor_initializer
+# )
+#
+# create_test(
+#   NAME TypeTraits
+#   FILES
+#   type_traits/test_boolean
+#   type_traits/test_conditional
+#   type_traits/test_covariant
+#   type_traits/test_detect
+#   type_traits/test_result_type
+# )

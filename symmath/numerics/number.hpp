@@ -63,7 +63,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator+(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Add<T1, CT>> {
+-> EnableIf_t<IsBasicNumber<T2>, const Add<T1, CT>> {
   return Add<T1, CT>(lhs, CT(rhs));
 }
 
@@ -72,7 +72,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator+(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Add<CT, T2>> {
+-> EnableIf_t<IsBasicNumber<T1>, const Add<CT, T2>> {
   return Add<CT, T2>(CT(lhs), rhs);
 }
 
@@ -83,7 +83,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator/(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Div<T1, CT>> {
+-> EnableIf_t<IsBasicNumber<T2>, const Div<T1, CT>> {
   return Div<T1, CT>(lhs, CT(rhs));
 }
 
@@ -92,7 +92,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator/(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Div<CT, T2>> {
+-> EnableIf_t<IsBasicNumber<T1>, const Div<CT, T2>> {
   return Div<CT, T2>(CT(lhs), rhs);
 }
 
@@ -103,7 +103,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator*(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Mul<T1, CT>> {
+-> EnableIf_t<IsBasicNumber<T2>, const Mul<T1, CT>> {
   return Mul<T1, CT>(lhs, CT(rhs));
 }
 
@@ -112,7 +112,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator*(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Mul<CT, T2>> {
+-> EnableIf_t<IsBasicNumber<T1>, const Mul<CT, T2>> {
   return Mul<CT, T2>(CT(lhs), rhs);
 }
 
@@ -123,7 +123,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator-(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T2>, Sub<T1, CT>> {
+-> EnableIf_t<IsBasicNumber<T2>, const Sub<T1, CT>> {
   return Sub<T1, CT>(lhs, CT(rhs));
 }
 
@@ -132,7 +132,7 @@ template< typename T1,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
 operator-(const T1 &lhs, const T2 &rhs)
--> EnableIf_t<IsBasicNumber<T1>, Sub<CT, T2>> {
+-> EnableIf_t<IsBasicNumber<T1>, const Sub<CT, T2>> {
   return Sub<CT, T2>(CT(lhs), rhs);
 }
 

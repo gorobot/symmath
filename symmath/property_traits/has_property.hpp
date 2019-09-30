@@ -72,12 +72,12 @@ private:
 
   template< typename U >
   static auto test(U &)
-  -> EnableIf_t<IsOperation<U>{} &&
+  -> EnableIf_t<IsOperation<U> &&
                 HasProperty<typename U::ResultType, P>{}, TrueType>;
 
   template< typename U >
   static auto test(const U &)
-  -> EnableIf_t<IsOperation<U>{} &&
+  -> EnableIf_t<IsOperation<U> &&
                 HasProperty<typename U::ResultType, P>{}, TrueType>;
 
   static FalseType test(...);
