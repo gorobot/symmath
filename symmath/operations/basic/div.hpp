@@ -2,9 +2,11 @@
 #define SYMMATH_OPERATIONS_BASIC_DIV_HPP
 
 #include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/covariant.hpp>
-#include <symmath/type_traits/is_temporary.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -17,21 +19,21 @@ class Div
   : private Operation {
 public:
 
-  using R1              = ResultType_t<T1>;
-  using R2              = ResultType_t<T2>;
-  using ResultType      = Covariant_t<R1, R2>;
+  using LhsResultType     = ResultType_t<T1>;
+  using RhsResultType     = ResultType_t<T2>;
+  using ResultType        = Covariant_t<LhsResultType, RhsResultType>;
 
-  using LhsOperandType  = If_t<IsTemporary<T1>, const T1, const T1>;
-  using RhsOperandType  = If_t<IsTemporary<T2>, const T2, const T2>;
+  using LhsType = If_t<IsLValueRef<T1>{}, AddConstRef_t<T1>, AddConst_t<T1>>;
+  using RhsType = If_t<IsLValueRef<T2>{}, AddConstRef_t<T2>, AddConst_t<T2>>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  LhsType lhs_;
+  RhsType rhs_;
 
 public:
 
-  explicit inline Div(const T1 &lhs, const T2 &rhs);
+  explicit inline Div(T1 &&lhs, T2 &&rhs);
 
 private:
 
@@ -48,9 +50,9 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
+inline Div<T1, T2>::Div(T1 &&lhs, T2 &&rhs)
+  : lhs_(std::forward<T1>(lhs)),
+    rhs_(std::forward<T2>(rhs)) {}
 
 } // sym
 

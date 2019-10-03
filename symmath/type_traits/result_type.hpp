@@ -28,7 +28,7 @@ struct ResultType_helper<T, void_t<typename T::ResultType>> {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-using ResultType_t = typename ResultType_helper<T>::type;
+using ResultType_t = typename ResultType_helper<std::decay_t<T>>::type;
 
 } // sym
 

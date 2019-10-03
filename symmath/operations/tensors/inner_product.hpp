@@ -5,7 +5,7 @@
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_temporary.hpp>
+#include <symmath/type_traits/temporary.hpp>
 
 namespace sym {
 

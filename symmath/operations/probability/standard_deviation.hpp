@@ -2,7 +2,7 @@
 #define SYMMATH_OPERATIONS_PROBABILITY_STANDARD_DEVIATION_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/is_temporary.hpp>
+#include <symmath/type_traits/temporary.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/result_type.hpp>
 

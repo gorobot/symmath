@@ -6,8 +6,12 @@
 
 #include <symmath/expressions/variable.hpp>
 #include <symmath/numerics/number.hpp>
-#include <symmath/type_traits/covariant_result.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/is_number.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
@@ -53,16 +57,17 @@ public:
   explicit inline Variable(const ValueType &value);
   explicit inline Variable(ValueType &&value);
 
-                 explicit inline Variable(const T &other);
-  template< typename U >  inline Variable(const Number<U> &other);
+  //                explicit inline Variable(const T &other);
+  // template< typename U >  inline Variable(const Number<U> &other);
+  template< typename U >  explicit inline Variable(U &&other);
 
   // Assignment Operator
   inline This &operator=(const ValueType &rhs);
   inline This &operator=(ValueType &&rhs);
 
-                          inline Reference operator=(const T &rhs);
-  template< typename U >  inline Reference operator=(const Number<U> &rhs);
-  template< typename U >  inline auto      operator=(const U &rhs)
+  //                         inline Reference operator=(const T &rhs);
+  // template< typename U >  inline Reference operator=(const Number<U> &rhs);
+  template< typename U >  inline auto      operator=(U &&rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
 
   inline decltype(auto) value() const;
@@ -72,6 +77,22 @@ public:
   template< typename U >  inline void assign(const Number<U> &rhs);
   template< typename U >  inline auto assign(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
+
+  // Assign Addition
+                          inline void assign_add(const T &rhs);
+  template< typename U >  inline void assign_add(const Number<U> &rhs);
+  template< typename U >  inline auto assign_add(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
+
+private:
+
+  template< typename U >
+  friend inline void
+  assign_(U &lhs, const NumericVariable<T> &rhs) {
+    // std::cout << rhs.ptr_->value() << '\n';
+    // assign_(lhs, rhs.ptr_->value());
+    lhs = rhs.ptr_->value();
+  }
 
 };
 
@@ -83,72 +104,78 @@ inline NumericVariable<T>::Variable()
 
 template< typename T >
 inline NumericVariable<T>::Variable(const ValueType &value)
-  : ptr_(std::make_unique<Model<T>>(std::move(T(value)))) {
-    std::cout << "copy value ctor" << '\n';
+  : ptr_(std::make_unique<Model<T>>(std::forward<ValueType>(value))) {
+    std::cout << "Variable: copy value ctor" << '\n';
   }
 
 template< typename T >
 inline NumericVariable<T>::Variable(ValueType &&value)
-  : ptr_(std::make_unique<Model<T>>(std::move(T(value)))) {
-    std::cout << "move value ctor" << '\n';
-    std::cout << ptr_->value() << '\n';
+  : ptr_(std::make_unique<Model<T>>(std::forward<ValueType>(value))) {
+    std::cout << "Variable: move value ctor" << '\n';
   }
 
-template< typename T >
-inline NumericVariable<T>::Variable(const T &other)
-  : ptr_(std::make_unique<ReferenceModel<T>>(other)) {
-    std::cout << "copy other T ctor" << '\n';
-  }
+// template< typename T >
+// inline NumericVariable<T>::Variable(const T &other)
+//   : ptr_(std::make_unique<Model<T>>(other)) {
+//     std::cout << "Variable: copy other T ctor" << '\n';
+//   }
+//
+// template< typename T >
+// template< typename U >
+// inline NumericVariable<T>::Variable(const Number<U> &other)
+//   : ptr_(std::make_unique<Model<T>>(static_cast<const U&>(other))) {
+//     std::cout << "Variable: copy other number ctor" << '\n';
+//   }
 
 template< typename T >
 template< typename U >
-inline NumericVariable<T>::Variable(const Number<U> &other)
-  : ptr_(std::make_unique<ReferenceModel<T>>(static_cast<const U&>(other))) {
-    std::cout << "copy other number ctor" << '\n';
+inline NumericVariable<T>::Variable(U &&other)
+  : ptr_(std::make_unique<Model<U>>(std::forward<U>(other))) {
+    std::cout << "Variable: forwarding ctor" << '\n';
   }
 
 // -----------------------------------------------------------------------------
 // Assignment Operator
 template< typename T >
 inline NumericVariable<T> &NumericVariable<T>::operator=(const ValueType &rhs) {
-  std::cout << "copy assign value" << '\n';
+  std::cout << "Variable: copy assign value" << '\n';
   ptr_.reset();
-  ptr_ = std::make_unique<Model<T>>(std::move(T(rhs)));
+  ptr_ = std::make_unique<Model<T>>(std::forward<T>(T(rhs)));
   return *this;
 }
 
 template< typename T >
 inline NumericVariable<T> &NumericVariable<T>::operator=(ValueType &&rhs) {
-  std::cout << "move assign value" << '\n';
+  std::cout << "Variable: move assign value" << '\n';
   ptr_.reset();
-  ptr_ = std::make_unique<Model<T>>(std::move(T(rhs)));
+  ptr_ = std::make_unique<Model<T>>(std::forward<T>(T(rhs)));
   return *this;
 }
 
-template< typename T >
-inline NumericVariable<T> &NumericVariable<T>::operator=(const T &rhs) {
-  std::cout << "copy assign T" << '\n';
-  ptr_.reset();
-  ptr_ = std::make_unique<ReferenceModel<T>>(rhs);
-  return *this;
-}
-
+// template< typename T >
+// inline NumericVariable<T> &NumericVariable<T>::operator=(const T &rhs) {
+//   std::cout << "Variable: copy assign T" << '\n';
+//   ptr_.reset();
+//   ptr_ = std::make_unique<Model<T>>(rhs);
+//   return *this;
+// }
+//
+// template< typename T >
+// template< typename U >
+// inline NumericVariable<T> &NumericVariable<T>::operator=(const Number<U> &rhs) {
+//   std::cout << "Variable: copy assign number" << '\n';
+//   ptr_.reset();
+//   ptr_ = std::make_unique<Model<T>>(static_cast<const U&>(rhs));
+//   return *this;
+// }
+//
 template< typename T >
 template< typename U >
-inline NumericVariable<T> &NumericVariable<T>::operator=(const Number<U> &rhs) {
-  std::cout << "copy assign number" << '\n';
-  ptr_.reset();
-  ptr_ = std::make_unique<ReferenceModel<T>>(static_cast<const U&>(rhs));
-  return *this;
-}
-
-template< typename T >
-template< typename U >
-inline auto NumericVariable<T>::operator=(const U &rhs)
+inline auto NumericVariable<T>::operator=(U &&rhs)
 -> EnableIf_t<IsCovariantResult<This, U>, Reference> {
-  std::cout << "copy assign covariant result" << '\n';
+  std::cout << "Variable: forward assign covariant result" << '\n';
   ptr_.reset();
-  ptr_ = std::make_unique<Model<U>>(rhs);
+  ptr_ = std::make_unique<Model<U>>(std::forward<U>(rhs));
   return *this;
 }
 
@@ -156,7 +183,6 @@ inline auto NumericVariable<T>::operator=(const U &rhs)
 // Member Function Definitions
 template< typename T >
 inline decltype(auto) NumericVariable<T>::value() const {
-  std::cout << "get value: " << ptr_->value() << '\n';
   return ptr_->value();
 }
 
@@ -181,10 +207,31 @@ inline auto NumericVariable<T>::assign(const U &rhs)
 }
 
 // -----------------------------------------------------------------------------
+// Assign Addition
+template< typename T >
+inline void NumericVariable<T>::assign_add(const T &rhs) {
+
+}
+
+template< typename T >
+template< typename U >
+inline void NumericVariable<T>::assign_add(const Number<U> &rhs) {
+
+}
+
+template< typename T >
+template< typename U >
+inline auto NumericVariable<T>::assign_add(const U &rhs)
+-> EnableIf_t<IsCovariantResult<This, U>> {
+
+}
+
+// -----------------------------------------------------------------------------
 // Concept
 template< typename T >
 struct NumericVariable<T>::Concept {
   virtual ~Concept() = default;
+  virtual auto copy() const -> std::unique_ptr<Concept> = 0;
   virtual auto value() const -> ValueType = 0;
 };
 
@@ -195,12 +242,15 @@ template< typename U >
 struct NumericVariable<T>::Model final
   : public NumericVariable<T>::Concept {
 
-  U data_;
+  using InnerType = If_t<IsLValueRef<U>{}, AddConstRef_t<U>, AddConst_t<U>>;
 
-  // explicit inline Model();
-  explicit inline Model(const U &data);
-  explicit inline Model(U &&data);
+  InnerType data_;
 
+                          // explicit inline Model(const U &data);
+                          // explicit inline Model(U &&data);
+  template< typename V >  explicit inline Model(V &&data);
+
+  inline auto copy() const -> std::unique_ptr<Concept> override;
   inline auto value() const -> ValueType override;
 
 };
@@ -209,30 +259,40 @@ struct NumericVariable<T>::Model final
 // Model Constructor
 // template< typename T >
 // template< typename U >
-// inline NumericVariable<T>::Model<U>::Model()
-//   : data_() {}
+// inline NumericVariable<T>::Model<U>::Model(const U &data)
+//   : data_(data) {
+//     std::cout << "Variable: Model copy ctor" << '\n';
+//   }
 //
-template< typename T >
-template< typename U >
-inline NumericVariable<T>::Model<U>::Model(const U &data)
-  : data_(data) {
-    std::cout << "Model copy ctor" << '\n';
-  }
+// template< typename T >
+// template< typename U >
+// inline NumericVariable<T>::Model<U>::Model(U &&data)
+//   : data_(std::move(data)) {
+//     std::cout << "Variable: Model move ctor" << '\n';
+//   }
 
 template< typename T >
 template< typename U >
-inline NumericVariable<T>::Model<U>::Model(U &&data)
-  : data_(std::move(data)) {
-    std::cout << "Model move ctor" << '\n';
+template< typename V >
+inline NumericVariable<T>::Model<U>::Model(V &&data)
+  : data_(std::forward<V>(data)) {
+    std::cout << "Variable: Model forwarding ctor" << '\n';
   }
 
 // -----------------------------------------------------------------------------
 // Model Member Function Definitions
 template< typename T >
 template< typename U >
+inline auto NumericVariable<T>::Model<U>::copy() const
+-> std::unique_ptr<Concept> {
+  return std::make_unique<Model<U>>(*this);
+}
+
+template< typename T >
+template< typename U >
 inline auto NumericVariable<T>::Model<U>::value() const -> ValueType {
-  std::cout << "Model get value: " << eval(data_).value() << '\n';
   return eval(data_).value();
+  // return 0;
 }
 
 } // sym
