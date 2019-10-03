@@ -23,8 +23,8 @@ public:
   using RhsResultType     = ResultType_t<T2>;
   using ResultType        = Covariant_t<LhsResultType, RhsResultType>;
 
-  using LhsType = If_t<IsLValueRef<T1>{}, AddConstRef_t<T1>, AddConst_t<T1>>;
-  using RhsType = If_t<IsLValueRef<T2>{}, AddConstRef_t<T2>, AddConst_t<T2>>;
+  using LhsType = If_t<IsLValueRef_v<T1>, AddConstRef_t<T1>, AddConst_t<T1>>;
+  using RhsType = If_t<IsLValueRef_v<T2>, AddConstRef_t<T2>, AddConst_t<T2>>;
 
 private:
 
@@ -33,7 +33,8 @@ private:
 
 public:
 
-  explicit inline Div(T1 &&lhs, T2 &&rhs);
+  template< typename U1, typename U2 >
+  explicit inline Div(U1 &&lhs, U2 &&rhs);
 
 private:
 
@@ -50,9 +51,11 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline Div<T1, T2>::Div(T1 &&lhs, T2 &&rhs)
-  : lhs_(std::forward<T1>(lhs)),
-    rhs_(std::forward<T2>(rhs)) {}
+template< typename U1,
+          typename U2 >
+inline Div<T1, T2>::Div(U1 &&lhs, U2 &&rhs)
+  : lhs_(std::forward<U1>(lhs)),
+    rhs_(std::forward<U2>(rhs)) {}
 
 } // sym
 

@@ -10,7 +10,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-constexpr bool IsBasicNumber =
+inline constexpr bool IsBasicNumber =
   IsComplex<T>{} || IsIntegral<T>{} || IsFloatingPoint<T>{};
 
 } // sym

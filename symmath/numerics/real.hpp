@@ -5,8 +5,6 @@
 #define SYMMATH_REAL_UNDERLYING_TYPE double
 #endif
 
-#include <iostream>
-
 #include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/type_traits/covariant_result.hpp>
@@ -23,6 +21,7 @@ public:
   using This            = Real;
   using Reference       = Real&;
   using ConstReference  = const Real&;
+  using RValueReference = Real&&;
 
   using ElementOf       = Reals;
 
@@ -42,6 +41,7 @@ public:
   explicit inline Real(ValueType &&value);
 
                  explicit inline Real(ConstReference other);
+                 explicit inline Real(RValueReference other);
   template< typename U >  inline Real(const Number<U> &other);
 
   // Assignment Operator
@@ -49,6 +49,7 @@ public:
   inline Reference operator=(ValueType &&rhs);
 
                           inline Reference operator=(ConstReference rhs);
+                          inline Reference operator=(RValueReference rhs);
   template< typename U >  inline Reference operator=(const Number<U> &rhs);
   template< typename U >  inline auto      operator=(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
@@ -89,6 +90,7 @@ public:
 
   // Assign
                           inline void assign(ConstReference rhs);
+                          inline void assign(RValueReference rhs);
   template< typename U >  inline void assign(const Number<U> &rhs);
   template< typename U >  inline auto assign(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
@@ -140,54 +142,48 @@ public:
 // -----------------------------------------------------------------------------
 // Constructor
 inline Real::Real()
-  : value_(0.0) {
-    std::cout << "Real: ctor default" << '\n';
-  }
+  : value_(0.0) {}
 
 inline Real::Real(const ValueType &value)
-  : value_(value) {
-    std::cout << "Real: ctor value copy" << '\n';
-  }
+  : value_(value) {}
 
 inline Real::Real(ValueType &&value)
-  : value_(std::move(value)) {
-    std::cout << "Real: ctor value move" << '\n';
-  }
+  : value_(std::move(value)) {}
 
 inline Real::Real(ConstReference other)
-  : value_(other.value_) {
-    std::cout << "Real: ctor ConstReference" << '\n';
-  }
+  : value_(other.value_) {}
+
+inline Real::Real(RValueReference other)
+  : value_(std::move(other.value_)) {}
 
 template< typename U >
 inline Real::Real(const Number<U> &other)
-  : value_(static_cast<const U&>(other).value()) {
-    std::cout << "Real: ctor Number" << '\n';
-  }
+  : value_(static_cast<const U&>(other).value()) {}
 
 // -----------------------------------------------------------------------------
 // Assignment Operator
 inline Real::Reference Real::operator=(const ValueType &value) {
-  std::cout << "Real: assignment copy value" << '\n';
   value_ = value;
   return *this;
 }
 
 inline Real::Reference Real::operator=(ValueType &&value) {
-  std::cout << "Real: assignment move value" << '\n';
   value_ = std::move(value);
   return *this;
 }
 
 inline Real::Reference Real::operator=(ConstReference other) {
-  std::cout << "Real: assign ConstReference" << '\n';
   value_ = other.value_;
+  return *this;
+}
+
+inline Real::Reference Real::operator=(RValueReference other) {
+  value_ = std::move(other.value_);
   return *this;
 }
 
 template< typename U >
 inline Real::Reference Real::operator=(const Number<U> &other) {
-  std::cout << "Real: assignment Number" << '\n';
   value_ = static_cast<const U&>(other).value_;
   return *this;
 }
@@ -195,7 +191,6 @@ inline Real::Reference Real::operator=(const Number<U> &other) {
 template< typename U >
 inline auto Real::operator=(const U &rhs)
 -> EnableIf_t<IsCovariantResult<This, U>, Reference> {
-  std::cout << "Real: assignment covariant" << '\n';
   assign_(*this, rhs);
   return *this;
 }
@@ -203,26 +198,22 @@ inline auto Real::operator=(const U &rhs)
 // -----------------------------------------------------------------------------
 
 inline Real::Reference Real::operator+=(const ValueType &rhs) {
-  std::cout << "Real: += value copy" << '\n';
   value_ += rhs;
   return *this;
 }
 
 inline Real::Reference Real::operator+=(ValueType &&rhs) {
-  std::cout << "Real: += value move" << '\n';
   value_ += std::move(rhs);
   return *this;
 }
 
 inline Real::Reference Real::operator+=(ConstReference rhs) {
-  std::cout << "Real: += ConstReference" << '\n';
   value_ += rhs.value_;
   return *this;
 }
 
 template< typename U >
 inline Real::Reference Real::operator+=(const Number<U> &rhs) {
-  std::cout << "Real: += Number" << '\n';
   value_ += static_cast<const U&>(rhs).value();
   return *this;
 }
@@ -230,7 +221,6 @@ inline Real::Reference Real::operator+=(const Number<U> &rhs) {
 template< typename U >
 inline auto Real::operator+=(const U &rhs)
 -> EnableIf_t<IsCovariantResult<This, U>, Reference> {
-  std::cout << "Real: += covariant" << '\n';
   assign_add_(*this, rhs);
   return *this;
 }
@@ -334,40 +324,38 @@ inline decltype(auto) Real::value() const {
 // -----------------------------------------------------------------------------
 // Assign
 inline void Real::assign(ConstReference rhs) {
-  std::cout << "Real: assign ConstReference" << '\n';
   value_ = rhs.value_;
+}
+
+inline void Real::assign(RValueReference rhs) {
+  value_ = std::move(rhs.value_);
 }
 
 template< typename U >
 inline void Real::assign(const Number<U> &rhs) {
-  std::cout << "Real: assign Number" << '\n';
   value_ = static_cast<const U&>(rhs).value();
 }
 
 template< typename U >
 inline auto Real::assign(const U &rhs)
 -> EnableIf_t<IsCovariantResult<This, U>> {
-  std::cout << "Real: assign covariant" << '\n';
   assign_(*this, eval(rhs));
 }
 
 // -----------------------------------------------------------------------------
 // Assign Addition
 inline void Real::assign_add(ConstReference rhs) {
-  std::cout << "Real: assign add ConstReference" << '\n';
   value_ += rhs.value_;
 }
 
 template< typename U >
 inline auto Real::assign_add(const Number<U> &rhs) {
-  std::cout << "Real: assign add Number" << '\n';
   value_ += static_cast<const U&>(rhs).value();
 }
 
 template< typename U >
 inline auto Real::assign_add(const U &rhs)
 -> EnableIf_t<IsCovariantResult<This, U>> {
-  std::cout << "Real: assign add covariant" << '\n';
   assign_add_(*this, eval(rhs));
 }
 

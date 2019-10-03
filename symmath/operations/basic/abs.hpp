@@ -2,8 +2,10 @@
 #define SYMMATH_OPERATIONS_BASIC_ABS_HPP
 
 #include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -15,19 +17,18 @@ class Abs
   : private Operation {
 public:
 
-  using R = ResultType_t<T>;
+  using ResultType = ResultType_t<T>;
 
-  using ResultType = R;
-
-  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
+  using Type = If_t<IsLValueRef_v<T>, AddConstRef_t<T>, AddConst_t<T>>;
 
 private:
 
-  OperandType operand_;
+  Type operand_;
 
 public:
 
-  explicit inline Abs(const T &operand);
+  template< typename U >
+  explicit inline Abs(U &&operand);
 
 private:
 
@@ -42,8 +43,9 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline Abs<T>::Abs(const T &operand)
-  : operand_(operand) {}
+template< typename U >
+inline Abs<T>::Abs(U &&operand)
+  : operand_(std::forward<U>(operand)) {}
 
 } // sym
 

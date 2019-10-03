@@ -2,6 +2,11 @@
 #define SYMMATH_NUMERICS_NUMBER_HPP
 
 #include <symmath/operations/basic.hpp>
+#include <symmath/property_traits/addable.hpp>
+#include <symmath/property_traits/comparable.hpp>
+#include <symmath/property_traits/invertible.hpp>
+#include <symmath/property_traits/multipliable.hpp>
+#include <symmath/property_traits/negatable.hpp>
 #include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_basic_number.hpp>
@@ -63,7 +68,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator+(T1 &&lhs, T2 &&rhs)
+operator+(Addable<T1> &&lhs, T2 &&rhs)
 -> EnableIf_t<IsBasicNumber<T2>, const Add<T1, CT>> {
   return Add<T1, CT>(std::forward<T1>(lhs), std::forward<CT>(CT(rhs)));
 }
@@ -72,7 +77,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator+(T1 &&lhs, T2 &&rhs)
+operator+(T1 &&lhs, Addable<T2> &&rhs)
 -> EnableIf_t<IsBasicNumber<T1>, const Add<CT, T2>> {
   return Add<CT, T2>(std::forward<CT>(CT(lhs)), std::forward<T2>(rhs));
 }
@@ -83,7 +88,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator/(T1 &&lhs, T2 &&rhs)
+operator/(Invertible<T1> &&lhs, T2 &&rhs)
 -> EnableIf_t<IsBasicNumber<T2>, const Div<T1, CT>> {
   return Div<T1, CT>(std::forward<T1>(lhs), std::forward<CT>(CT(rhs)));
 }
@@ -92,7 +97,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator/(T1 &&lhs, T2 &&rhs)
+operator/(T1 &&lhs, Invertible<T2> &&rhs)
 -> EnableIf_t<IsBasicNumber<T1>, const Div<CT, T2>> {
   return Div<CT, T2>(std::forward<CT>(CT(lhs)), std::forward<T2>(rhs));
 }
@@ -103,7 +108,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator*(T1 &&lhs, T2 &&rhs)
+operator*(Multipliable<T1> &&lhs, T2 &&rhs)
 -> EnableIf_t<IsBasicNumber<T2>, const Mul<T1, CT>> {
   return Mul<T1, CT>(std::forward<T1>(lhs), std::forward<CT>(CT(rhs)));
 }
@@ -112,7 +117,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator*(T1 &&lhs, T2 &&rhs)
+operator*(T1 &&lhs, Multipliable<T2> &&rhs)
 -> EnableIf_t<IsBasicNumber<T1>, const Mul<CT, T2>> {
   return Mul<CT, T2>(std::forward<CT>(CT(lhs)), std::forward<T2>(rhs));
 }
@@ -123,7 +128,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator-(T1 &&lhs, T2 &&rhs)
+operator-(Negatable<T1> &&lhs, T2 &&rhs)
 -> EnableIf_t<IsBasicNumber<T2>, const Sub<T1, CT>> {
   return Sub<T1, CT>(std::forward<T1>(lhs), std::forward<CT>(CT(rhs)));
 }
@@ -132,7 +137,7 @@ template< typename T1,
           typename T2,
           typename CT = CovariantResult_t<T1, T2> >
 inline auto
-operator-(T1 &&lhs, T2 &&rhs)
+operator-(T1 &&lhs, Negatable<T2> &&rhs)
 -> EnableIf_t<IsBasicNumber<T1>, const Sub<CT, T2>> {
   return Sub<CT, T2>(std::forward<CT>(CT(lhs)), std::forward<T2>(rhs));
 }

@@ -1,6 +1,7 @@
 #ifndef SYMMATH_OPERATIONS_TENSORS_HPP
 #define SYMMATH_OPERATIONS_TENSORS_HPP
 
+#include <symmath/operations/basic.hpp>
 #include <symmath/operations/tensors/cross.hpp>
 #include <symmath/operations/tensors/ctranspose.hpp>
 #include <symmath/operations/tensors/direct_product.hpp>
@@ -18,8 +19,15 @@
 #include <symmath/operations/tensors/transpose.hpp>
 #include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_basic_number.hpp>
 
 namespace sym {
+
+// -----------------------------------------------------------------------------
+
+template< typename T1, typename T2 >
+inline auto assign_scalar_mul_(T1 &lhs, const T2 &rhs)
+-> EnableIf_t<IsCovariantResult<T1, T2>>;
 
 // -----------------------------------------------------------------------------
 

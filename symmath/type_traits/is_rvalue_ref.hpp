@@ -15,6 +15,9 @@ template< typename T >
 struct IsRValueRef<T&&>
   : TrueType {};
 
+template< typename T >
+inline constexpr bool IsRValueRef_v = IsRValueRef<T>::value;
+
 } // sym
 
 #endif // SYMMATH_TYPE_TRAITS_IS_RVALUE_REF_HPP

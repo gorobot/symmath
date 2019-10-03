@@ -23,8 +23,8 @@ public:
   using RhsResultType     = ResultType_t<T2>;
   using ResultType        = Covariant_t<LhsResultType, RhsResultType>;
 
-  using LhsType = If_t<IsLValueRef<T1>{}, AddConstRef_t<T1>, AddConst_t<T1>>;
-  using RhsType = If_t<IsLValueRef<T2>{}, AddConstRef_t<T2>, AddConst_t<T2>>;
+  using LhsType = If_t<IsLValueRef_v<T1>, AddConstRef_t<T1>, AddConst_t<T1>>;
+  using RhsType = If_t<IsLValueRef_v<T2>, AddConstRef_t<T2>, AddConst_t<T2>>;
 
 private:
 
@@ -32,6 +32,9 @@ private:
   RhsType rhs_;
 
 public:
+
+  explicit inline Add(const Add<T1, T2> &other) = default;
+  explicit inline Add(Add<T1, T2> &&other) = default;
 
   template< typename U1, typename U2 >
   explicit inline Add(U1 &&lhs, U2 &&rhs);
