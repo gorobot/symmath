@@ -2,8 +2,11 @@
 #define SYMMATH_OPERATIONS_BASIC_POW_HPP
 
 #include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/type_traits/covariant.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -16,30 +19,29 @@ class Pow
   : private Operation {
 public:
 
-  using R1 = ResultType_t<T1>;
-  using R2 = ResultType_t<T2>;
+  using BaseResultType    = ResultType_t<T1>;
+  using ExpResultType     = ResultType_t<T2>;
+  using ResultType        = Covariant_t<BaseResultType, ExpResultType>;
 
-  using ResultType = R1;
-
-  using T1Type = If_t<IsTemporary<T1>, const T1, const T1&>;
-  using T2Type = If_t<IsTemporary<T2>, const T2, const T2&>;
+  using BaseType = If_t<IsLValueRef_v<T1>, AddConstRef_t<T1>, AddConst_t<T1>>;
+  using ExpType  = If_t<IsLValueRef_v<T2>, AddConstRef_t<T2>, AddConst_t<T2>>;
 
 private:
 
-  T1Type operand_;
-  T2Type p_;
+  BaseType base_;
+  ExpType exponent_;
 
 public:
 
-  explicit inline Pow(const T1 &operand, const T2 &p);
+  explicit inline Pow(const T1 &base, const T2 &exponent);
 
 private:
 
   template< typename U >
   friend inline void
   assign_(U &lhs, const Pow<T1, T2> &rhs) {
-    assign_(lhs, rhs.operand_);
-    assign_pow_(lhs, rhs.p_);
+    assign_(lhs, rhs.base_);
+    assign_pow_(lhs, rhs.exponent_);
   }
 
 };
@@ -48,9 +50,9 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-inline Pow<T1, T2>::Pow(const T1 &operand, const T2 &p)
-  : operand_(operand),
-    p_(p) {}
+inline Pow<T1, T2>::Pow(const T1 &base, const T2 &exponent)
+  : base_(base),
+    exponent_(exponent) {}
 
 } // sym
 

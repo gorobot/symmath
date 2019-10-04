@@ -2,6 +2,7 @@
 #define SYMMATH_OPERATIONS_BASIC_ABS_HPP
 
 #include <symmath/operations/operation.hpp>
+#include <symmath/property_traits/negatable.hpp>
 #include <symmath/type_traits/add_const_ref.hpp>
 #include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
@@ -27,15 +28,25 @@ private:
 
 public:
 
-  template< typename U >
-  explicit inline Abs(U &&operand);
+  explicit inline Abs(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
   assign_(U &lhs, const Abs<T> &rhs) {
-    assign_(lhs, rhs.operand_);
+    if constexpr(IsNegatable<T>) {
+      ResultType tmp;
+      assign_(tmp, rhs.operand_);
+
+      if(tmp.value() < 0) {
+        tmp *= -1.0;
+      }
+
+      assign_(lhs, tmp);
+    } else {
+      assign_(lhs, rhs.operand_);
+    }
   }
 
 };
@@ -43,9 +54,8 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-template< typename U >
-inline Abs<T>::Abs(U &&operand)
-  : operand_(std::forward<U>(operand)) {}
+inline Abs<T>::Abs(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 

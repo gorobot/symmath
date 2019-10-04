@@ -1,12 +1,21 @@
 #ifndef SYMMATH_OPERATIONS_BASIC_CONJ_HPP
 #define SYMMATH_OPERATIONS_BASIC_CONJ_HPP
 
+#include <complex>
+
 #include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
+#include <symmath/type_traits/is_same.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
+
+// -----------------------------------------------------------------------------
+
+class Complex;
 
 // -----------------------------------------------------------------------------
 
@@ -15,15 +24,13 @@ class Conj
   : private Operation {
 public:
 
-  using R = ResultType_t<T>;
+  using ResultType = ResultType_t<T>;
 
-  using ResultType = R;
-
-  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
+  using Type = If_t<IsLValueRef_v<T>, AddConstRef_t<T>, AddConst_t<T>>;
 
 private:
 
-  OperandType operand_;
+  Type operand_;
 
 public:
 
@@ -34,7 +41,11 @@ private:
   template< typename U >
   friend inline void
   assign_(U &lhs, const Conj<T> &rhs) {
-    assign_(lhs, rhs.operand_);
+    if constexpr(IsSame_v<T, Complex>) {
+      assign_(lhs, std::conj(rhs.operand_));
+    } else {
+      assign_(lhs, rhs.operand_);
+    }
   }
 
 };

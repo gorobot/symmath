@@ -2,7 +2,7 @@
 #define SYMMATH_PROPERTY_TRAITS_NEGATABLE_HPP
 
 #include <symmath/properties/addition.hpp>
-#include <symmath/properties/identity_element.hpp>
+#include <symmath/properties/inverse_element.hpp>
 #include <symmath/property_traits/addable.hpp>
 #include <symmath/property_traits/has_property.hpp>
 #include <symmath/property_traits/requires.hpp>

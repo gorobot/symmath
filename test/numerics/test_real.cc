@@ -236,7 +236,7 @@ TEST_CASE("Real: subtraction", "[numerics]") {
   }
 }
 
-TEST_CASE("Real: mixed operations", "[numerics]") {
+TEST_CASE("Real: mixed arithmetic operations", "[numerics]") {
   Real a(1.0);
   Real b(2.0);
   Real c(3.0);

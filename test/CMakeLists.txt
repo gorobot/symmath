@@ -37,6 +37,7 @@ create_test(
   numerics/test_complex
   numerics/test_integer
   numerics/test_natural
+  numerics/test_operations
   numerics/test_real
   numerics/test_variable
 )
@@ -47,23 +48,23 @@ create_test(
 #   expressions/test_variable
 # )
 
-# create_test(
-#   NAME Sets
-#   FILES
-#   sets/test_sets
-#   sets/test_finite_set
-#   sets/test_reals
-# )
-#
-# create_test(
-#   NAME Tensors
-#   FILES
-#   # tensors/test_matrix
-#   # tensors/test_vector
-#   # tensors/test_scalar
-#   tensors/test_tensor
-#   tensors/test_tensor_initializer
-# )
+create_test(
+  NAME Sets
+  FILES
+  sets/test_sets
+  sets/test_finite_set
+  sets/test_reals
+)
+
+create_test(
+  NAME Tensors
+  FILES
+  # tensors/test_matrix
+  # tensors/test_vector
+  # tensors/test_scalar
+  tensors/test_tensor
+  tensors/test_tensor_initializer
+)
 
 create_test(
   NAME TypeTraits

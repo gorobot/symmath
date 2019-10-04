@@ -100,6 +100,8 @@ inline bool operator>(const Comparable<T1> &lhs, const Comparable<T2> &rhs);
 template< typename T1, typename T2 >
 inline bool operator>=(const Comparable<T1> &lhs, const Comparable<T2> &rhs);
 
+// -----------------------------------------------------------------------------
+
 template< typename T1,
           typename T2 >
 inline bool
@@ -193,56 +195,77 @@ inline auto operator-(Negatable<T1> &&lhs, Negatable<T2> &&rhs)
 // -----------------------------------------------------------------------------
 
 template< typename T >
-inline auto abs(T &operand)
+inline auto abs(T &&operand)
 -> const Abs<T>;
 
 template< typename T1, typename T2 >
-inline auto add(Addable<T1> &lhs, const Addable<T2> &rhs)
+inline auto add(Addable<T1> &&lhs, Addable<T2> &&rhs)
 -> const Add<T1, T2>;
 
 template< typename T >
-inline auto conj(T &operand)
+inline auto conj(T &&operand)
 -> const Conj<T>;
 
 template< typename T1, typename T2 >
-inline auto div(Invertible<T1> &lhs, const Invertible<T2> &rhs)
+inline auto div(Invertible<T1> &&lhs, Invertible<T2> &&rhs)
 -> const Div<T1, T2>;
 
 template< typename T >
-inline auto exp(T &operand)
+inline auto exp(T &&operand)
 -> const Exp<T>;
 
 template< typename T >
-inline auto factorial(T &operand)
+inline auto factorial(T &&operand)
 -> const Factorial<T>;
 
 template< typename T >
-inline auto inv(T &operand)
+inline auto inv(T &&operand)
 -> const Inv<T>;
 
 template< typename T1, typename T2 >
-inline auto mul(Multipliable<T1> &lhs, const Multipliable<T2> &rhs)
+inline auto mul(Multipliable<T1> &&lhs, Multipliable<T2> &&rhs)
 -> const Mul<T1, T2>;
 
 template< typename T >
-inline auto neg(T &operand)
+inline auto neg(T &&operand)
 -> const Neg<T>;
 
 template< typename T1, typename T2 >
-inline auto pow(T1 &lhs, const T2 &rhs)
+inline auto pow(T1 &&base, T2 &&exponent)
 -> const Pow<T1, T2>;
 
-template< typename T1, typename T2 >
-inline auto prod(T1 &lhs, const T2 &rhs)
--> const Prod<T1, T2>;
+// template< typename ...T >
+// inline auto prod(T&&... operand)
+// -> const Prod<T>;
 
 template< typename T1, typename T2 >
-inline auto sub(Negatable<T1> &lhs, const Negatable<T2> &rhs)
+inline auto sub(Negatable<T1> &&lhs, Negatable<T2> &&rhs)
 -> const Sub<T1, T2>;
 
-template< typename T1, typename T2 >
-inline auto sum(T1 &lhs, const T2 &rhs)
--> const Sum<T1, T2>;
+// template< typename ...T >
+// inline auto sum(T&&... operand)
+// -> const Sum<T>;
+
+// -----------------------------------------------------------------------------
+
+template< typename T >
+inline auto abs(T &&operand)
+-> const Abs<T> {
+  return Abs<T>(std::forward<T>(operand));
+}
+
+template< typename T1,
+          typename T2 >
+inline auto add(Addable<T1> &&lhs, Addable<T2> &&rhs)
+-> const Add<T1, T2> {
+  return Add<T1, T2>(std::forward<T1>(lhs), std::forward<T2>(rhs));
+}
+
+template< typename T >
+inline auto conj(T &&operand)
+-> const Conj<T> {
+  return Conj<T>(std::forward<T>(operand));
+}
 
 } // sym
 

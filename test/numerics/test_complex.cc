@@ -271,7 +271,7 @@ TEST_CASE("Complex: mixed operations", "[numerics]") {
   Complex c(3.0 + 0.0i);
   Complex d(4.0 + 0.0i);
 
-  SECTION("should be able to perform mixed operations") {
+  SECTION("should be able to perform mixed arithmetic operations") {
     Complex result;
     result = a + (b / (a * d)) - a;
     REQUIRE(result == 0.5);

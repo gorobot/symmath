@@ -33,11 +33,7 @@ private:
 
 public:
 
-  explicit inline Add(const Add<T1, T2> &other) = default;
-  explicit inline Add(Add<T1, T2> &&other) = default;
-
-  template< typename U1, typename U2 >
-  explicit inline Add(U1 &&lhs, U2 &&rhs);
+  explicit inline Add(const T1 &lhs, const T2 &rhs);
 
 private:
 
@@ -68,11 +64,9 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-template< typename U1,
-          typename U2 >
-inline Add<T1, T2>::Add(U1 &&lhs, U2 &&rhs)
-  : lhs_(std::forward<U1>(lhs)),
-    rhs_(std::forward<U2>(rhs)) {}
+inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
+  : lhs_(lhs),
+    rhs_(rhs) {}
 
 } // sym
 

@@ -33,8 +33,7 @@ private:
 
 public:
 
-  template< typename U1, typename U2 >
-  explicit inline Mul(U1 &&lhs, U2 &&rhs);
+  explicit inline Mul(const T1 &lhs, const T2 &rhs);
 
 private:
 
@@ -51,11 +50,9 @@ private:
 // Constructor
 template< typename T1,
           typename T2 >
-template< typename U1,
-          typename U2 >
-inline Mul<T1, T2>::Mul(U1 &&lhs, U2 &&rhs)
-  : lhs_(std::forward<U1>(lhs)),
-    rhs_(std::forward<U2>(rhs)) {}
+inline Mul<T1, T2>::Mul(const T1 &lhs, const T2 &rhs)
+  : lhs_(lhs),
+    rhs_(rhs) {}
 
 } // sym
 

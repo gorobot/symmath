@@ -83,6 +83,18 @@ TEMPLATE_TEST_CASE("Variables: addition", "[numerics]", Complex, Real) {
     result = w + x + y + 1.0;
     REQUIRE(result == 7.0);
   }
+
+  // SECTION("should be able to add assign") {
+  //   TestType result(w);
+  //   result += x;
+  //   REQUIRE(result == 3.0);
+  // }
+  //
+  // SECTION("should be able to add assign basic number types") {
+  //   TestType result(w);
+  //   result += 1.0;
+  //   REQUIRE(result == 2.0);
+  // }
 }
 
 // TEST_CASE("Variables: division", "[numerics]") {

@@ -97,6 +97,8 @@ public:
 
   inline decltype(auto) value() const;
 
+  inline This conj();
+
   // Assign
                           inline void assign(ConstReference rhs);
   template< typename U >  inline void assign(const Number<U> &rhs);
@@ -369,6 +371,11 @@ inline auto Complex::operator-=(const U &rhs)
 // Member Function Definitions
 inline decltype(auto) Complex::value() const {
   return value_;
+}
+
+inline Complex::This Complex::conj() {
+  This tmp;
+  return tmp;
 }
 
 // -----------------------------------------------------------------------------

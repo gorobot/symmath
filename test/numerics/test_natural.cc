@@ -116,7 +116,7 @@ TEST_CASE("Natural: mixed operations", "[numerics]") {
   sym::Natural c(3);
   sym::Natural d(4);
 
-  SECTION("should be able to perform mixed operations") {
+  SECTION("should be able to perform mixed arithmetic operations") {
     Natural result;
     result = a + (b * a);
     REQUIRE(result == 3);

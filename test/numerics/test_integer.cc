@@ -169,7 +169,7 @@ TEST_CASE("Integer: mixed operations", "[numerics]") {
   Integer c(3);
   Integer d(4);
 
-  SECTION("should be able to perform mixed operations") {
+  SECTION("should be able to perform mixed arithmetic operations") {
     sym::Integer result;
     result = a + (b * a) - b;
     REQUIRE(result == 1);

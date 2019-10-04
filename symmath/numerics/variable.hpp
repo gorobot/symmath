@@ -33,8 +33,9 @@ class Variable<T, EnableIf_t<IsNumber<T>{}>>
 public:
 
   using This            = NumericVariable<T>;
-  using Reference       = NumericVariable<T>&;
-  using ConstReference  = const NumericVariable<T>&;
+  using Reference       = This&;
+  using ConstRef        = const This&;
+  using MoveRef         = This&&;
 
   using ElementOf       = typename T::ElementOf;
 
@@ -51,12 +52,16 @@ private:
 public:
 
   // Constructor
-  explicit inline Variable();
+  explicit inline Variable() = default;
 
+                                   inline Variable(ConstRef other);
+                                   inline Variable(MoveRef other) = default;
   template< typename U >  explicit inline Variable(U &&other);
 
   // Assignment Operator
-  template< typename U >  inline auto operator=(U &&rhs)
+                          inline Reference operator=(ConstRef rhs);
+                          inline Reference operator=(MoveRef rhs) = default;
+  template< typename U >  inline auto      operator=(U &&rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
 
   inline decltype(auto) value() const;
@@ -98,8 +103,8 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline NumericVariable<T>::Variable()
-  : ptr_() {}
+inline NumericVariable<T>::Variable(ConstRef other)
+  : ptr_(other.ptr_->copy()) {}
 
 template< typename T >
 template< typename U >
@@ -108,6 +113,14 @@ inline NumericVariable<T>::Variable(U &&other)
 
 // -----------------------------------------------------------------------------
 // Assignment Operator
+template< typename T >
+inline typename NumericVariable<T>::Reference
+NumericVariable<T>::operator=(ConstRef other) {
+  NumericVariable<T> tmp(other);
+  *this = std::move(other);
+  return *this;
+}
+
 template< typename T >
 template< typename U >
 inline auto NumericVariable<T>::operator=(U &&rhs)
@@ -144,7 +157,7 @@ struct NumericVariable<T>::Model final
 
   InnerType data_;
 
-  template< typename V >  explicit inline Model(V &&data);
+  explicit inline Model(const U &data);
 
   inline auto copy() const -> std::unique_ptr<Concept> override;
   inline auto value() const -> T override;
@@ -155,9 +168,8 @@ struct NumericVariable<T>::Model final
 // Model Constructor
 template< typename T >
 template< typename U >
-template< typename V >
-inline NumericVariable<T>::Model<U>::Model(V &&data)
-  : data_(std::forward<V>(data)) {}
+inline NumericVariable<T>::Model<U>::Model(const U &data)
+  : data_(data) {};
 
 // -----------------------------------------------------------------------------
 // Model Member Function Definitions
