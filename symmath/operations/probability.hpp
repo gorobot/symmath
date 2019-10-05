@@ -8,8 +8,8 @@
 #include <symmath/operations/probability/probability.hpp>
 #include <symmath/operations/probability/standard_deviation.hpp>
 #include <symmath/operations/probability/variance.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {
 

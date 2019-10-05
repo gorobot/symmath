@@ -1,9 +1,9 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_ABS_HPP
-#define SYMMATH_OPERATIONS_BASIC_ABS_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_FACTORIAL_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_FACTORIAL_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/temporary.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -11,7 +11,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-class Abs
+class Factorial
   : private Operation {
 public:
 
@@ -19,7 +19,7 @@ public:
 
   using ResultType = R;
 
-  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
+  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
 
 private:
 
@@ -27,13 +27,13 @@ private:
 
 public:
 
-  explicit inline Abs(const T &operand);
+  explicit inline Factorial(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Abs<T> &rhs) {
+  assign_(U &lhs, const Factorial<T> &rhs) {
     assign_(lhs, rhs.operand_);
   }
 
@@ -42,9 +42,9 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline Abs<T>::Abs(const T &operand)
+inline Factorial<T>::Factorial(const T &operand)
   : operand_(operand) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_ABS_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_FACTORIAL_HPP

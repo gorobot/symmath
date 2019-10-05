@@ -7,4 +7,6 @@
 #include <symmath/numerics/real.hpp>
 #include <symmath/numerics/variable.hpp>
 
+#include <symmath/functions/function.hpp>
+
 #endif // SYMMATH_NUMERICS_HPP

@@ -2,7 +2,8 @@
 #define SYMMATH_PROPERTY_TRAITS_NEGATABLE_HPP
 
 #include <symmath/properties/addition.hpp>
-#include <symmath/properties/identity_element.hpp>
+#include <symmath/properties/inverse_element.hpp>
+#include <symmath/property_traits/addable.hpp>
 #include <symmath/property_traits/has_property.hpp>
 #include <symmath/property_traits/requires.hpp>
 #include <symmath/type_traits/boolean_logic.hpp>
@@ -15,20 +16,17 @@ namespace sym {
 
 namespace {
 
-template< typename ...T >
-constexpr bool HasAddition = All<HasProperty<T, Addition>...>{};
-
-template< typename ...T >
-constexpr bool HasAdditiveInverse =
-  All<HasProperty<T, InverseElement<Addition>>...>{};
+template< typename T >
+constexpr bool HasAdditiveInverseProperty =
+  All<HasProperty<T, InverseElement<Addition>>>{};
 
 } // detail
 
 // -----------------------------------------------------------------------------
 
-template< typename ...T >
+template< typename T >
 constexpr bool IsNegatable =
-  Requires(HasAddition<T...> && HasAdditiveInverse<T...>);
+  Requires(IsAddable<T> && HasAdditiveInverseProperty<T>);
 
 template< typename T,
           typename = EnableIf_t<IsNegatable<T>> >

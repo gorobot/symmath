@@ -14,15 +14,15 @@ namespace sym {
 
 namespace {
 
-template< typename ...T >
-constexpr bool HasAddition = All<HasProperty<T, Addition>...>{};
+template< typename T >
+constexpr bool HasAdditionProperty = HasProperty<T, Addition>{};
 
 } // detail
 
 // -----------------------------------------------------------------------------
 
-template< typename ...T >
-constexpr bool IsAddable = Requires(HasAddition<T...>);
+template< typename T >
+constexpr bool IsAddable = Requires(HasAdditionProperty<T>);
 
 template< typename T,
           typename = EnableIf_t<IsAddable<T>> >

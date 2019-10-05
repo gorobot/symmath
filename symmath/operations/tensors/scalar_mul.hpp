@@ -6,7 +6,7 @@
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/temporary.hpp>
 
 namespace sym {
 
@@ -25,8 +25,8 @@ public:
   // using ResultType = If_t<is_scalar<LhsResultType>{}, RhsResultType, LhsResultType>;
   using ResultType = LhsResultType;
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
+  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
 
 private:
 

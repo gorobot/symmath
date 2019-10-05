@@ -3,7 +3,7 @@
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/temporary.hpp>
 
 namespace sym {
 
@@ -18,7 +18,7 @@ public:
 
   using ResultType = R;
 
-  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
+  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
 
 private:
 

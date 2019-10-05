@@ -4,8 +4,8 @@
 #include <symmath/sets/superset.hpp>
 #include <symmath/property_traits/requires.hpp>
 #include <symmath/type_traits/boolean.hpp>
+#include <symmath/type_traits/detect.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_detected.hpp>
 #include <symmath/type_traits/is_operation.hpp>
 #include <symmath/type_traits/is_set.hpp>
 
@@ -21,9 +21,9 @@ struct HasProperty;
 
 namespace {
 
-// template< typename T >
-// using IsElementOfSet = typename T::ElementOf;
-//
+template< typename T >
+using IsElementOfSet = typename T::ElementOf;
+
 // template< typename T,
 //           typename P >
 // constexpr bool SetHasProperty = HasProperty<typename T::ElementOf, P>{};
@@ -72,12 +72,12 @@ private:
 
   template< typename U >
   static auto test(U &)
-  -> EnableIf_t<IsOperation<U>{} &&
+  -> EnableIf_t<IsOperation<U> &&
                 HasProperty<typename U::ResultType, P>{}, TrueType>;
 
   template< typename U >
   static auto test(const U &)
-  -> EnableIf_t<IsOperation<U>{} &&
+  -> EnableIf_t<IsOperation<U> &&
                 HasProperty<typename U::ResultType, P>{}, TrueType>;
 
   static FalseType test(...);

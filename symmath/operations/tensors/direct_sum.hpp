@@ -17,8 +17,8 @@ public:
   // using ResultType = std::common_type_t<R1, R2>;
   using ResultType = R1;
 
-  using LhsOperandType = If_t<IsOperation<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>, const T2, const T2&>;
+  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
+  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
 
 private:
 

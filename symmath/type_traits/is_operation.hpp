@@ -4,14 +4,13 @@
 #include <type_traits>
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/boolean.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
 template< typename T >
-using IsOperation = Bool<std::is_base_of<Operation, T>{}>;
+constexpr bool IsOperation = std::is_base_of<Operation, T>{};
 
 } // sym
 

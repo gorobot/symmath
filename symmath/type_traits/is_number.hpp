@@ -8,12 +8,7 @@ namespace sym {
 
 // -----------------------------------------------------------------------------
 
-// template< typename T >
-// struct IsNumber
-//   : std::is_base_of<Number, T> {};
-//
-// template< typename T >
-// using IsNumeric_t = typename IsNumber<T>::type;
+namespace {
 
 template< typename T >
 struct IsNumber_helper {
@@ -32,6 +27,10 @@ public:
   using type = decltype(test(std::declval<T&>()));
 
 };
+
+} // detail
+
+// -----------------------------------------------------------------------------
 
 template< typename T >
 struct IsNumber

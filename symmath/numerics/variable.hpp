@@ -5,8 +5,12 @@
 
 #include <symmath/expressions/variable.hpp>
 #include <symmath/numerics/number.hpp>
-#include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
+#include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/is_number.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
@@ -28,116 +32,101 @@ class Variable<T, EnableIf_t<IsNumber<T>{}>>
   : public Number<NumericVariable<T>> {
 public:
 
-  using This = NumericVariable<T>;
+  using This            = NumericVariable<T>;
+  using Reference       = This&;
+  using ConstRef        = const This&;
+  using MoveRef         = This&&;
 
-  using ElementOf = typename T::ElementOf;
+  using ElementOf       = typename T::ElementOf;
 
-  using ValueType = typename T::ValueType;
-  using ResultType = typename T::ResultType;
+  using ValueType       = typename T::ValueType;
+  using ResultType      = typename T::ResultType;
 
 private:
 
                           struct Concept;
   template< typename U >  struct Model;
 
-  std::shared_ptr<const Concept> ptr_;
+  std::unique_ptr<const Concept> ptr_;
 
 public:
 
   // Constructor
-  explicit inline Variable();
+  explicit inline Variable() = default;
 
-  explicit inline Variable(const ValueType &value);
-  explicit inline Variable(ValueType &&value);
-
-                 explicit inline Variable(const T &other);
-  template< typename U >  inline Variable(const Number<U> &other);
+                                   inline Variable(ConstRef other);
+                                   inline Variable(MoveRef other) = default;
+  template< typename U >  explicit inline Variable(U &&other);
 
   // Assignment Operator
-  inline This &operator=(const ValueType &rhs);
-  inline This &operator=(ValueType &&rhs);
-
-                          inline This &operator=(const T &rhs);
-  template< typename U >  inline This &operator=(const Number<U> &rhs);
-  // template< typename U >  inline This &operator=(const Variable<U> &rhs);
-  template< typename U >  inline auto  operator=(const U &rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
-  template< typename U >  inline auto  operator=(U &&rhs)
-  -> EnableIf_t<IsSameResult<This, U>{}, This&>;
+                          inline Reference operator=(ConstRef rhs);
+                          inline Reference operator=(MoveRef rhs) = default;
+  template< typename U >  inline auto      operator=(U &&rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
 
   inline decltype(auto) value() const;
+
+private:
+
+  template< typename U >
+  friend inline void
+  assign_(U &lhs, const NumericVariable<T> &rhs) {
+    assign_(lhs, rhs.ptr_->value());
+  }
+
+  template< typename U >
+  friend inline void
+  assign_add_(U &lhs, const NumericVariable<T> &rhs) {
+    assign_add_(lhs, rhs.ptr_->value());
+  }
+
+  template< typename U >
+  friend inline void
+  assign_div_(U &lhs, const NumericVariable<T> &rhs) {
+    assign_div_(lhs, rhs.ptr_->value());
+  }
+
+  template< typename U >
+  friend inline void
+  assign_mul_(U &lhs, const NumericVariable<T> &rhs) {
+    assign_mul_(lhs, rhs.ptr_->value());
+  }
+
+  template< typename U >
+  friend inline void
+  assign_sub_(U &lhs, const NumericVariable<T> &rhs) {
+    assign_sub_(lhs, rhs.ptr_->value());
+  }
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline NumericVariable<T>::Variable()
-  : ptr_() {}
+inline NumericVariable<T>::Variable(ConstRef other)
+  : ptr_(other.ptr_->copy()) {}
 
 template< typename T >
-inline NumericVariable<T>::Variable(const ValueType &value)
-  : ptr_(std::make_shared<Model<T>>(std::move(T(value)))) {}
-
-template< typename T >
-inline NumericVariable<T>::Variable(ValueType &&value)
-  : ptr_(std::make_shared<Model<T>>(std::move(T(value)))) {}
-
-template< typename T >
-inline NumericVariable<T>::Variable(const T &other)
-  : ptr_(std::make_shared<Model<T>>(other)) {}
+template< typename U >
+inline NumericVariable<T>::Variable(U &&other)
+  : ptr_(std::make_unique<Model<U>>(std::forward<U>(other))) {}
 
 // -----------------------------------------------------------------------------
 // Assignment Operator
 template< typename T >
-inline NumericVariable<T> &NumericVariable<T>::operator=(const ValueType &rhs) {
-  ptr_.reset();
-  ptr_ = std::make_shared<Model<T>>(std::move(rhs));
-  return *this;
-}
-template< typename T >
-inline NumericVariable<T> &NumericVariable<T>::operator=(ValueType &&rhs) {
-  ptr_.reset();
-  ptr_ = std::make_shared<Model<T>>(std::move(rhs));
-  return *this;
-}
-
-template< typename T >
-inline NumericVariable<T> &NumericVariable<T>::operator=(const T &rhs) {
-  ptr_.reset();
-  ptr_ = std::make_shared<Model<T>>(rhs);
-  return *this;
-}
-
-template< typename T >
-template< typename U >
-inline NumericVariable<T> &NumericVariable<T>::operator=(const Number<U> &rhs) {
-  ptr_.reset();
-  ptr_ = std::make_shared<Model<U>>(static_cast<const U&>(rhs));
-  return *this;
-}
-
-template< typename T >
-template< typename U >
-inline auto NumericVariable<T>::operator=(const U &rhs)
--> EnableIf_t<IsSameResult<This, U>{}, This&> {
-  // if(this == &rhs)
-  //   return *this;
-
-  ptr_.reset();
-  ptr_ = std::make_shared<Model<U>>(rhs);
+inline typename NumericVariable<T>::Reference
+NumericVariable<T>::operator=(ConstRef other) {
+  NumericVariable<T> tmp(other);
+  *this = std::move(other);
   return *this;
 }
 
 template< typename T >
 template< typename U >
 inline auto NumericVariable<T>::operator=(U &&rhs)
--> EnableIf_t<IsSameResult<This, U>{}, This&> {
-  // if(this == &rhs)
-  //   return *this;
-
+-> EnableIf_t<IsCovariantResult<This, U>, Reference> {
   ptr_.reset();
-  ptr_ = std::make_shared<Model<U>>(std::move(rhs));
+  ptr_ = std::make_unique<Model<U>>(std::forward<U>(rhs));
   return *this;
 }
 
@@ -153,7 +142,8 @@ inline decltype(auto) NumericVariable<T>::value() const {
 template< typename T >
 struct NumericVariable<T>::Concept {
   virtual ~Concept() = default;
-  virtual auto value() const -> ValueType = 0;
+  virtual auto copy() const -> std::unique_ptr<Concept> = 0;
+  virtual auto value() const -> T = 0;
 };
 
 // -----------------------------------------------------------------------------
@@ -163,13 +153,14 @@ template< typename U >
 struct NumericVariable<T>::Model final
   : public NumericVariable<T>::Concept {
 
-  const U &data_;
+  using InnerType = If_t<IsLValueRef<U>{}, AddConstRef_t<U>, AddConst_t<U>>;
 
-  explicit inline Model();
+  InnerType data_;
+
   explicit inline Model(const U &data);
-  explicit inline Model(U &&data);
 
-  inline auto value() const -> ValueType override;
+  inline auto copy() const -> std::unique_ptr<Concept> override;
+  inline auto value() const -> T override;
 
 };
 
@@ -177,25 +168,24 @@ struct NumericVariable<T>::Model final
 // Model Constructor
 template< typename T >
 template< typename U >
-inline NumericVariable<T>::Model<U>::Model()
-  : data_() {}
-
-template< typename T >
-template< typename U >
 inline NumericVariable<T>::Model<U>::Model(const U &data)
-  : data_(data) {}
-
-template< typename T >
-template< typename U >
-inline NumericVariable<T>::Model<U>::Model(U &&data)
-  : data_(std::move(data)) {}
+  : data_(data) {};
 
 // -----------------------------------------------------------------------------
 // Model Member Function Definitions
 template< typename T >
 template< typename U >
-inline auto NumericVariable<T>::Model<U>::value() const -> ValueType {
-  return eval(data_).value();
+inline auto NumericVariable<T>::Model<U>::copy() const
+-> std::unique_ptr<Concept> {
+  return std::make_unique<Model<U>>(*this);
+}
+
+template< typename T >
+template< typename U >
+inline auto NumericVariable<T>::Model<U>::value() const -> T {
+  T tmp;
+  tmp = data_;
+  return tmp;
 }
 
 } // sym

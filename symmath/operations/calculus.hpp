@@ -1,7 +1,7 @@
 #ifndef SYMMATH_OPERATIONS_CALCULUS_HPP
 #define SYMMATH_OPERATIONS_CALCULUS_HPP
 
-#include <symmath/operations/basic.hpp>
+#include <symmath/operations/algebraic.hpp>
 #include <symmath/operations/calculus/curl.hpp>
 #include <symmath/operations/calculus/derivative.hpp>
 #include <symmath/operations/calculus/diff.hpp>
@@ -11,8 +11,8 @@
 #include <symmath/operations/calculus/laplacian.hpp>
 #include <symmath/operations/calculus/lim.hpp>
 #include <symmath/operations/calculus/pdiff.hpp>
+#include <symmath/type_traits/covariant.hpp>
 #include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/is_same_result.hpp>
 
 namespace sym {
 

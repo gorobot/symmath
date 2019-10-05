@@ -1,9 +1,9 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_INV_HPP
-#define SYMMATH_OPERATIONS_BASIC_INV_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_INV_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_INV_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/temporary.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -19,7 +19,7 @@ public:
 
   using ResultType = R;
 
-  using OperandType = If_t<IsOperation<T>{}, const T, const T&>;
+  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
 
 private:
 
@@ -47,4 +47,4 @@ inline Inv<T>::Inv(const T &operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_INV_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_INV_HPP

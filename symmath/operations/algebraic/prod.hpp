@@ -1,8 +1,8 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_PROD_HPP
-#define SYMMATH_OPERATIONS_BASIC_PROD_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_PROD_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_PROD_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/is_operation.hpp>
+#include <symmath/type_traits/temporary.hpp>
 #include <symmath/type_traits/conditional.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
@@ -22,8 +22,8 @@ public:
   // using ResultType = std::common_type_t<R1, R2>;
   using ResultType = R1;
 
-  using LhsOperandType = If_t<IsOperation<T1>{}, const T1, const T1&>;
-  using RhsOperandType = If_t<IsOperation<T2>{}, const T2, const T2&>;
+  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
+  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
 
 private:
 
@@ -55,4 +55,4 @@ inline Prod<T1, T2>::Prod(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_PROD_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_PROD_HPP
