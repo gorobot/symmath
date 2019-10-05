@@ -5,8 +5,6 @@
 #define SYMMATH_REAL_UNDERLYING_TYPE double
 #endif
 
-#include <iostream>
-
 #include <symmath/numerics/number.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/type_traits/covariant_result.hpp>
@@ -143,19 +141,13 @@ public:
 // -----------------------------------------------------------------------------
 // Constructor
 inline Real::Real()
-  : value_(0.0) {
-    std::cout << "Real: default ctor" << '\n';
-  }
+  : value_(0.0) {}
 
 inline Real::Real(const ValueType &value)
-  : value_(value) {
-    std::cout << "Real: copy ctor" << '\n';
-  }
+  : value_(value) {}
 
 inline Real::Real(ValueType &&value)
-  : value_(std::move(value)) {
-    std::cout << "Real: move ctor" << '\n';
-  }
+  : value_(std::move(value)) {}
 
 template< typename U >
 inline Real::Real(const Number<U> &other)
@@ -164,13 +156,11 @@ inline Real::Real(const Number<U> &other)
 // -----------------------------------------------------------------------------
 // Assignment Operator
 inline Real::Reference Real::operator=(const ValueType &value) {
-  std::cout << "Real: = copy" << '\n';
   value_ = value;
   return *this;
 }
 
 inline Real::Reference Real::operator=(ValueType &&value) {
-  std::cout << "Real: = move" << '\n';
   value_ = std::move(value);
   return *this;
 }
