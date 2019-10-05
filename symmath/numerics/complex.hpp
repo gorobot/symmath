@@ -21,13 +21,14 @@ class Complex
 public:
 
   using This            = Complex;
-  using Reference       = Complex&;
-  using ConstReference  = const Complex&;
+  using Reference       = This&;
+  using ConstRef        = const This&;
+  using MoveRef         = This&&;
 
   using ElementOf       = ComplexNumbers;
 
   using ValueType       = SYMMATH_COMPLEX_UNDERLYING_TYPE;
-  using ResultType      = Complex;
+  using ResultType      = This;
 
 private:
 
@@ -41,7 +42,8 @@ public:
   explicit inline Complex(const ValueType &value);
   explicit inline Complex(ValueType &&value);
 
-                 explicit inline Complex(ConstReference other);
+                          inline Complex(ConstRef other) = default;
+                          inline Complex(MoveRef other) = default;
   template< typename U >  inline Complex(const Number<U> &other);
 
   // Assignment Operator
@@ -50,7 +52,8 @@ public:
   inline Reference operator=(const double &rhs);
   inline Reference operator=(double &&rhs);
 
-                          inline Reference operator=(ConstReference rhs);
+                          inline Reference operator=(ConstRef rhs) = default;
+                          inline Reference operator=(MoveRef rhs) = default;
   template< typename U >  inline Reference operator=(const Number<U> &rhs);
   template< typename U >  inline auto      operator=(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
@@ -60,7 +63,7 @@ public:
   inline Reference operator+=(const double &rhs);
   inline Reference operator+=(double &&rhs);
 
-                          inline Reference operator+=(ConstReference rhs);
+                          inline Reference operator+=(ConstRef rhs);
   template< typename U >  inline Reference operator+=(const Number<U> &rhs);
   template< typename U >  inline auto      operator+=(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
@@ -70,7 +73,7 @@ public:
   inline Reference operator/=(const double &rhs);
   inline Reference operator/=(double &&rhs);
 
-                          inline Reference operator/=(ConstReference rhs);
+                          inline Reference operator/=(ConstRef rhs);
   template< typename U >  inline Reference operator/=(const Number<U> &rhs);
   template< typename U >  inline auto      operator/=(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
@@ -80,7 +83,7 @@ public:
   inline Reference operator*=(const double &rhs);
   inline Reference operator*=(double &&rhs);
 
-                          inline Reference operator*=(ConstReference rhs);
+                          inline Reference operator*=(ConstRef rhs);
   template< typename U >  inline Reference operator*=(const Number<U> &rhs);
   template< typename U >  inline auto      operator*=(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
@@ -90,7 +93,7 @@ public:
   inline Reference operator-=(const double &rhs);
   inline Reference operator-=(double &&rhs);
 
-                          inline Reference operator-=(ConstReference rhs);
+                          inline Reference operator-=(ConstRef rhs);
   template< typename U >  inline Reference operator-=(const Number<U> &rhs);
   template< typename U >  inline auto      operator-=(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>, Reference>;
@@ -100,49 +103,49 @@ public:
   inline This conj();
 
   // Assign
-                          inline void assign(ConstReference rhs);
+                          inline void assign(ConstRef rhs);
   template< typename U >  inline void assign(const Number<U> &rhs);
   template< typename U >  inline auto assign(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Addition
-                          inline void assign_add(ConstReference rhs);
+                          inline void assign_add(ConstRef rhs);
   template< typename U >  inline auto assign_add(const Number<U> &rhs);
   template< typename U >  inline auto assign_add(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Division
-                          inline void assign_div(ConstReference rhs);
+                          inline void assign_div(ConstRef rhs);
   template< typename U >  inline auto assign_div(const Number<U> &rhs);
   template< typename U >  inline auto assign_div(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Multiplication
-                          inline void assign_mul(ConstReference rhs);
+                          inline void assign_mul(ConstRef rhs);
   template< typename U >  inline auto assign_mul(const Number<U> &rhs);
   template< typename U >  inline auto assign_mul(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Subtraction
-                          inline void assign_sub(ConstReference rhs);
+                          inline void assign_sub(ConstRef rhs);
   template< typename U >  inline auto assign_sub(const Number<U> &rhs);
   template< typename U >  inline auto assign_sub(const U &rhs)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Power
-                          inline void assign_pow(ConstReference rhs);
+                          inline void assign_pow(ConstRef rhs);
   template< typename U >  inline auto assign_pow(const Number<U> &rhs);
   template< typename U >  inline auto assign_pow(const U &other)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Negative
-                          inline void assign_neg(ConstReference rhs);
+                          inline void assign_neg(ConstRef rhs);
   template< typename U >  inline auto assign_neg(const Number<U> &rhs);
   template< typename U >  inline auto assign_neg(const U &other)
   -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Inverse
-                          inline void assign_inv(ConstReference rhs);
+                          inline void assign_inv(ConstRef rhs);
   template< typename U >  inline auto assign_inv(const Number<U> &rhs);
   template< typename U >  inline auto assign_inv(const U &other)
   -> EnableIf_t<IsCovariantResult<This, U>>;
@@ -159,9 +162,6 @@ inline Complex::Complex(const ValueType &value)
 
 inline Complex::Complex(ValueType &&value)
   : value_(std::move(value)) {}
-
-inline Complex::Complex(ConstReference other)
-  : value_(other.value_) {}
 
 template< typename U >
 inline Complex::Complex(const Number<U> &other)
@@ -186,11 +186,6 @@ inline Complex::Reference Complex::operator=(const double &value) {
 
 inline Complex::Reference Complex::operator=(double &&value) {
   value_ = std::move(value);
-  return *this;
-}
-
-inline Complex::Reference Complex::operator=(ConstReference other) {
-  value_ = other.value_;
   return *this;
 }
 
@@ -229,7 +224,7 @@ inline Complex::Reference Complex::operator+=(double &&rhs) {
   return *this;
 }
 
-inline Complex::Reference Complex::operator+=(ConstReference rhs) {
+inline Complex::Reference Complex::operator+=(ConstRef rhs) {
   value_ += rhs.value_;
   return *this;
 }
@@ -269,7 +264,7 @@ inline Complex::Reference Complex::operator/=(double &&rhs) {
   return *this;
 }
 
-inline Complex::Reference Complex::operator/=(ConstReference rhs) {
+inline Complex::Reference Complex::operator/=(ConstRef rhs) {
   value_ /= rhs.value_;
   return *this;
 }
@@ -309,7 +304,7 @@ inline Complex::Reference Complex::operator*=(double &&rhs) {
   return *this;
 }
 
-inline Complex::Reference Complex::operator*=(ConstReference rhs) {
+inline Complex::Reference Complex::operator*=(ConstRef rhs) {
   value_ *= rhs.value_;
   return *this;
 }
@@ -349,7 +344,7 @@ inline Complex::Reference Complex::operator-=(double &&rhs) {
   return *this;
 }
 
-inline Complex::Reference Complex::operator-=(ConstReference rhs) {
+inline Complex::Reference Complex::operator-=(ConstRef rhs) {
   value_ -= rhs.value_;
   return *this;
 }
@@ -380,7 +375,7 @@ inline Complex::This Complex::conj() {
 
 // -----------------------------------------------------------------------------
 // Assign
-inline void Complex::assign(ConstReference rhs) {
+inline void Complex::assign(ConstRef rhs) {
   value_ = rhs.value_;
 }
 
@@ -397,7 +392,7 @@ inline auto Complex::assign(const U &rhs)
 
 // -----------------------------------------------------------------------------
 // Assign Addition
-inline void Complex::assign_add(ConstReference rhs) {
+inline void Complex::assign_add(ConstRef rhs) {
   value_ += rhs.value_;
 }
 
@@ -414,7 +409,7 @@ inline auto Complex::assign_add(const U &rhs)
 
 // -----------------------------------------------------------------------------
 // Assign Division
-inline void Complex::assign_div(ConstReference rhs) {
+inline void Complex::assign_div(ConstRef rhs) {
   value_ /= rhs.value_;
 }
 
@@ -431,7 +426,7 @@ inline auto Complex::assign_div(const U &rhs)
 
 // -----------------------------------------------------------------------------
 // Assign Multiplication
-inline void Complex::assign_mul(ConstReference rhs) {
+inline void Complex::assign_mul(ConstRef rhs) {
   value_ *= rhs.value_;
 }
 
@@ -448,7 +443,7 @@ inline auto Complex::assign_mul(const U &rhs)
 
 // -----------------------------------------------------------------------------
 // Assign Subtraction
-inline void Complex::assign_sub(ConstReference rhs) {
+inline void Complex::assign_sub(ConstRef rhs) {
   value_ -= rhs.value_;
 }
 
