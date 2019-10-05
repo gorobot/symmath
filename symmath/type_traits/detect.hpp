@@ -11,12 +11,12 @@ namespace sym {
 namespace {
 
 template< typename,
-          template<class...> class T,
+          template<typename...> typename T,
           typename ...Args >
 struct detect
   : FalseType {};
 
-template< template<class...> class T,
+template< template<typename...> typename T,
           typename ...Args >
 struct detect<void_t<T<Args...>>, T, Args...>
   : TrueType {};
@@ -25,7 +25,7 @@ struct detect<void_t<T<Args...>>, T, Args...>
 
 // -----------------------------------------------------------------------------
 
-template< template<typename...> class T,
+template< template<typename...> typename T,
           typename ...Args >
 constexpr bool Detect = detect<void, T, Args...>{};
 

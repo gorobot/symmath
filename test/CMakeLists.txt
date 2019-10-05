@@ -42,11 +42,11 @@ create_test(
   numerics/test_variable
 )
 
-# create_test(
-#   NAME Expressions
-#   FILES
-#   expressions/test_variable
-# )
+create_test(
+  NAME Functions
+  FILES
+  functions/test_function
+)
 
 create_test(
   NAME Sets
