@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_FACTORIAL_HPP
-#define SYMMATH_OPERATIONS_BASIC_FACTORIAL_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_EXP_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_EXP_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
@@ -11,7 +11,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-class Factorial
+class Exp
   : private Operation {
 public:
 
@@ -27,13 +27,13 @@ private:
 
 public:
 
-  explicit inline Factorial(const T &operand);
+  explicit inline Exp(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Factorial<T> &rhs) {
+  assign_(U &lhs, const Exp<T> &rhs) {
     assign_(lhs, rhs.operand_);
   }
 
@@ -42,9 +42,9 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline Factorial<T>::Factorial(const T &operand)
+inline Exp<T>::Exp(const T &operand)
   : operand_(operand) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_FACTORIAL_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_EXP_HPP

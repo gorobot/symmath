@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_DIV_HPP
-#define SYMMATH_OPERATIONS_BASIC_DIV_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_DIV_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_DIV_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/add_const_ref.hpp>
@@ -56,4 +56,4 @@ inline Div<T1, T2>::Div(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_DIV_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_DIV_HPP

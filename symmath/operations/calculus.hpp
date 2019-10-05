@@ -1,7 +1,7 @@
 #ifndef SYMMATH_OPERATIONS_CALCULUS_HPP
 #define SYMMATH_OPERATIONS_CALCULUS_HPP
 
-#include <symmath/operations/basic.hpp>
+#include <symmath/operations/algebraic.hpp>
 #include <symmath/operations/calculus/curl.hpp>
 #include <symmath/operations/calculus/derivative.hpp>
 #include <symmath/operations/calculus/diff.hpp>

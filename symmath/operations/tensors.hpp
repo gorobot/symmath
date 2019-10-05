@@ -1,7 +1,7 @@
 #ifndef SYMMATH_OPERATIONS_TENSORS_HPP
 #define SYMMATH_OPERATIONS_TENSORS_HPP
 
-#include <symmath/operations/basic.hpp>
+#include <symmath/operations/algebraic.hpp>
 #include <symmath/operations/tensors/cross.hpp>
 #include <symmath/operations/tensors/ctranspose.hpp>
 #include <symmath/operations/tensors/direct_product.hpp>

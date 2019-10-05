@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_ADD_HPP
-#define SYMMATH_OPERATIONS_BASIC_ADD_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_ADD_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_ADD_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/add_const_ref.hpp>
@@ -70,4 +70,4 @@ inline Add<T1, T2>::Add(const T1 &lhs, const T2 &rhs)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_ADD_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_ADD_HPP

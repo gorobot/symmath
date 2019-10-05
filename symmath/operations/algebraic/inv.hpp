@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_EXP_HPP
-#define SYMMATH_OPERATIONS_BASIC_EXP_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_INV_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_INV_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/conditional.hpp>
@@ -11,7 +11,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-class Exp
+class Inv
   : private Operation {
 public:
 
@@ -27,13 +27,13 @@ private:
 
 public:
 
-  explicit inline Exp(const T &operand);
+  explicit inline Inv(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Exp<T> &rhs) {
+  assign_(U &lhs, const Inv<T> &rhs) {
     assign_(lhs, rhs.operand_);
   }
 
@@ -42,9 +42,9 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline Exp<T>::Exp(const T &operand)
+inline Inv<T>::Inv(const T &operand)
   : operand_(operand) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_EXP_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_INV_HPP

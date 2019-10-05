@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_NEG_HPP
-#define SYMMATH_OPERATIONS_BASIC_NEG_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_ABS_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_ABS_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/property_traits/negatable.hpp>
@@ -14,7 +14,7 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-class Neg
+class Abs
   : private Operation {
 public:
 
@@ -28,26 +28,25 @@ private:
 
 public:
 
-  explicit inline Neg(const T &operand);
+  explicit inline Abs(const T &operand);
 
 private:
 
   template< typename U >
   friend inline void
-  assign_(U &lhs, const Neg<T> &rhs) {
-    assign_(lhs, rhs.operand_);
-  }
+  assign_(U &lhs, const Abs<T> &rhs) {
+    if constexpr(IsNegatable<T>) {
+      ResultType tmp;
+      assign_(tmp, rhs.operand_);
 
-  template< typename U >
-  friend inline void
-  assign_add_(U &lhs, const Neg<T> &rhs) {
-    assign_sub_(lhs, rhs.operand_);
-  }
+      if(tmp.value() < 0) {
+        tmp *= -1.0;
+      }
 
-  template< typename U >
-  friend inline void
-  assign_sub_(U &lhs, const Neg<T> &rhs) {
-    assign_add_(lhs, rhs.operand_);
+      assign_(lhs, tmp);
+    } else {
+      assign_(lhs, rhs.operand_);
+    }
   }
 
 };
@@ -55,9 +54,9 @@ private:
 // -----------------------------------------------------------------------------
 // Constructor
 template< typename T >
-inline Neg<T>::Neg(const T &operand)
+inline Abs<T>::Abs(const T &operand)
   : operand_(operand) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_NEG_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_ABS_HPP

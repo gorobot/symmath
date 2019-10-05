@@ -1,5 +1,5 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_PROD_HPP
-#define SYMMATH_OPERATIONS_BASIC_PROD_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_SUM_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_SUM_HPP
 
 #include <symmath/operations/operation.hpp>
 #include <symmath/type_traits/temporary.hpp>
@@ -12,7 +12,7 @@ namespace sym {
 
 template< typename T1,
           typename T2 >
-class Prod
+class Sum
   : private Operation {
 public:
 
@@ -32,13 +32,13 @@ private:
 
 public:
 
-  explicit inline Prod(const T1 &lhs, const T2 &rhs);
+  explicit inline Sum(const T1 &lhs, const T2 &rhs);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const Prod<T1, T2> &rhs) {
+  apply_(U &lhs, const Sum<T1, T2> &rhs) {
     apply_(lhs.derived(), rhs.lhs_);
     apply_add_(lhs.derived(), rhs.rhs_);
   }
@@ -49,10 +49,10 @@ private:
 
 template< typename T1,
           typename T2 >
-inline Prod<T1, T2>::Prod(const T1 &lhs, const T2 &rhs)
+inline Sum<T1, T2>::Sum(const T1 &lhs, const T2 &rhs)
   : lhs_(lhs),
     rhs_(rhs) {}
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_PROD_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_SUM_HPP

@@ -1,19 +1,19 @@
-#ifndef SYMMATH_OPERATIONS_BASIC_HPP
-#define SYMMATH_OPERATIONS_BASIC_HPP
+#ifndef SYMMATH_OPERATIONS_ALGEBRAIC_HPP
+#define SYMMATH_OPERATIONS_ALGEBRAIC_HPP
 
-#include <symmath/operations/basic/abs.hpp>
-#include <symmath/operations/basic/add.hpp>
-#include <symmath/operations/basic/conj.hpp>
-#include <symmath/operations/basic/div.hpp>
-#include <symmath/operations/basic/exp.hpp>
-#include <symmath/operations/basic/factorial.hpp>
-#include <symmath/operations/basic/inv.hpp>
-#include <symmath/operations/basic/mul.hpp>
-#include <symmath/operations/basic/neg.hpp>
-#include <symmath/operations/basic/pow.hpp>
-#include <symmath/operations/basic/prod.hpp>
-#include <symmath/operations/basic/sub.hpp>
-#include <symmath/operations/basic/sum.hpp>
+#include <symmath/operations/algebraic/abs.hpp>
+#include <symmath/operations/algebraic/add.hpp>
+#include <symmath/operations/algebraic/conj.hpp>
+#include <symmath/operations/algebraic/div.hpp>
+#include <symmath/operations/algebraic/exp.hpp>
+#include <symmath/operations/algebraic/factorial.hpp>
+#include <symmath/operations/algebraic/inv.hpp>
+#include <symmath/operations/algebraic/mul.hpp>
+#include <symmath/operations/algebraic/neg.hpp>
+#include <symmath/operations/algebraic/pow.hpp>
+#include <symmath/operations/algebraic/prod.hpp>
+#include <symmath/operations/algebraic/sub.hpp>
+#include <symmath/operations/algebraic/sum.hpp>
 #include <symmath/property_traits/addable.hpp>
 #include <symmath/property_traits/comparable.hpp>
 #include <symmath/property_traits/invertible.hpp>
@@ -269,4 +269,4 @@ inline auto conj(T &&operand)
 
 } // sym
 
-#endif // SYMMATH_OPERATIONS_BASIC_HPP
+#endif // SYMMATH_OPERATIONS_ALGEBRAIC_HPP

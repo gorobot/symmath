@@ -1,7 +1,7 @@
 #ifndef SYMMATH_NUMERICS_NUMBER_HPP
 #define SYMMATH_NUMERICS_NUMBER_HPP
 
-#include <symmath/operations/basic.hpp>
+#include <symmath/operations/algebraic.hpp>
 #include <symmath/property_traits/addable.hpp>
 #include <symmath/property_traits/comparable.hpp>
 #include <symmath/property_traits/invertible.hpp>
