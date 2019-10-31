@@ -2,8 +2,11 @@
 #define SYMMATH_OPERATIONS_TENSORS_OUTER_PRODUCT_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/covariant.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -16,19 +19,17 @@ class OuterProduct
   : private Operation {
 public:
 
-  using LhsResultType = typename T1::Type;
-  using RhsResultType = typename T2::Type;
+  using LhsResultType     = ResultType_t<T1>;
+  using RhsResultType     = ResultType_t<T2>;
+  using ResultType        = Covariant_t<LhsResultType, RhsResultType>;
 
-  // using Type = std::common_type_t<LhsResultType, RhsResultType>;
-  using ResultType = R1;
-
-  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
+  using LhsType = If_t<IsLValueRef_v<T1>, AddConstRef_t<T1>, AddConst_t<T1>>;
+  using RhsType = If_t<IsLValueRef_v<T2>, AddConstRef_t<T2>, AddConst_t<T2>>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  LhsType lhs_;
+  RhsType rhs_;
 
 public:
 

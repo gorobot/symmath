@@ -1,12 +1,13 @@
 #ifndef SYMMATH_OPERATIONS_TENSORS_SCALAR_MUL_HPP
 #define SYMMATH_OPERATIONS_TENSORS_SCALAR_MUL_HPP
 
-#include <type_traits>
-
 #include <symmath/operations/operation.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
-#include <symmath/type_traits/enable_if.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/type_traits/covariant.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
+#include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 

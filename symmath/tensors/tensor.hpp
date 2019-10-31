@@ -6,6 +6,7 @@
 #include <numeric>
 #include <vector>
 
+#include <symmath/operations/tensors.hpp>
 #include <symmath/sets/tensors/vector_space.hpp>
 #include <symmath/tensors/tensor_initializer.hpp>
 #include <symmath/type_traits/enable_if.hpp>
@@ -25,12 +26,15 @@ public:
   static constexpr size_t Order = (N + M);
 
                           using This      = Tensor<T, N, M>;
+                          using Reference = This&;
+                          using ConstRef  = const This&;
+                          using MoveRef   = This&&;
   template< typename U >  using Other     = Tensor<U, N, M>;
 
-  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
-  template< typename U >  using Covector  = Tensor<U, 0, 1>;
-  template< typename U >  using Vector    = Tensor<U, 1, 0>;
-  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
+  template< typename U >  using Scalar_   = Tensor<U, 0, 0>;
+  template< typename U >  using Covector_ = Tensor<U, 0, 1>;
+  template< typename U >  using Vector_   = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix_   = Tensor<U, 1, 1>;
 
   // using ElementOf =
 
@@ -56,25 +60,46 @@ public:
 
   // Constructor
   explicit inline Tensor();
+
   template< typename ...U, typename = EnableIf_t<sizeof...(U) == Order> >
   explicit inline Tensor(const U... dim);
+
   explicit inline Tensor(NestedInitializerList_t<T, Order> list);
 
-  template< typename U >  explicit inline Tensor(const Other<U> &other);
-  template< typename U >  explicit inline Tensor(Other<U> &&other);
+                          inline Tensor(ConstRef other) = default;
+                          inline Tensor(MoveRef other) = default;
+  template< typename U >  inline Tensor(const Other<U> &other);
+  template< typename U >  inline Tensor(Other<U> &&other);
 
   // Assignment Operator
-  inline This &operator=(NestedInitializerList_t<T, Order> list);
+  inline Reference operator=(NestedInitializerList_t<T, Order> list);
 
-  template< typename U >  inline This &operator=(const Other<U> &other);
-  template< typename U >  inline This &operator=(Other<U> &&other);
+                          inline Reference operator=(ConstRef other) = default;
+                          inline Reference operator=(MoveRef other) = default;
+  template< typename U >  inline Reference operator=(const Other<U> &other);
+  template< typename U >  inline Reference operator=(Other<U> &&other);
 
   // Assign
+                          inline void assign(ConstRef &rhs);
   template< typename U >  inline void assign(const Other<U> &rhs);
+  template< typename U >  inline auto assign(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
+
+  // Assign Addition
+                          inline void assign_add(ConstRef &rhs);
+  template< typename U >  inline void assign_add(const Other<U> &rhs);
+  template< typename U >  inline auto assign_add(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
+
+  // Assign Subtraction
+                          inline void assign_sub(ConstRef &rhs);
+  template< typename U >  inline void assign_sub(const Other<U> &rhs);
+  template< typename U >  inline auto assign_sub(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Scalar Multiplication
                           inline void assign_scalar_mul(const ValueType &rhs);
-  template< typename U >  inline void assign_scalar_mul(const Scalar<U> &rhs);
+  template< typename U >  inline void assign_scalar_mul(const Scalar_<U> &rhs);
 
   // Assign Tensor Product
   template< typename U, size_t P, size_t Q >
@@ -178,6 +203,84 @@ inline auto Tensor<T, N, M>::operator()(U... dim) const -> const ValueType & {
   }
 
   return value_[idx];
+}
+
+// -----------------------------------------------------------------------------
+// Assign
+template< typename T,
+          size_t N,
+          size_t M >
+inline void Tensor<T, N, M>::assign(ConstRef rhs) {
+  // value_ = rhs.value_;
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
+template< typename U >
+inline void Tensor<T, N, M>::assign(const Other<U> &rhs) {
+  // value_ = static_cast<const U&>(rhs).value();
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
+template< typename U >
+inline auto Tensor<T, N, M>::assign(const U &rhs)
+-> EnableIf_t<IsCovariantResult<This, U>> {
+  assign_(*this, eval(rhs));
+}
+
+// -----------------------------------------------------------------------------
+// Assign Addition
+template< typename T,
+          size_t N,
+          size_t M >
+inline void Tensor<T, N, M>::assign_add(ConstRef rhs) {
+  // value_ += rhs.value_;
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
+template< typename U >
+inline void Tensor<T, N, M>::assign_add(const Other<U> &rhs) {
+  // value_ += static_cast<const U&>(rhs).value();
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
+template< typename U >
+inline auto Tensor<T, N, M>::assign_add(const U &rhs)
+-> EnableIf_t<IsCovariantResult<This, U>> {
+  assign_add_(*this, eval(rhs));
+}
+
+// -----------------------------------------------------------------------------
+// Assign Subtraction
+template< typename T,
+          size_t N,
+          size_t M >
+inline void Tensor<T, N, M>::assign_sub(ConstRef rhs) {
+  // value_ += rhs.value_;
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
+template< typename U >
+inline void Tensor<T, N, M>::assign_sub(const Other<U> &rhs) {
+  // value_ += static_cast<const U&>(rhs).value();
+}
+
+template< typename T,
+          size_t N,
+          size_t M >
+template< typename U >
+inline auto Tensor<T, N, M>::assign_sub(const U &rhs)
+-> EnableIf_t<IsCovariantResult<This, U>> {
+  assign_sub_(*this, eval(rhs));
 }
 
 } // sym

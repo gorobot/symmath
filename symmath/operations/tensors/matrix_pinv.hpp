@@ -2,8 +2,11 @@
 #define SYMMATH_OPERATIONS_TENSORS_MATRIX_PINV_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/property_traits/negatable.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
@@ -15,15 +18,13 @@ class MatrixPInv
   : private Operation {
 public:
 
-  using R = ResultType_t<T>;
+  using ResultType = ResultType_t<T>;
 
-  using ResultType = R;
-
-  using OperandType = If_t<IsTemporary<T>, const T, const T&>;
+  using Type = If_t<IsLValueRef_v<T>, AddConstRef_t<T>, AddConst_t<T>>;
 
 private:
 
-  OperandType operand_;
+  Type operand_;
 
 public:
 

@@ -6,6 +6,7 @@
 #endif
 
 #include <symmath/numerics/number.hpp>
+#include <symmath/numerics/scalar.hpp>
 #include <symmath/sets/numerics/reals.hpp>
 #include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
@@ -15,13 +16,15 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Real
-  : public Number<Real> {
+  : public Number<Real>,
+    public Scalar<Real> {
 public:
 
-  using This            = Real;
-  using Reference       = This&;
-  using ConstRef        = const This&;
-  using MoveRef         = This&&;
+                          using This      = Real;
+                          using Reference = This&;
+                          using ConstRef  = const This&;
+                          using MoveRef   = This&&;
+  template< typename U >  using Other     = Number<U>;
 
   using ElementOf       = Reals;
 

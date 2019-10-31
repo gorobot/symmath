@@ -10,7 +10,6 @@
 #include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
 #include <symmath/type_traits/is_basic_number.hpp>
-#include <symmath/type_traits/temporary.hpp>
 
 namespace sym {
 

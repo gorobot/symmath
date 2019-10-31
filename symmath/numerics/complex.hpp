@@ -8,6 +8,7 @@
 #include <complex>
 
 #include <symmath/numerics/number.hpp>
+#include <symmath/numerics/scalar.hpp>
 #include <symmath/sets/numerics/complex_numbers.hpp>
 #include <symmath/type_traits/covariant_result.hpp>
 #include <symmath/type_traits/enable_if.hpp>
@@ -17,7 +18,8 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 class Complex
-  : public Number<Complex> {
+  : public Number<Complex>,
+    public Scalar<Complex> {
 public:
 
   using This            = Complex;

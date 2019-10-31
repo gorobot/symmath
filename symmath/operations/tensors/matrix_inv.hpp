@@ -2,56 +2,50 @@
 #define SYMMATH_OPERATIONS_TENSORS_MATRIX_INV_HPP
 
 #include <symmath/operations/operation.hpp>
-#include <symmath/type_traits/temporary.hpp>
+#include <symmath/property_traits/negatable.hpp>
+#include <symmath/type_traits/add_const_ref.hpp>
+#include <symmath/type_traits/add_const.hpp>
 #include <symmath/type_traits/conditional.hpp>
+#include <symmath/type_traits/is_lvalue_ref.hpp>
 #include <symmath/type_traits/result_type.hpp>
 
 namespace sym {
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
+template< typename T >
 class MatrixInv
   : private Operation {
 public:
 
-  using LhsResultType = typename T1::Type;
-  using RhsResultType = typename T2::Type;
+  using ResultType = ResultType_t<T>;
 
-  // using Type = std::common_type_t<LhsResultType, RhsResultType>;
-  using ResultType = R1;
-
-  using LhsOperandType = If_t<IsTemporary<T1>, const T1, const T1&>;
-  using RhsOperandType = If_t<IsTemporary<T2>, const T2, const T2&>;
+  using Type = If_t<IsLValueRef_v<T>, AddConstRef_t<T>, AddConst_t<T>>;
 
 private:
 
-  LhsOperandType lhs_;
-  RhsOperandType rhs_;
+  Type operand_;
 
 public:
 
-  explicit inline MatrixInv(const T1 &lhs, const T2 &rhs);
+  explicit inline MatrixInv(const T &operand);
 
 private:
 
   template< typename U >
   friend inline auto
-  apply_(U &lhs, const MatrixInv<T1, T2> &rhs) {
-    apply_(lhs.derived(), rhs.lhs_);
-    apply_add_(lhs.derived(), rhs.rhs_);
+  apply_(U &lhs, const MatrixInv<T> &rhs) {
+    // apply_(lhs.derived(), rhs.lhs_);
+    // apply_add_(lhs.derived(), rhs.rhs_);
   }
 
 };
 
 // -----------------------------------------------------------------------------
 
-template< typename T1,
-          typename T2 >
-inline MatrixInv<T1, T2>::MatrixInv(const T1 &lhs, const T2 &rhs)
-  : lhs_(lhs),
-    rhs_(rhs) {}
+template< typename T >
+inline MatrixInv<T>::MatrixInv(const T &operand)
+  : operand_(operand) {}
 
 } // sym
 

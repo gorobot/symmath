@@ -20,16 +20,16 @@ namespace sym {
 
 namespace {
 
-template< typename ...T >
-constexpr bool HasAddition = All<HasProperty<T, Addition>...>{};
+template< typename T >
+constexpr bool HasAddition = HasProperty<T, Addition>{};
 
-template< typename ...T >
+template< typename T >
 constexpr bool IsAssociative =
-  All<HasProperty<T, AssociativeProperty<Addition>>...>{};
+  HasProperty<T, AssociativeProperty<Addition>>{};
 
-template< typename ...T >
+template< typename T >
 constexpr bool IsClosedUnderAddition =
-  All<HasProperty<T, closure_property<Addition>>...>{};
+  HasProperty<T, ClosureProperty<Addition>>{};
 
 // template< typename ...T >
 // constexpr bool HasProperty<T, commutative_property<Addition>>{}
@@ -38,8 +38,8 @@ constexpr bool IsClosedUnderAddition =
 // template< typename ...T >
 // constexpr bool HasProperty<T, inverse_element<Addition>>{}
 
-template< typename ...T >
-constexpr bool HasMultiplication = All<HasProperty<T, Multiplication>...>{};
+// template< typename T >
+// constexpr bool HasMultiplication = HasProperty<T, Multiplication>{};
 
 // template< typename ...T >
 // constexpr bool HasProperty<T, associative_property<Multiplication>>{}
@@ -56,12 +56,11 @@ constexpr bool HasMultiplication = All<HasProperty<T, Multiplication>...>{};
 
 // -----------------------------------------------------------------------------
 
-template< typename ...T >
+template< typename T >
 constexpr bool IsField = Requires(
-  HasAddition<T...> &&
-  IsAssociative<T...> &&
-  IsClosedUnderAddition<T...> &&
-  HasMultiplication<T...>
+  HasAddition<T> &&
+  IsAssociative<T> &&
+  IsClosedUnderAddition<T>
 );
 
 } // sym

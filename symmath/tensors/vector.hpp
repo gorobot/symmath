@@ -21,14 +21,17 @@ public:
   static constexpr size_t Order = (1);
 
                           using This      = Vector<T>;
+                          using Reference = This&;
+                          using ConstRef  = const This&;
+                          using MoveRef   = This&&;
   template< typename U >  using Other     = Vector<U>;
 
-  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
-  template< typename U >  using Covector  = Tensor<U, 0, 1>;
-  template< typename U >  using Vector    = Tensor<U, 1, 0>;
-  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
+  template< typename U >  using Scalar_   = Tensor<U, 0, 0>;
+  template< typename U >  using Covector_ = Tensor<U, 0, 1>;
+  template< typename U >  using Vector_   = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix_   = Tensor<U, 1, 1>;
 
-  // using ElementOf = typename T::ElementOf;
+  using ElementOf = VectorSpace;
 
   using ValueType = T;
   using ArrayType = std::vector<ValueType>;
@@ -51,12 +54,15 @@ private:
 public:
 
   // Constructor
-  explicit inline Tensor();
+  explicit inline Tensor() = default;
+
   explicit inline Tensor(const size_t n);
   explicit inline Tensor(NestedInitializerList_t<T, Order> list);
 
-  template< typename U >  explicit inline Tensor(const Other<U> &other);
-  template< typename U >  explicit inline Tensor(Other<U> &&other);
+                          inline Tensor(ConstRef other) = default;
+                          inline Tensor(MoveRef other) = default;
+  template< typename U >  inline Tensor(const Other<U> &other);
+  template< typename U >  inline Tensor(Other<U> &&other);
 
   // Assignment Operator
   inline This &operator=(NestedInitializerList_t<T, Order> list);

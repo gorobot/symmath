@@ -21,12 +21,15 @@ public:
   static constexpr size_t Order = (1);
 
                           using This      = Covector<T>;
+                          using Reference = This&;
+                          using ConstRef  = const This&;
+                          using MoveRef   = This&&;
   template< typename U >  using Other     = Covector<U>;
 
-  template< typename U >  using Scalar    = Tensor<U, 0, 0>;
-  template< typename U >  using Covector  = Tensor<U, 0, 1>;
-  template< typename U >  using Vector    = Tensor<U, 1, 0>;
-  template< typename U >  using Matrix    = Tensor<U, 1, 1>;
+  template< typename U >  using Scalar_   = Tensor<U, 0, 0>;
+  template< typename U >  using Covector_ = Tensor<U, 0, 1>;
+  template< typename U >  using Vector_   = Tensor<U, 1, 0>;
+  template< typename U >  using Matrix_   = Tensor<U, 1, 1>;
 
   // using ElementOf = typename T::ElementOf;
 
@@ -51,7 +54,8 @@ private:
 public:
 
   // Constructor
-  explicit inline Tensor();
+  explicit inline Tensor() = default;
+
   explicit inline Tensor(const size_t n);
   explicit inline Tensor(NestedInitializer_t<T, Order> list);
 
