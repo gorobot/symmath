@@ -1,8 +1,6 @@
 #ifndef SYMMATH_OPERATIONS_TENSORS_HPP
 #define SYMMATH_OPERATIONS_TENSORS_HPP
 
-#include <iostream>
-
 #include <symmath/operations/algebraic.hpp>
 #include <symmath/operations/tensors/cross.hpp>
 #include <symmath/operations/tensors/ctranspose.hpp>
@@ -48,7 +46,6 @@ operator+(Tensor<T1, N, M> &&lhs, Tensor<T2, N, M> &&rhs)
   using RhsType = Tensor<T2, N, M>;
   using ResultType = Add<LhsType, RhsType>;
   // using ResultType = Tensor<CovariantResult_t<T1, T2>, N, M>;
-  std::cout << "this one" << '\n';
 
   return ResultType(std::forward<LhsType>(lhs), std::forward<RhsType>(rhs));
 }
@@ -66,7 +63,6 @@ operator-(Tensor<T1, N, M> &&lhs, Tensor<T2, N, M> &&rhs)
   using RhsType = Tensor<T2, N, M>;
   using ResultType = Sub<LhsType, RhsType>;
   // using ResultType = Tensor<CovariantResult_t<T1, T2>, N, M>;
-  std::cout << "this one" << '\n';
 
   return ResultType(std::forward<LhsType>(lhs), std::forward<RhsType>(rhs));
 }

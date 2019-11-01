@@ -9,7 +9,9 @@ namespace sym {
 // -----------------------------------------------------------------------------
 
 template< typename T >
-using Matrix = Tensor<T, 1, 1>;
+class Matrix {
+
+};
 
 // -----------------------------------------------------------------------------
 
@@ -19,11 +21,11 @@ public:
 
   static constexpr size_t Order = (2);
 
-                          using This      = Matrix<T>;
+                          using This      = Tensor<T, 1, 1>;
                           using Reference = This&;
                           using ConstRef  = const This&;
                           using MoveRef   = This&&;
-  template< typename U >  using Other     = Matrix<U>;
+  template< typename U >  using Other     = Tensor<U, 1, 1>;
 
   template< typename U >  using Scalar_   = Tensor<U, 0, 0>;
   template< typename U >  using Covector_ = Tensor<U, 0, 1>;

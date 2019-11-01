@@ -40,10 +40,10 @@ public:
   using value_type      = ValueType;
   using reference       = ValueType&;
   using const_reference = const ValueType&;
-  using iterator        = ArrayType::iterator;
-  using const_iterator  = ArrayType::const_iterator;
-  using difference_type = ArrayType::difference_type;
-  using size_type       = ArrayType::size_type;
+  using iterator        = typename ArrayType::iterator;
+  using const_iterator  = typename ArrayType::const_iterator;
+  using difference_type = typename ArrayType::difference_type;
+  using size_type       = typename ArrayType::size_type;
 
 private:
 
@@ -71,7 +71,22 @@ public:
   template< typename U >  inline This &operator=(Other<U> &&other);
 
   // Assign
+                          inline void assign(ConstRef &rhs);
   template< typename U >  inline void assign(const Other<U> &rhs);
+  template< typename U >  inline auto assign(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
+
+  // Assign Addition
+                          inline void assign_add(ConstRef &rhs);
+  template< typename U >  inline void assign_add(const Other<U> &rhs);
+  template< typename U >  inline auto assign_add(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
+
+  // Assign Subtraction
+                          inline void assign_sub(ConstRef &rhs);
+  template< typename U >  inline void assign_sub(const Other<U> &rhs);
+  template< typename U >  inline auto assign_sub(const U &rhs)
+  -> EnableIf_t<IsCovariantResult<This, U>>;
 
   // Assign Scalar Multiplication
                           inline void assign_scalar_mul(const ValueType &rhs);
@@ -81,17 +96,36 @@ public:
   template< typename U, size_t N, size_t M >
   inline void assign_tensor_prod(const Tensor<U, N, M> &rhs);
 
-  inline ValueType &operator()(const size_t i_);
-  inline const ValueType &operator()(const size_t i_) const;
+  inline auto operator()(const size_t i_) -> ValueType &;
+  inline auto operator()(const size_t i_) const -> const ValueType &;
 
 };
 
 // -----------------------------------------------------------------------------
 // Constructor
+template< typename T >
+inline Vector<T>::Tensor(const size_t n)
+  : dim_{n},
+    value_() {
+  value_.reserve(n);
+}
+
+template< typename T >
+inline Vector<T>::Tensor(NestedInitializerList_t<T, Order> list)
+  : dim_{list.size()},
+  value_(list) {}
 
 // -----------------------------------------------------------------------------
 // Member Function Definitions
+template< typename T >
+inline auto Vector<T>::operator()(const size_t i_) -> ValueType & {
+  return value_[i_];
+}
 
+template< typename T >
+inline auto Vector<T>::operator()(const size_t i_) const -> const ValueType & {
+  return value_[i_];
+}
 
 } // sym
 

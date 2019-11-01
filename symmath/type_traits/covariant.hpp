@@ -17,20 +17,19 @@ struct covariant {
   template< typename U1,
             typename U2 >
   static auto test(const U1&, const U2&)
-  -> EnableIf_t<IsConstructible<U1, U2> &&
-                IsConstructible<U2, U1>, U1>;
+  -> EnableIf_t<IsConstructible<U1, U2> && IsConstructible<U2, U1>, U1>;
 
   template< typename U1,
             typename U2 >
   static auto test(const U1&, const U2&)
-  -> EnableIf_t<IsConstructible<U1, U2> &&
-                !IsConstructible<U2, U1>, U1>;
+  -> EnableIf_t<IsConstructible<U1, U2> && !IsConstructible<U2, U1>, U1>;
 
   template< typename U1,
             typename U2 >
   static auto test(const U1&, const U2&)
-  -> EnableIf_t<!IsConstructible<U1, U2> &&
-                IsConstructible<U2, U1>, U2>;
+  -> EnableIf_t<!IsConstructible<U1, U2> && IsConstructible<U2, U1>, U2>;
+
+  static void test(...);
 
   using type = decltype(test(std::declval<T1&>(), std::declval<T2&>()));
 

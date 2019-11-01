@@ -1,9 +1,5 @@
 #include <catch2/catch.hpp>
 
-#include <iostream>
-#include <type_traits>
-#include <vector>
-
 #include <symmath/numerics/real.hpp>
 #include <symmath/tensors/scalar.hpp>
 #include <symmath/tensors/tensor.hpp>
@@ -14,29 +10,8 @@ TEST_CASE("Scalar: assignment", "[tensors]") {
   Real x(1.0);
   Real y(2.0);
 
-  // Real result;
-  //
-  // result = x * y;
+  Tensor<Real, 2, 0> M({{0.0, 1.0}, {2.0, 3.0}});
 
-  // Tensor<Real, 2, 0> M({{0.0, 1.0}, {2.0, 3.0}});
-
-  // std::vector<Real> w;
-  // std::vector<Real> v = {x, y};
-  //
-  // std::cout << v[0] << '\n';
-  // std::cout << v[1] << '\n';
-
-  // w.insert(w.end(), v.begin(), v.end());
-
-  // v.insert(v.begin(), {x, y});
-
-  // Scalar<Real> a(1.0);
-  // Scalar<Real> b(2.0);
-  //
-  // Scalar<Real> result;
-  // result = a + b;
-
-  // std::cout << result << '\n';
 }
 
 // TEST_CASE("Scalar: addition", "[tensors]") {

@@ -60,7 +60,7 @@ create_test(
   NAME Tensors
   FILES
   # tensors/test_matrix
-  # tensors/test_vector
+  tensors/test_vector
   tensors/test_scalar
   tensors/test_tensor
   tensors/test_tensor_initializer

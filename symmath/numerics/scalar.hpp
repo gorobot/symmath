@@ -33,9 +33,9 @@ public:
   template< typename U >  using Vector_   = Tensor<U, 1, 0>;
   template< typename U >  using Matrix_   = Tensor<U, 1, 1>;
 
-private:
+protected:
 
-  // explicit inline Tensor() = default;
+  explicit inline Tensor() = default;
 
 public:
 
